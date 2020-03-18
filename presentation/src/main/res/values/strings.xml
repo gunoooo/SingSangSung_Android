@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">SingSangSung</string>
+    <string name="app_name">싱생송 - 무료 노래방</string>
+
+    <string name="menu_home">HOME</string>
+    <string name="menu_theme">테마별</string>
+    <string name="menu_search">검색</string>
+    <string name="menu_record">기록</string>
+    <string name="menu_favorites">즐겨찾기</string>
+
+    <string name="hint_search">검색어를 입력해주세요</string>
+
+    <string name="error_empty">공백없이 입력해주세요</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/singsangsung_nav" app:startDestination="@id/homeFragment">
+    <fragment android:id="@+id/homeFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.HomeFragment"
+              android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/themeFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.ThemeFragment"
+        android:label="ThemeFragment">
+        <action
+            android:id="@+id/action_themeFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/searchFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.SearchFragment"
+        android:label="SearchFragment">
+        <action
+            android:id="@+id/action_searchFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/recordFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.RecordFragment"
+        android:label="SearchFragment"/>
+
+    <fragment android:id="@+id/favoritesFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.FavoritesFragment"
+        android:label="FavoritesFragment"/>
+
+    <fragment android:id="@+id/listFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.ListFragment"
+        android:label="ListFragment" >
+        <argument
+            android:name="list"
+            app:argType="com.gunwoo.karaoke.domain.model.YoutubeDataList" />
+    </fragment>
+</navigation>
