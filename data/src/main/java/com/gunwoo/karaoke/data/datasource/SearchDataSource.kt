@@ -6,6 +6,7 @@ import com.gunwoo.karaoke.data.network.remote.SearchRemote
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.youtuberesponse.search.SearchItem
 import io.reactivex.Single
+import java.lang.Exception
 import javax.inject.Inject
 
 class SearchDataSource @Inject constructor(
@@ -36,7 +37,7 @@ class SearchDataSource @Inject constructor(
                     }
                 }
             }
-        }
+        }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
     }
 
     private fun isContains(searchItem: SearchItem, vararg other: String): Boolean =

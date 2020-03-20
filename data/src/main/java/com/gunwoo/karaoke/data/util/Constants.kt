@@ -3,7 +3,7 @@ package com.gunwoo.karaoke.data.util
 import android.os.Environment
 
 object Constants {
-    val DIRECTORY_DOWNLOADS = Environment.getExternalStorageDirectory().toString() + "/SingSangSung"
+    val DIRECTORY_RECORD = Environment.getExternalStorageDirectory().toString() + "/SingSangSung"
     const val DEFAULT_HOST = "https://www.googleapis.com/youtube/v3/"
 
     const val TIME_OUT_MESSAGE = "시간초과 다시 한번 시도해주세요"

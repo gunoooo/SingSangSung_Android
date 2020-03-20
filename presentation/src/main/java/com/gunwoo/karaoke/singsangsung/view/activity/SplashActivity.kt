@@ -5,6 +5,7 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.gunwoo.karaoke.data.database.sharedpreferences.SharedPreferenceManager
@@ -12,6 +13,7 @@ import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivitySplashBinding
 import com.gunwoo.karaoke.singsangsung.viewmodel.SplashViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodelfactory.SplashViewModelFactory
+import com.gunwoo.karaoke.singsangsung.widget.extension.checkPermission
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.startActivityWithFinish
 import javax.inject.Inject
@@ -45,6 +47,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
                 )
             })
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        checkPermission()
     }
 
     override fun onActivityResult(

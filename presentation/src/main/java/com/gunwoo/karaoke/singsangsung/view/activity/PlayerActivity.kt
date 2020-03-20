@@ -1,6 +1,9 @@
 package com.gunwoo.karaoke.singsangsung.view.activity
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -60,8 +63,11 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(), Y
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (!checkPermission()) mViewModel.viewType.value = PlayerViewModel.ViewType.PERMISSION
         initIntent()
     }
+
+    private fun checkPermission() = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
     private fun setMusicGif() { music.putImage(R.drawable.music) }
 

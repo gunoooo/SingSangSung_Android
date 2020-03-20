@@ -1,10 +1,14 @@
 package com.gunwoo.karaoke.singsangsung.widget.extension
 
+import android.Manifest
 import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import com.gunwoo.karaoke.singsangsung.R
 import java.util.*
 
 
@@ -57,6 +61,26 @@ fun AppCompatActivity.startActivitiesWithFinish(vararg activity: Class<*>) {
     }
     startActivities(intents.toArray(arrayOf<Intent?>()))
     this.finish()
+}
+
+fun AppCompatActivity.checkPermission() {
+    val permissionListener: PermissionListener = object : PermissionListener {
+        override fun onPermissionGranted() { }
+
+        override fun onPermissionDenied(deniedPermissions: ArrayList<String?>?) {
+            Toast.makeText(applicationContext, R.string.message_permission, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    TedPermission.with(this)
+        .setPermissionListener(permissionListener)
+        .setPermissions(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.GET_ACCOUNTS,
+            Manifest.permission.RECORD_AUDIO
+        )
+        .check()
 }
 
 inline fun <reified T : ViewModel> AppCompatActivity.getViewModel(factory: ViewModelProvider.Factory): T =
