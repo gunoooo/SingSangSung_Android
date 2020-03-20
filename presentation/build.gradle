@@ -95,6 +95,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }
+    implementation "kr.co.prnd:youtube-player-view:$rootProject.youtubeViewVersion"
 
     implementation project(':domain')
     implementation project(':data')

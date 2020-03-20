@@ -10,45 +10,69 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:paddingBottom="?actionBarSize" >
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleGravity="start"
+                app:contentScrim="@color/colorLightRed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="@color/colorLightRed">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    app:layout_collapseMode="parallax"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/image_thumbnail"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        app:mutableImageUrl="@{viewModel.thumbnail}"
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-<!--        <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"-->
-<!--            android:onClick="@{() -> viewModel.onClickThumbnail()}">-->
-<!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--                android:id="@+id/collapsing_layout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:collapsedTitleGravity="center"-->
-<!--                app:contentScrim="@color/colorWhite"-->
-<!--                app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
-<!--                app:statusBarScrim="@color/colorWhite">-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/image_thumbnail"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="220dp"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    app:mutableImageUrl="@{viewModel.thumbnail}"-->
-<!--                    app:layout_collapseMode="parallax"-->
-<!--                    tools:ignore="ContentDescription"-->
-<!--                    tools:srcCompat="@tools:sample/backgrounds/scenic" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="@color/colorPrimary"
+                        android:padding="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorWhite"
+                            android:fontFamily="@font/nanum_square_regular"
+                            app:mutableText="@{viewModel.description}"
+                            tools:text="총 100곡  |  검색 결과" />
+                    </LinearLayout>
+                </LinearLayout>
 
-<!--                <kr.hs.dgsw.smartschool.dodamdodam.widget.DodamToolbar-->
-<!--                    android:id="@+id/toolbar"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="?actionBarSize"-->
-<!--                    android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"-->
-<!--                    app:layout_collapseMode="pin" />-->
-<!--            </com.google.android.material.appbar.CollapsingToolbarLayout>-->
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:layout_marginEnd="20dp"
+                    android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+                    app:popupTheme="@style/AppTheme"
+                    app:layout_collapseMode="pin"
+                    tools:title="흔들리는꽃들속에서내샴푸향이"/>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:layout_marginTop="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_music"
             app:adapter="@{viewModel.musicListAdapter}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

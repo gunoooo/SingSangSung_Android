@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">싱생송 - 무료 노래방</string>
+    <string name="app_name">싱생송 무료노래방</string>
 
     <string name="menu_home">HOME</string>
     <string name="menu_theme">테마별</string>
@@ -10,4 +10,11 @@
     <string name="hint_search">검색어를 입력해주세요</string>
 
     <string name="error_empty">공백없이 입력해주세요</string>
+
+    <string name="text_popularity_chart">인기차트</string>
+    <string name="text_recently_chart">최신차트</string>
+    <string name="text_character">아티스트</string>
+
+    <string name="text_update_popularity_chart">※ 2020.03.20 업데이트</string>
+    <string name="text_update_recently_chart">※ 2020.03.20 업데이트</string>
 </resources>

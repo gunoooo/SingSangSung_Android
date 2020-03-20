@@ -14,6 +14,7 @@ class SearchViewModel(
     val search = MutableLiveData<String>()
     val searchList = MutableLiveData<List<YoutubeData>>()
 
+    val onHideKeyEvent = SingleLiveEvent<Unit>()
     val onEmptyEvent = SingleLiveEvent<Unit>()
 
     private fun setSearchList() {
@@ -34,6 +35,8 @@ class SearchViewModel(
     }
 
     fun search() {
+        onHideKeyEvent.call()
+
         val isEmpty = search.value.isNullOrBlank()
 
         if (isEmpty)

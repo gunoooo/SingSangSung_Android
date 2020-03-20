@@ -12,20 +12,12 @@ class TokenInterceptor @Inject constructor(
     private var token: String? = null
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        setToken()
+        token = credential.token
 
         val request =
             if (token != null) chain.request().newBuilder().header("Authorization", "Bearer $token").build()
             else chain.request()
 
         return chain.proceed(request)
-    }
-
-    private fun setToken() {
-        token = try {
-            credential.token
-        } catch (e: Exception) {
-            null
-        }
     }
 }

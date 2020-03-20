@@ -1,18 +1,15 @@
 package com.gunwoo.karaoke.data.network.service
 
-import com.google.api.services.youtube.model.SearchListResponse
+import com.gunwoo.karaoke.domain.model.youtuberesponse.search.SearchResponse
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface SearchService {
-    @GET("search")
+    @GET("search?order=viewCount&part=snippet&maxResults=10&type=video")
     fun getSearchList(
-        @Query("part") part: String,
         @Query("channelId") channelId: String,
-        @Query("maxResults") maxResults: Int,
-        @Query("type") type: String,
         @Query("q") q: String
-    ): Single<Response<SearchListResponse>>
+    ): Single<Response<SearchResponse>>
 }

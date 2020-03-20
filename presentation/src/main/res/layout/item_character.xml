@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel.CharacterItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            tools:src="@mipmap/ic_launcher_round"
+            app:mutableImageUrl="@{viewModel.profileImage}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="center"
+            app:mutableText="@{viewModel.name}"
+            tools:text="아이즈원" />
+    </LinearLayout>
+</layout>

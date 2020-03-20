@@ -6,10 +6,10 @@ import com.gunwoo.karaoke.domain.usecase.GetSearchListUseCase
 import javax.inject.Inject
 
 open class SearchViewModelFactory @Inject constructor(
-    private val searchListUseCase: GetSearchListUseCase
+    private val getSearchListUseCase: GetSearchListUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         modelClass.getConstructor(
             GetSearchListUseCase::class.java
-        ).newInstance(searchListUseCase)
+        ).newInstance(getSearchListUseCase)
 }

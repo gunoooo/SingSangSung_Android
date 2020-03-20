@@ -1,6 +1,7 @@
 package com.gunwoo.karaoke.singsangsung.view.activity
 
 import android.Manifest
+import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -61,7 +62,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
 
                     if (!accountName.isNullOrBlank()) {
                         SharedPreferenceManager.insertAccountName(applicationContext, accountName)
-                        mViewModel.credential.selectedAccountName = accountName
+                        mViewModel.credential.selectedAccount = Account(accountName, applicationContext.packageName)
                         mViewModel.onSuccessEvent.call()
                     }
                 }

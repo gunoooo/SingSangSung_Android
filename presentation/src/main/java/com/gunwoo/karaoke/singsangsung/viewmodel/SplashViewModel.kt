@@ -41,6 +41,8 @@ class SplashViewModel(
                     SharedPreferenceManager.deleteAccountName(context)
                     chooseAccount()
                 }
+
+                onSuccessEvent.call()
             }
             else {
                 onOpenAccountPickerEvent.call()

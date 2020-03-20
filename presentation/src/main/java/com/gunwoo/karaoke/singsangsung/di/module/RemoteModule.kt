@@ -1,6 +1,8 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
+import com.gunwoo.karaoke.data.network.remote.PlaylistRemote
 import com.gunwoo.karaoke.data.network.remote.SearchRemote
+import com.gunwoo.karaoke.data.network.service.PlaylistService
 import com.gunwoo.karaoke.data.network.service.SearchService
 import dagger.Module
 import dagger.Provides
@@ -14,4 +16,9 @@ class RemoteModule {
     @Provides
     fun provideSearchRemote(retrofit: Retrofit): SearchRemote =
         SearchRemote(retrofit.create(SearchService::class.java))
+
+    @Singleton
+    @Provides
+    fun providePlaylistRemote(retrofit: Retrofit): PlaylistRemote =
+        PlaylistRemote(retrofit.create(PlaylistService::class.java))
 }

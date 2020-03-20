@@ -16,7 +16,7 @@ class SearchRepositoryImpl @Inject constructor(
             searchList.map {
                 YoutubeData(
                     it.id.videoId,
-                    it.snippet.thumbnails.default.url,
+                    it.snippet.thumbnails?.getThumbnailUrl(),
                     HtmlCompat.fromHtml(it.snippet.title, HtmlCompat.FROM_HTML_MODE_COMPACT).toString(),
                     HtmlCompat.fromHtml(
                         it.snippet.channelTitle,

@@ -21,13 +21,6 @@ class NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        return gsonBuilder.create()
-    }
-
-    @Provides
-    @Singleton
     fun provideHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -41,11 +34,11 @@ class NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(Constants.DEFAULT_HOST)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .callbackExecutor(Executors.newSingleThreadExecutor())
             .build()
