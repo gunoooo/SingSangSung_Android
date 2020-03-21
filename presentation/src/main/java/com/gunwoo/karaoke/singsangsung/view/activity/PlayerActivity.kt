@@ -17,17 +17,22 @@ import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityPlayerBinding
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerViewModel
+import com.gunwoo.karaoke.singsangsung.viewmodelfactory.PlayerViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.*
 import kotlinx.android.synthetic.main.activity_player.*
 import kr.co.prnd.YouTubePlayerView
+import javax.inject.Inject
 
 
 class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
     YouTubePlayerView.OnInitializedListener,
     YouTubePlayer.OnFullscreenListener {
 
+    @Inject
+    lateinit var viewModelFactory: PlayerViewModelFactory
+
     override val viewModel: PlayerViewModel
-        get() = getViewModel()
+        get() = getViewModel(viewModelFactory)
 
     override fun observerViewModel() {
         with(mViewModel) {
@@ -68,10 +73,14 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
             musicListAdapter.onClickItem.observe(this@PlayerActivity, Observer {
                 startActivity(
                     Intent(this@PlayerActivity.applicationContext, PlayerActivity::class.java)
-                        .putExtra(EXTRA_VIDEO_ID, it.videoId)
+                        .putExtra(EXTRA_VIDEO, it)
                         .putExtra(EXTRA_VIDEO_LIST, youtubeDataList))
 
                 finish()
+            })
+
+            onErrorEvent.observe(this@PlayerActivity, Observer {
+                shortToast(it.message)
             })
         }
     }
@@ -91,13 +100,13 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
 
     @Suppress("UNCHECKED_CAST")
     private fun initIntent() {
-        val videoId = intent.getStringExtra(EXTRA_VIDEO_ID)
-        if (videoId == null) {
+        val video = intent.getSerializableExtra(EXTRA_VIDEO)
+        if (video == null) {
             finish()
             return
         }
-        mViewModel.videoId = videoId
-        youtube_player_view.play(mViewModel.videoId, this)
+        mViewModel.video = video as YoutubeData
+        youtube_player_view.play(mViewModel.video.videoId!!, this)
 
         val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST) ?: return
         mViewModel.setMusicList(videoList as ArrayList<YoutubeData>)
@@ -116,7 +125,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
 
     override fun onInitializationSuccess(provider: YouTubePlayer.Provider, player: YouTubePlayer, wasRestored: Boolean) {
         this.player = player
-        this.player.loadVideo(mViewModel.videoId, 0)
+        this.player.loadVideo(mViewModel.video.videoId!!, 0)
         this.player.setOnFullscreenListener(this)
         this.player.setPlayerStateChangeListener(object : YouTubePlayer.PlayerStateChangeListener {
             override fun onAdStarted() { }
@@ -188,7 +197,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
     }
 
     companion object {
-        const val EXTRA_VIDEO_ID = "videoId"
+        const val EXTRA_VIDEO = "video"
         const val EXTRA_VIDEO_LIST = "videoList"
     }
 }

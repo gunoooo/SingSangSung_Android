@@ -4,16 +4,21 @@ import android.media.MediaRecorder
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
+import com.gunwoo.karaoke.domain.usecase.InsertRecordUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
+import io.reactivex.observers.DisposableCompletableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import java.io.File
 import java.util.*
 
 
-class PlayerViewModel : BaseViewModel() {
+class PlayerViewModel(
+    private val insertRecordUseCase: InsertRecordUseCase
+) : BaseViewModel() {
 
-    lateinit var videoId: String
+    lateinit var video: YoutubeData
     val youtubeDataList = ArrayList<YoutubeData>()
 
     private var recorder: MediaRecorder? = null
@@ -54,18 +59,31 @@ class PlayerViewModel : BaseViewModel() {
         val fileCacheItem = File(fileName)
         fileCacheItem.createNewFile()
 
-        recorder = MediaRecorder()
+        addDisposable(insertRecordUseCase.buildUseCaseObservable(
+            InsertRecordUseCase.Params(
+                video.videoTitle,
+                video.thumbnailUrl!!,
+                fileCacheItem)
+        ), object : DisposableCompletableObserver() {
+            override fun onComplete() {
+                recorder = MediaRecorder()
 
-        recorder?.apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                recorder?.apply {
+                    setAudioSource(MediaRecorder.AudioSource.MIC)
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
 
-            setOutputFile(fileName)
-        }
+                    setOutputFile(fileName)
+                }
 
-        recorder?.prepare()
-        recorder?.start()
+                recorder?.prepare()
+                recorder?.start()
+            }
+
+            override fun onError(e: Throwable) {
+                onErrorEvent.value = Exception(Constants.SERVER_ERROR_MESSAGE)
+            }
+        })
     }
 
     private fun pauseRecord() {

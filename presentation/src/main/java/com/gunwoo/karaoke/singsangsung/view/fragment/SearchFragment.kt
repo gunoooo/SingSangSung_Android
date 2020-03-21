@@ -31,9 +31,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override fun observerViewModel() {
         with(mViewModel) {
-            searchList.observe(this@SearchFragment, Observer {
+            onOpenListEvent.observe(this@SearchFragment, Observer {
                 val list = YoutubeDataList()
-                list.addAll(it)
+                list.addAll(searchList)
                 val title = search.value!!
                 val type = ListFragment.SEARCH_TYPE
                 val action = SearchFragmentDirections.actionSearchFragmentToListFragment(list, title, type)

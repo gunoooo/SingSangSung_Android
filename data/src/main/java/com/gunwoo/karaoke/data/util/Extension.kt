@@ -10,6 +10,7 @@ fun String.trimTitle(): String {
         .replace("[짱가라오케/원키/MR]", "")
         .replace("[짱가라오케/MR]", "")
         .replace("[매직씽아싸노래방]", "")
+        .replace("[MAGICSING Karaoke]", "")
         .replace("[노래방]", "")
         .replace("[ZZang KARAOKE]", "")
         .replace("[뮤즈온라인]", "")

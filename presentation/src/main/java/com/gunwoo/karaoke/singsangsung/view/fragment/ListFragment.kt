@@ -23,7 +23,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
             musicListAdapter.onClickItem.observe(this@ListFragment, Observer {
                 startActivity(
                     Intent(this@ListFragment.context!!.applicationContext, PlayerActivity::class.java)
-                        .putExtra(PlayerActivity.EXTRA_VIDEO_ID, it.videoId)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO, it)
                         .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
             })
         }

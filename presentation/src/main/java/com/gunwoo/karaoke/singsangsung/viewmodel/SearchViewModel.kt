@@ -11,11 +11,13 @@ class SearchViewModel(
     private val getSearchListUseCase: GetSearchListUseCase
 ) : BaseViewModel() {
 
+    val searchList = ArrayList<YoutubeData>()
+
     val search = MutableLiveData<String>()
-    val searchList = MutableLiveData<List<YoutubeData>>()
 
     val onHideKeyEvent = SingleLiveEvent<Unit>()
     val onEmptyEvent = SingleLiveEvent<Unit>()
+    val onOpenListEvent = SingleLiveEvent<Unit>()
 
     private fun setSearchList() {
         isLoading.value = true
@@ -23,7 +25,9 @@ class SearchViewModel(
         addDisposable(getSearchListUseCase.buildUseCaseObservable(GetSearchListUseCase.Params(search.value!!)),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
-                    searchList.value = t
+                    searchList.clear()
+                    searchList.addAll(t)
+                    onOpenListEvent.call()
                     isLoading.value = false
                 }
 

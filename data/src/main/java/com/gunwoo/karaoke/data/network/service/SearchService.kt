@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface SearchService {
-    @GET("search?order=viewCount&part=snippet&maxResults=10&type=video")
+    @GET("search?order=viewCount&part=snippet&maxResults=20&type=video")
     fun getSearchList(
         @Query("channelId") channelId: String,
         @Query("q") q: String

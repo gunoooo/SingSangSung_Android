@@ -31,8 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            supportFragmentManager.popBackStack()
-            navController.popBackStack()
+            super.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)

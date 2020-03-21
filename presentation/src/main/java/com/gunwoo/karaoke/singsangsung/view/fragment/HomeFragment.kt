@@ -88,17 +88,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
             item_1.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[0].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO, youtubeDataList[0])
                     .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
             item_2.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[1].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO, youtubeDataList[1])
                     .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
             item_3.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[2].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO, youtubeDataList[2])
                     .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
         }

@@ -4,13 +4,15 @@ import android.content.Context
 
 import androidx.room.Database
 import androidx.room.Room
+import com.gunwoo.karaoke.data.database.dao.RecordDao
+import com.gunwoo.karaoke.data.database.entity.RecordEntity
 
-//@Database(entities = [],
-//    version = 1, exportSchema = false
-//)
+@Database(entities = [RecordEntity::class],
+    version = 1, exportSchema = false
+)
 abstract class RoomDatabase : androidx.room.RoomDatabase() {
 
-//    abstract fun tokenDao(): TokenDao
+    abstract fun recordDao(): RecordDao
 
     companion object {
 
