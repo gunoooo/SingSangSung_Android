@@ -3,7 +3,10 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 import android.media.MediaRecorder
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
+import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
+import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
+import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
 import java.io.File
 import java.util.*
 
@@ -11,16 +14,24 @@ import java.util.*
 class PlayerViewModel : BaseViewModel() {
 
     lateinit var videoId: String
+    val youtubeDataList = ArrayList<YoutubeData>()
 
     private var recorder: MediaRecorder? = null
-    private var fileName: String
+    private var file: File
+    private var path: String
+
+    val musicListAdapter = MusicListAdapter()
 
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
 
+    val onStoppedRecording = SingleLiveEvent<Unit>()
+
     init {
-        val path = Constants.DIRECTORY_RECORD
-        val name = "/SSS_${Random().nextInt(Int.MAX_VALUE)}.mp3"
-        val file = File(path)
+        musicListAdapter.setYoutubeDataList(youtubeDataList)
+
+        path = Constants.DIRECTORY_RECORD
+
+        file = File(path)
 
         if (!file.exists())
             file.mkdirs()
@@ -28,14 +39,21 @@ class PlayerViewModel : BaseViewModel() {
             file.delete()
             file.mkdirs()
         }
+    }
 
-        val fileCacheItem = File(path + name)
-        fileCacheItem.createNewFile()
-
-        fileName = fileCacheItem.absolutePath
+    fun setMusicList(youtubeDataList: List<YoutubeData>) {
+        this.youtubeDataList.clear()
+        this.youtubeDataList.addAll(youtubeDataList)
+        musicListAdapter.notifyDataSetChanged()
     }
 
     private fun startRecord() {
+        val name = "/SSS_${Random().nextInt(Int.MAX_VALUE)}.mp3"
+        val fileName = path + name
+
+        val fileCacheItem = File(fileName)
+        fileCacheItem.createNewFile()
+
         recorder = MediaRecorder()
 
         recorder?.apply {
@@ -58,10 +76,11 @@ class PlayerViewModel : BaseViewModel() {
         recorder?.resume()
     }
 
-    private fun stopRecord() {
+    fun stopRecord() {
         recorder?.stop()
         recorder?.release()
         recorder = null
+        onStoppedRecording.call()
     }
 
     fun onClickRecord() {

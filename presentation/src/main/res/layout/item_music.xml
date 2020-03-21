@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp" >
+        android:layout_height="80dp"
+        android:onClick="@{() -> viewModel.onClickItem()}">
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="0dp"

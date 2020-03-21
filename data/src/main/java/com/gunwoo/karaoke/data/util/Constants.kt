@@ -15,6 +15,7 @@ object Constants {
     const val LALA_CHANNEL_ID = "UCz9GBSHaCF4omH_7LdP5_CA"
     const val SSONG_CHANNEL_ID = "UCPyPwf5EH5RJr1plH97Dn4A"
     const val SINGIT_CHANNEL_ID = "UCwT5Ij1Dd-SBtudlduUlMKQ"
+    const val FORU_CHANNEL_ID = "UCyYqXmPUO4InZT-E62F7hVg"
     const val CHILD_CHANNEL_ID = "UCFesyM0Lk__UhMNccHSJrlQ"
 
     const val POPULARITY_PLAYLIST_ID = "PLjGGC556n3Rg_bpB6ImldUWtPT1hm_Z2h"

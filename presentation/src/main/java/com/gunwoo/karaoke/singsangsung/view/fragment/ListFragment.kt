@@ -1,30 +1,36 @@
 package com.gunwoo.karaoke.singsangsung.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Observer
 import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentListBinding
-import com.gunwoo.karaoke.singsangsung.view.activity.MainActivity
+import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.ListViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
-import com.gunwoo.karaoke.singsangsung.widget.listener.OnHomeButtonClickListener
 import kotlinx.android.synthetic.main.fragment_list.*
 
-class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>(), OnHomeButtonClickListener {
+class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
     override val viewModel: ListViewModel
         get() = getViewModel()
 
     override fun observerViewModel() {
-
+        with(mViewModel) {
+            musicListAdapter.onClickItem.observe(this@ListFragment, Observer {
+                startActivity(
+                    Intent(this@ListFragment.context!!.applicationContext, PlayerActivity::class.java)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO_ID, it.videoId)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
+            })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).onHomeButtonClickListener = this
 
         val youtubeDataList = ListFragmentArgs.fromBundle(arguments!!).list
         val title = ListFragmentArgs.fromBundle(arguments!!).title
@@ -32,30 +38,19 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>(), OnHomeB
 
         initUI(title)
 
-        mViewModel.setYoutubeDataList(youtubeDataList, type)
+        mViewModel.setData(youtubeDataList, type)
     }
 
     private fun initUI(title: String) {
         collapsing_layout.setCollapsedTitleTextAppearance(R.style.AppTheme_CollapsedAppBar)
         collapsing_layout.setExpandedTitleTextAppearance(R.style.AppTheme_ExpandedAppBar)
 
+        @Suppress("CAST_NEVER_SUCCEEDS")
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             this.title = title
         }
-    }
-
-    override fun onClick() {
-        val action =
-            when (mViewModel.type) {
-                SEARCH_TYPE -> ListFragmentDirections.actionListFragmentToSearchFragment()
-                CHART_TYPE, CHARACTER_TYPE -> ListFragmentDirections.actionListFragmentToHomeFragment()
-                PLAYLIST_TYPE -> ListFragmentDirections.actionListFragmentToThemeFragment()
-                else -> return
-            }
-
-        findNavController().navigate(action)
     }
 
     companion object {

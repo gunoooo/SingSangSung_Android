@@ -15,7 +15,6 @@ import com.gunwoo.karaoke.singsangsung.viewmodelfactory.HomeViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
-import com.gunwoo.karaoke.singsangsung.widget.extension.startActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_chart.view.*
@@ -69,6 +68,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private fun setChartList(view: View, youtubeDataList: List<YoutubeData>) {
         view.apply {
+            val videoList = YoutubeDataList()
+            videoList.addAll(youtubeDataList)
+
             try {
                 ranking_1.text = "1"
                 title_1.text = youtubeDataList[0].videoTitle
@@ -86,15 +88,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
             item_1.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[0].videoId))
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[0].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
             item_2.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[1].videoId))
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[1].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
             item_3.setOnClickListener { v ->
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
-                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[2].videoId))
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_ID, youtubeDataList[2].videoId)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, videoList))
             }
         }
     }

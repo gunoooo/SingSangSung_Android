@@ -11,32 +11,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <kr.co.prnd.YouTubePlayerView
-            android:id="@+id/youtube_player_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#FBFBFB"
+            android:background="#F8F8F8"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/youtube_player_view">
-            <TextView
+            <ImageView
+                android:id="@+id/music_sound"
                 android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="30dp"/>
+                android:layout_height="30dp"
+                android:layout_marginEnd="30dp" />
 
             <ImageView
                 android:id="@+id/play_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:tint="@color/colorBlackTransparent"
+                android:onClick="@{() -> viewModel.onClickPause()}"
                 android:src="@drawable/ic_pause"
-                android:onClick="@{() -> viewModel.onClickPause()}" />
+                android:tint="@color/colorBlackTransparent" />
 
             <ImageView
                 android:id="@+id/record_btn"
@@ -44,23 +38,42 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:tint="@color/colorRed"
+                android:onClick="@{() -> viewModel.onClickRecord()}"
                 android:src="@drawable/ic_record"
-                android:onClick="@{() -> viewModel.onClickRecord()}" />
+                android:tint="@color/colorRed" />
 
             <ImageView
                 android:id="@+id/stop_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:tint="@color/colorBlackTransparent"
+                android:onClick="@{() -> viewModel.onClickStop()}"
                 android:src="@drawable/ic_stop"
-                android:onClick="@{() -> viewModel.onClickStop()}" />
+                android:tint="@color/colorBlackTransparent" />
 
             <ImageView
-                android:id="@+id/music"
+                android:id="@+id/record_sound"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="30dp" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:adapter="@{viewModel.musicListAdapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:listitem="@layout/item_music" />
+
+        <kr.co.prnd.YouTubePlayerView
+            android:id="@+id/youtube_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -18,4 +18,6 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
         thumbnail.value = youtubeData.thumbnailUrl
         title.value = youtubeData.videoTitle
     }
+
+    fun onClickItem() { getNavigator().onClickItem(youtubeData) }
 }

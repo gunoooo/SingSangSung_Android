@@ -8,7 +8,7 @@ import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdap
 
 class ListViewModel : BaseViewModel() {
 
-    private val youtubeDataList = ArrayList<YoutubeData>()
+    val youtubeDataList = ArrayList<YoutubeData>()
     lateinit var type: String
 
     val thumbnail = MutableLiveData<String>()
@@ -18,10 +18,11 @@ class ListViewModel : BaseViewModel() {
 
     init { musicListAdapter.setYoutubeDataList(youtubeDataList) }
 
-    fun setYoutubeDataList(youtubeDataList: YoutubeDataList, type: String) {
+    fun setData(youtubeDataList: YoutubeDataList, type: String) {
         this.type = type
         thumbnail.value = youtubeDataList[0].thumbnailUrl
         description.value = "총 ${youtubeDataList.size}곡  |  $type"
+        this.youtubeDataList.clear()
         this.youtubeDataList.addAll(youtubeDataList)
         musicListAdapter.notifyDataSetChanged()
     }
