@@ -1,12 +1,17 @@
 package com.gunwoo.karaoke.singsangsung.view.fragment
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.auth.UserRecoverableAuthException
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
+import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentHomeBinding
 import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
@@ -19,6 +24,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_chart.view.*
 import javax.inject.Inject
+
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
@@ -52,6 +58,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 this@HomeFragment.findNavController().navigate(action)
             })
 
+            onOpenListFragmentEvent.observe(this@HomeFragment, Observer {
+                val list = YoutubeDataList()
+                list.addAll(videoList)
+                val action = HomeFragmentDirections.actionHomeFragmentToListFragment(list, playlistTitle!!, playlistType!!)
+                this@HomeFragment.findNavController().navigate(action)
+            })
+
             onErrorEvent.observe(this@HomeFragment, Observer {
                 if (it is UserRecoverableAuthException) {
                     startActivityForResult(
@@ -62,6 +75,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 else {
                     shortToast(it.message)
                 }
+            })
+
+            recommendListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+                startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO, it)
+                    .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, recommendList))
+            })
+
+            recommendPlaylistListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+                playlistTitle = it.title
+                playlistType = ListFragment.PLAYLIST_TYPE
+                setVideoList(it.playlistId)
+            })
+
+            characterListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+                playlistTitle = it.name
+                playlistType = ListFragment.CHARACTER_TYPE
+                setVideoList(it.playlistId)
             })
         }
     }
@@ -104,6 +135,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initAds()
+        recommend_playlist_recyclerview.layoutManager = GridLayoutManager(this.context, 2)
+    }
+
+    private fun initAds() {
+        MobileAds.initialize(this.activity, getString(R.string.admob_app_id))
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+        smallAdView.loadAd(adRequest)
+    }
+
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -114,7 +159,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         val isOK = resultCode == DaggerAppCompatActivity.RESULT_OK
         when (requestCode) {
             REQUEST_AUTHORIZATION ->
-                if (isOK) mViewModel.setPlaylist()
+                if (isOK) mViewModel.setPlaylistList()
         }
     }
 

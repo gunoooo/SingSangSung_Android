@@ -20,4 +20,6 @@ class CharacterItemViewModel : BaseItemViewModel<CharacterNavigator>() {
         name.value = character.name
         profileImage.value = character.profileImage
     }
+
+    fun onClickItem() { getNavigator().onClickItem(character) }
 }

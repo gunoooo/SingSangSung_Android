@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">싱생송 무료노래방</string>
 
+    <string name="admob_app_id">ca-app-pub-7642045761065211~9079130438</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7642045761065211/7332247570</string>
+    <string name="banner_ad_unit_id_for_test">ca-app-pub-3940256099942544/6300978111</string>
+
     <string name="menu_home">HOME</string>
     <string name="menu_theme">테마별</string>
     <string name="menu_search">검색</string>
     <string name="menu_record">기록</string>
-    <string name="menu_favorites">즐겨찾기</string>
+    <string name="menu_favorites">보관함</string>
 
     <string name="hint_search">검색어를 입력해주세요</string>
 
@@ -14,6 +18,13 @@
     <string name="text_popularity_chart">인기차트</string>
     <string name="text_recently_chart">최신차트</string>
     <string name="text_character">아티스트</string>
+    <string name="text_developer_info">개발자 정보</string>
+    <string name="text_inquire">문의하기</string>
+    <string name="text_recommend">추천곡</string>
+    <string name="text_recommend_theme">추천테마</string>
+    <string name="text_mood">분위기</string>
+    <string name="text_program">프로그램</string>
+    <string name="text_genre">장르</string>
 
     <string name="text_update_popularity_chart">※ 2020.03.20 업데이트</string>
     <string name="text_update_recently_chart">※ 2020.03.20 업데이트</string>

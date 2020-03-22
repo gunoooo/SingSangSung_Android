@@ -21,4 +21,5 @@ object Constants {
 
     const val POPULARITY_PLAYLIST_ID = "PLjGGC556n3Rg_bpB6ImldUWtPT1hm_Z2h"
     const val RECENTLY_PLAYLIST_ID = "PLjGGC556n3RiAeO0WuY9x1y6k3asGwALh"
+    const val RECOMMEND_PLAYLIST_ID = "PLjGGC556n3RiEFdybkO8vGMtMkGcn1C_p"
 }

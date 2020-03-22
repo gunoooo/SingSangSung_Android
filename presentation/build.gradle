@@ -56,6 +56,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.media:media:$rootProject.mediaVersion"
     implementation "com.mikhaellopez:circularimageview:$rootProject.circularimageviewVersion"
+    implementation "com.makeramen:roundedimageview:$rootProject.roundedimageviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swiperefreshlayoutVersion"
 
     testImplementation "junit:junit:$rootProject.junitVersion"
@@ -96,6 +97,7 @@ dependencies {
         exclude group: 'com.google.guava'
     }
     implementation "kr.co.prnd:youtube-player-view:$rootProject.youtubeViewVersion"
+    implementation "com.google.android.gms:play-services-ads:$rootProject.googleAdsVersion"
 
     implementation project(':domain')
     implementation project(':data')

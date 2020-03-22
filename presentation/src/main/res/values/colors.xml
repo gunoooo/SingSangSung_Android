@@ -8,8 +8,9 @@
     <color name="colorLightGrey">#E7E7E7</color>
     <color name="colorGrey">#5C5C5C</color>
     <color name="colorLightRed">#FFFAFA</color>
-    <color name="colorRed">#FF3636</color>
+    <color name="colorRed">#C52929</color>
 
     <color name="colorRedTransparent">#D8FFB8B8</color>
     <color name="colorBlackTransparent">#C8FFFFFF</color>
+    <color name="colorFilter">#AE000000</color>
 </resources>

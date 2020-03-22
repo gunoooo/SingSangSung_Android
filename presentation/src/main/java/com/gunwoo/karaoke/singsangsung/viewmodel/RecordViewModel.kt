@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.Record
 import com.gunwoo.karaoke.domain.usecase.GetRecordListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
+import com.gunwoo.karaoke.singsangsung.widget.extension.minuteFormat
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.RecordListAdapter
 import io.reactivex.observers.DisposableSingleObserver
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RecordViewModel(
     private val getRecordListUseCase: GetRecordListUseCase
@@ -48,13 +51,13 @@ class RecordViewModel(
         stopAudio()
         this.record = record
         title.value = record.title
-        time.value = record.time
         thumbnail.value = record.thumbnail
         player = MediaPlayer()
         player?.setOnCompletionListener { viewType.value = ViewType.REPLAY }
         player?.setDataSource(record.file.absolutePath)
         player?.prepare()
         player?.start()
+        time.value = Date(player!!.duration.toLong()).minuteFormat()
     }
 
     private fun reStartAudio() {
