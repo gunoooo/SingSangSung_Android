@@ -1,8 +1,5 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.gunwoo.karaoke.data.network.interceptor.ErrorResponseInterceptor
 import com.gunwoo.karaoke.data.network.interceptor.TokenInterceptor
 import com.gunwoo.karaoke.data.util.Constants

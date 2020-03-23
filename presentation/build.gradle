@@ -56,7 +56,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.media:media:$rootProject.mediaVersion"
     implementation "com.mikhaellopez:circularimageview:$rootProject.circularimageviewVersion"
-    implementation "com.makeramen:roundedimageview:$rootProject.roundedimageviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swiperefreshlayoutVersion"
 
     testImplementation "junit:junit:$rootProject.junitVersion"
@@ -98,6 +97,7 @@ dependencies {
     }
     implementation "kr.co.prnd:youtube-player-view:$rootProject.youtubeViewVersion"
     implementation "com.google.android.gms:play-services-ads:$rootProject.googleAdsVersion"
+    implementation "com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT"
 
     implementation project(':domain')
     implementation project(':data')

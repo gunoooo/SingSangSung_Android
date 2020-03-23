@@ -1,8 +1,10 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
+import com.gunwoo.karaoke.data.repository.DownloadRepositoryImpl
 import com.gunwoo.karaoke.data.repository.PlaylistRepositoryImpl
 import com.gunwoo.karaoke.data.repository.RecordRepositoryImpl
 import com.gunwoo.karaoke.data.repository.SearchRepositoryImpl
+import com.gunwoo.karaoke.domain.repository.DownloadRepository
 import com.gunwoo.karaoke.domain.repository.PlaylistRepository
 import com.gunwoo.karaoke.domain.repository.RecordRepository
 import com.gunwoo.karaoke.domain.repository.SearchRepository
@@ -24,4 +26,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRecordRepository(recordRepositoryImpl: RecordRepositoryImpl): RecordRepository = recordRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideDownloadRepository(downloadRepositoryImpl: DownloadRepositoryImpl): DownloadRepository = downloadRepositoryImpl
 }

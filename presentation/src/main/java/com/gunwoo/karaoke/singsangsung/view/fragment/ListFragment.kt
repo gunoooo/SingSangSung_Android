@@ -10,21 +10,45 @@ import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentListBinding
 import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.ListViewModel
+import com.gunwoo.karaoke.singsangsung.viewmodelfactory.ListViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
+import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import kotlinx.android.synthetic.main.fragment_list.*
+import javax.inject.Inject
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
+    @Inject
+    lateinit var viewModelFactory: ListViewModelFactory
+
     override val viewModel: ListViewModel
-        get() = getViewModel()
+        get() = getViewModel(viewModelFactory)
 
     override fun observerViewModel() {
         with(mViewModel) {
-            musicListAdapter.onClickItem.observe(this@ListFragment, Observer {
-                startActivity(
-                    Intent(this@ListFragment.context!!.applicationContext, PlayerActivity::class.java)
-                        .putExtra(PlayerActivity.EXTRA_VIDEO, it)
-                        .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
+            with(musicListAdapter) {
+                onClickItem.observe(this@ListFragment, Observer {
+                    startActivity(
+                        Intent(this@ListFragment.context!!.applicationContext, PlayerActivity::class.java)
+                            .putExtra(PlayerActivity.EXTRA_VIDEO, it)
+                            .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
+                })
+
+                onDownloadEvent.observe(this@ListFragment, Observer {
+                    mViewModel.download(it, this@ListFragment.context!!.applicationContext)
+                })
+
+                onAddFavoritesEvent.observe(this@ListFragment, Observer {
+
+                })
+
+                onHideEvent.observe(this@ListFragment, Observer {
+
+                })
+            }
+
+            onSuccessDownloadEvent.observe(this@ListFragment, Observer {
+                shortToast(R.string.message_download_complete)
             })
         }
     }

@@ -31,4 +31,8 @@ abstract class FragmentBindingModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun bindingThemeFragment(): ThemeFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingOfflineListFragment(): OfflineListFragment
 }

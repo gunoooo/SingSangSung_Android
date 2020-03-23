@@ -17,6 +17,9 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
     private lateinit var youtubeDataList: List<YoutubeData>
 
     val onClickItem = SingleLiveEvent<YoutubeData>()
+    val onDownloadEvent = SingleLiveEvent<YoutubeData>()
+    val onAddFavoritesEvent = SingleLiveEvent<YoutubeData>()
+    val onHideEvent = SingleLiveEvent<YoutubeData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemViewHolder {
         return MusicItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_music, parent, false))
@@ -33,6 +36,18 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
 
     override fun onClickItem(youtubeData: YoutubeData) {
         onClickItem.value = youtubeData
+    }
+
+    override fun download(youtubeData: YoutubeData) {
+        onDownloadEvent.value = youtubeData
+    }
+
+    override fun addFavorites(youtubeData: YoutubeData) {
+        onAddFavoritesEvent.value = youtubeData
+    }
+
+    override fun hide(youtubeData: YoutubeData) {
+        onHideEvent.value = youtubeData
     }
 
     override fun getItemCount(): Int {

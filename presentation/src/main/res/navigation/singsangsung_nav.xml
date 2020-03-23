@@ -27,7 +27,14 @@
         android:label="SearchFragment"/>
 
     <fragment android:id="@+id/favoritesFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.FavoritesFragment"
-        android:label="FavoritesFragment"/>
+        android:label="FavoritesFragment">
+        <action
+            android:id="@+id/action_favoritesFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_favoritesFragment_to_offlineListFragment"
+            app:destination="@id/offlineListFragment" />
+    </fragment>
 
     <fragment android:id="@+id/listFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.ListFragment"
         android:label="ListFragment" >
@@ -42,6 +49,12 @@
         <argument
             android:name="type"
             app:argType="string" />
+    </fragment>
 
+    <fragment android:id="@+id/offlineListFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.OfflineListFragment"
+        android:label="OfflineListFragment" >
+        <argument
+            android:name="list"
+            app:argType="com.gunwoo.karaoke.domain.model.DownloadList" />
     </fragment>
 </navigation>
