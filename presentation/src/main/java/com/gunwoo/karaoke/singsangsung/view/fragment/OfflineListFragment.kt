@@ -10,21 +10,37 @@ import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentOfflineListBinding
 import com.gunwoo.karaoke.singsangsung.view.activity.OfflinePlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.OfflineListViewModel
+import com.gunwoo.karaoke.singsangsung.viewmodelfactory.OfflineListViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
+import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import kotlinx.android.synthetic.main.fragment_offline_list.*
+import javax.inject.Inject
 
 class OfflineListFragment : BaseFragment<FragmentOfflineListBinding, OfflineListViewModel>() {
 
+    @Inject
+    lateinit var viewModelFactory: OfflineListViewModelFactory
+
     override val viewModel: OfflineListViewModel
-        get() = getViewModel()
+        get() = getViewModel(viewModelFactory)
 
     override fun observerViewModel() {
         with(mViewModel) {
-            offlineMusicListAdapter.onClickItem.observe(this@OfflineListFragment, Observer {
-                startActivity(
-                    Intent(this@OfflineListFragment.context!!.applicationContext, OfflinePlayerActivity::class.java)
-                        .putExtra(OfflinePlayerActivity.EXTRA_VIDEO, it)
-                        .putExtra(OfflinePlayerActivity.EXTRA_VIDEO_LIST, downloadList))
+            with(offlineMusicListAdapter) {
+                onClickItem.observe(this@OfflineListFragment, Observer {
+                    startActivity(
+                        Intent(this@OfflineListFragment.context!!.applicationContext, OfflinePlayerActivity::class.java)
+                            .putExtra(OfflinePlayerActivity.EXTRA_VIDEO, it)
+                            .putExtra(OfflinePlayerActivity.EXTRA_VIDEO_LIST, downloadList))
+                })
+
+                onDeleteDownloadEvent.observe(this@OfflineListFragment, Observer {
+                    mViewModel.deleteDownload(it)
+                })
+            }
+
+            onSuccessDeleteDownloadEvent.observe(this@OfflineListFragment, Observer {
+                shortToast(R.string.message_delete_download_complete)
             })
         }
     }

@@ -1,8 +1,7 @@
 package com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel
 
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.YoutubeData
@@ -27,10 +26,15 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
     fun onClickItem() { getNavigator().onClickItem(youtubeData) }
 
     fun onClickMenu(view: View) {
-        val menuButton = view as ImageView
+        val menuButton = view as LinearLayout
 
         val popup = PopupMenu(view.context, menuButton)
-        popup.inflate(R.menu.menu_music_item)
+        when (youtubeData.state) {
+            YoutubeData.State.NONE -> popup.inflate(R.menu.menu_music_item)
+            YoutubeData.State.FAVORITES -> popup.inflate(R.menu.menu_favorites_music_item)
+            YoutubeData.State.HIDING -> popup.inflate(R.menu.menu_hiding_music_item)
+            else -> popup.inflate(R.menu.menu_download_favorites_music_item)
+        }
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -38,12 +42,20 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
                     getNavigator().download(youtubeData)
                     true
                 }
-                R.id.menu_favorites -> {
+                R.id.menu_add_favorites -> {
                     getNavigator().addFavorites(youtubeData)
+                    true
+                }
+                R.id.menu_delete_favorites -> {
+                    getNavigator().deleteFavorites(youtubeData)
                     true
                 }
                 R.id.menu_hide -> {
                     getNavigator().hide(youtubeData)
+                    true
+                }
+                R.id.menu_delete_hiding -> {
+                    getNavigator().deleteHiding(youtubeData)
                     true
                 }
                 else -> false

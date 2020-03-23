@@ -35,10 +35,26 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more_btn"
             app:layout_constraintStart_toEndOf="@+id/thumbnail"
             app:layout_constraintTop_toTopOf="parent"
             app:mutableText="@{viewModel.title}"
             tools:text="[TJ노래방] 흔들리는꽃들속에서네샴푸향이느껴진거야 - 장범준 / TJ Karaoke" />
+
+        <LinearLayout
+            android:id="@+id/more_btn"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:onClick="@{viewModel::onClickMenu}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_more"
+                android:tint="@color/colorPrimary" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

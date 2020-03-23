@@ -1,13 +1,7 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
-import com.gunwoo.karaoke.data.repository.DownloadRepositoryImpl
-import com.gunwoo.karaoke.data.repository.PlaylistRepositoryImpl
-import com.gunwoo.karaoke.data.repository.RecordRepositoryImpl
-import com.gunwoo.karaoke.data.repository.SearchRepositoryImpl
-import com.gunwoo.karaoke.domain.repository.DownloadRepository
-import com.gunwoo.karaoke.domain.repository.PlaylistRepository
-import com.gunwoo.karaoke.domain.repository.RecordRepository
-import com.gunwoo.karaoke.domain.repository.SearchRepository
+import com.gunwoo.karaoke.data.repository.*
+import com.gunwoo.karaoke.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -30,4 +24,12 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideDownloadRepository(downloadRepositoryImpl: DownloadRepositoryImpl): DownloadRepository = downloadRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideFavoritesRepository(favoritesRepositoryImpl: FavoritesRepositoryImpl): FavoritesRepository = favoritesRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideHidingRepository(hidingRepositoryImpl: HidingRepositoryImpl): HidingRepository = hidingRepositoryImpl
 }

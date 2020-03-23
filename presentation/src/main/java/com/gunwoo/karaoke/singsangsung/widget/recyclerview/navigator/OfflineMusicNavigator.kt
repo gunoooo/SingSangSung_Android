@@ -4,4 +4,6 @@ import com.gunwoo.karaoke.domain.model.Download
 
 interface OfflineMusicNavigator {
     fun onClickItem(download: Download)
+
+    fun deleteDownload(download: Download)
 }

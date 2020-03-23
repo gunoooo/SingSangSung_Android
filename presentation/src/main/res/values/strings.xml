@@ -32,7 +32,18 @@
     <string name="message_permission">애플리케이션 설정에서 권한을 수정할 수 있습니다</string>
     <string name="message_stopped_recoding">녹음이 완료되었습니다</string>
     <string name="message_download_complete">다운로드 완료</string>
+    <string name="message_delete_download_complete">해당 게시물을 다운로드 목록에서 삭제하였습니다</string>
+    <string name="message_add_favorites_complete">해당 게시물을 즐겨찾기 목록에 추가하였습니다</string>
+    <string name="message_delete_favorites_complete">해당 게시물을 즐겨찾기 목록에 삭제하였습니다</string>
+    <string name="message_hide_complete">해당 게시물을 숨김 목록에 추가하였습니다</string>
+    <string name="message_show_complete">해당 게시물을 숨김 목록에서 삭제하였습니다</string>
     <string name="text_download_list">다운로드 목록</string>
     <string name="text_favorites_list">즐겨찾기 목록</string>
     <string name="text_hide_list">숨김 목록</string>
+    <string name="menu_hide">숨김</string>
+    <string name="menu_add_favorites">즐겨찾기에 추가</string>
+    <string name="menu_delete_favorites">즐겨찾기에서 삭제</string>
+    <string name="menu_delete_hide">숨김 목록에서 삭제</string>
+    <string name="menu_delete_download">다운로드 목록에서 삭제</string>
+    <string name="menu_download">오프라인 저장</string>
 </resources>

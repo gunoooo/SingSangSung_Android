@@ -4,6 +4,8 @@ import androidx.core.text.HtmlCompat
 import com.gunwoo.karaoke.data.base.BaseDataSource
 import com.gunwoo.karaoke.data.network.remote.SearchRemote
 import com.gunwoo.karaoke.data.util.Constants
+import com.gunwoo.karaoke.data.util.trimTitle
+import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.youtuberesponse.search.SearchItem
 import io.reactivex.Single
 import java.lang.Exception
@@ -14,7 +16,7 @@ class SearchDataSource @Inject constructor(
     override val cache: Any
 ) : BaseDataSource<SearchRemote, Any>() {
 
-    fun getSearchList(search: String): Single<List<SearchItem>> {
+    fun getSearchList(search: String): Single<List<YoutubeData>> {
         val searchList = ArrayList<SearchItem>()
 
         return remote.getSearchList(Constants.KY_CHANNEL_ID, search).flatMap { kyChannelResponse ->
@@ -32,12 +34,28 @@ class SearchDataSource @Inject constructor(
                         remote.getSearchList(Constants.CHILD_CHANNEL_ID, search).flatMap { childResponse ->
                             searchList.addAll(childResponse)
 
-                            return@flatMap Single.just(searchList)
+                            Single.just(searchList)
                         }
                     }
                 }
             }
-        }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
+        }.map { searchItem ->
+            searchItem.map {
+                YoutubeData(
+                    it.id.videoId,
+                    it.snippet.thumbnails?.getThumbnailUrl(),
+                    HtmlCompat.fromHtml(
+                        it.snippet.title.trimTitle(),
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    ).toString(),
+                    HtmlCompat.fromHtml(
+                        it.snippet.channelTitle,
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    ).toString(),
+                    YoutubeData.State.NONE
+                )
+            }
+        }
     }
 
     private fun isContains(searchItem: SearchItem, vararg other: String): Boolean =

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
+import com.gunwoo.karaoke.domain.usecase.DeleteDownloadUseCase
 import com.gunwoo.karaoke.domain.usecase.InsertRecordUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
@@ -17,7 +18,8 @@ import java.util.*
 
 
 class OfflinePlayerViewModel(
-    private val insertRecordUseCase: InsertRecordUseCase
+    private val insertRecordUseCase: InsertRecordUseCase,
+    private val deleteDownloadUseCase: DeleteDownloadUseCase
 ) : BaseViewModel() {
 
     lateinit var video: Download
@@ -32,6 +34,7 @@ class OfflinePlayerViewModel(
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
 
     val onStoppedRecording = SingleLiveEvent<Unit>()
+    val onSuccessDeleteDownloadEvent = SingleLiveEvent<Unit>()
 
     init {
         offlineMusicListAdapter.setDownloadList(downloadList)
@@ -52,6 +55,22 @@ class OfflinePlayerViewModel(
         this.downloadList.clear()
         this.downloadList.addAll(downloadList)
         offlineMusicListAdapter.notifyDataSetChanged()
+    }
+
+    fun deleteDownload(download: Download) {
+        addDisposable(deleteDownloadUseCase.buildUseCaseObservable(DeleteDownloadUseCase.Params(download)),
+            object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    val position = downloadList.indexOf(download)
+                    downloadList.remove(download)
+                    offlineMusicListAdapter.notifyItemRemoved(position)
+                    onSuccessDeleteDownloadEvent.call()
+                }
+
+                override fun onError(e: Throwable) {
+                    onErrorEvent.value = e
+                }
+            })
     }
 
     private fun startRecord() {

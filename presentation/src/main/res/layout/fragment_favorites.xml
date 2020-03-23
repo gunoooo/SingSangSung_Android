@@ -40,7 +40,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:padding="15dp"
+            android:onClick="@{() -> viewModel.onClickFavoritesList()}">
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
@@ -64,7 +65,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:padding="15dp"
+            android:onClick="@{() -> viewModel.onClickHidingList()}">
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"

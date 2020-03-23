@@ -20,7 +20,7 @@ object SharedPreferenceManager {
         return getDefaultSharedPreferences(context).getString(PREF_ACCOUNT_NAME, null)
     }
 
-    fun getDefaultSharedPreferences(context: Context): SharedPreferences {
+    private fun getDefaultSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(
             getDefaultSharedPreferencesName(context),
             getDefaultSharedPreferencesMode()

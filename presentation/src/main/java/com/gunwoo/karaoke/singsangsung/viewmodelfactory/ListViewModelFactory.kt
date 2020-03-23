@@ -2,14 +2,22 @@ package com.gunwoo.karaoke.singsangsung.viewmodelfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gunwoo.karaoke.domain.usecase.InsertDownloadUseCase
+import com.gunwoo.karaoke.domain.usecase.*
 import javax.inject.Inject
 
 open class ListViewModelFactory @Inject constructor(
-    private val insertDownloadUseCase: InsertDownloadUseCase
+    private val insertDownloadUseCase: InsertDownloadUseCase,
+    private val insertFavoritesUseCase: InsertFavoritesUseCase,
+    private val insertHidingUseCase: InsertHidingUseCase,
+    private val deleteFavoritesUseCase: DeleteFavoritesUseCase,
+    private val deleteHidingUseCase: DeleteHidingUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         modelClass.getConstructor(
-            InsertDownloadUseCase::class.java
-        ).newInstance(insertDownloadUseCase)
+            InsertDownloadUseCase::class.java,
+            InsertFavoritesUseCase::class.java,
+            InsertHidingUseCase::class.java,
+            DeleteFavoritesUseCase::class.java,
+            DeleteHidingUseCase::class.java
+        ).newInstance(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase, deleteHidingUseCase)
 }

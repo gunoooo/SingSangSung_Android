@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_download"
-        android:title="오프라인 저장" />
+        android:title="@string/menu_download" />
 
     <item
-        android:id="@+id/menu_favorites"
-        android:title="즐겨찾기에 추가" />
+        android:id="@+id/menu_add_favorites"
+        android:title="@string/menu_add_favorites" />
 
     <item
         android:id="@+id/menu_hide"
-        android:title="숨김" />
+        android:title="@string/menu_hide" />
 </menu>

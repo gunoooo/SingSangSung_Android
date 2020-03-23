@@ -1,10 +1,13 @@
 package com.gunwoo.karaoke.data.util
 
+import android.content.Context
 import android.os.Environment
 
 object Constants {
-    val DIRECTORY_RECORD = Environment.getExternalStorageDirectory().toString() + "/SingSangSung/record"
-    val DIRECTORY_DOWNLOAD = Environment.getExternalStorageDirectory().toString() + "/SingSangSung/download"
+    val DIRECTORY_RECORD = Environment.getExternalStorageDirectory().toString() + "/SingSangSung"
+    fun getDownloadVideoDirectory(context: Context): String = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.absolutePath
+    fun getDownloadThumbnailDirectory(context: Context): String = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!.absolutePath
+
     const val DEFAULT_HOST = "https://www.googleapis.com/youtube/v3/"
 
     const val TIME_OUT_MESSAGE = "시간초과 다시 한번 시도해주세요"

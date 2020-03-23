@@ -37,7 +37,6 @@ class HomeViewModel(
     val onOpenListFragmentEvent = SingleLiveEvent<Unit>()
 
     init {
-        setPlaylistList()
         setCharacterList()
         setGenrePlaylist()
     }

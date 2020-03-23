@@ -13,15 +13,15 @@ class DownloadRepositoryImpl @Inject constructor(
     private val downloadDataSource: DownloadDataSource
 ) : DownloadRepository {
 
-    private val downloadMapper = DownloadMapper()
-
     override fun getDownloadList(): Single<List<Download>> {
-        return downloadDataSource.getDownloadList()
-            .map { downloadEntityList -> downloadEntityList.map { downloadMapper.mapToModel(it) }.filter { it.video.isFile } }
-            .map { if (it.isEmpty()) throw Exception("다운로드 리스트가 없습니다") else it }
+        return downloadDataSource.getDownloadList().map { if (it.isEmpty()) throw Exception("다운로드 리스트가 없습니다") else it }
     }
 
     override fun insertDownload(download: Download): Completable {
-        return downloadDataSource.insertDownload(downloadMapper.mapToEntity(download))
+        return downloadDataSource.insertDownload(download)
+    }
+
+    override fun deleteDownload(download: Download): Completable {
+        return downloadDataSource.deleteDownload(download)
     }
 }

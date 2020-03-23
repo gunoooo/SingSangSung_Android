@@ -137,9 +137,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initAds()
         recommend_playlist_recyclerview.layoutManager = GridLayoutManager(this.context, 2)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mViewModel.setPlaylistList()
     }
 
     private fun initAds() {

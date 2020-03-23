@@ -20,22 +20,10 @@ class InsertDownloadUseCase @Inject constructor(
 ) : ParamsUseCase<InsertDownloadUseCase.Params, Completable>() {
 
     override fun buildUseCaseObservable(params: Params): Completable {
-        return downloadRepository.insertDownload(
-            Download(
-                params.videoId,
-                params.title,
-                params.thumbnail,
-                params.thumbnailUrl,
-                params.video
-            )
-        )
+        return downloadRepository.insertDownload(params.download)
     }
 
     data class Params(
-        val videoId: String,
-        val title: String,
-        val thumbnail: File,
-        val thumbnailUrl: String?,
-        val video: File
+        val download: Download
     )
 }

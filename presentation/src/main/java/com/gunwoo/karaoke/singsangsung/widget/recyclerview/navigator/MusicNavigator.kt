@@ -9,5 +9,9 @@ interface MusicNavigator {
 
     fun addFavorites(youtubeData: YoutubeData)
 
+    fun deleteFavorites(youtubeData: YoutubeData)
+
     fun hide(youtubeData: YoutubeData)
+
+    fun deleteHiding(youtubeData: YoutubeData)
 }

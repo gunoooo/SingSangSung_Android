@@ -39,16 +39,42 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 })
 
                 onAddFavoritesEvent.observe(this@ListFragment, Observer {
+                    mViewModel.addFavorites(it)
+                })
 
+                onDeleteFavoritesEvent.observe(this@ListFragment, Observer {
+                    mViewModel.deleteFavorites(it)
                 })
 
                 onHideEvent.observe(this@ListFragment, Observer {
+                    mViewModel.hide(it)
+                })
 
+                onDeleteHidingEvent.observe(this@ListFragment, Observer {
+                    mViewModel.deleteHiding(it)
                 })
             }
 
             onSuccessDownloadEvent.observe(this@ListFragment, Observer {
                 shortToast(R.string.message_download_complete)
+            })
+
+            onSuccessAddFavoritesEvent.observe(this@ListFragment, Observer {
+                shortToast(R.string.message_add_favorites_complete)
+            })
+
+            onSuccessDeleteFavoritesEvent.observe(this@ListFragment, Observer {
+                shortToast(R.string.message_delete_favorites_complete)
+            })
+
+            onSuccessHideEvent.observe(this@ListFragment, Observer {
+                thumbnail.value = youtubeDataList[0].thumbnailUrl
+                description.value = "총 ${youtubeDataList.size}곡  |  $type"
+                shortToast(R.string.message_hide_complete)
+            })
+
+            onSuccessDeleteHidingEvent.observe(this@ListFragment, Observer {
+                shortToast(R.string.message_show_complete)
             })
         }
     }
@@ -82,5 +108,6 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
         const val CHART_TYPE = "차트"
         const val CHARACTER_TYPE = "인물"
         const val PLAYLIST_TYPE = "재생 목록"
+        const val STORAGE_TYPE = "보관함"
     }
 }

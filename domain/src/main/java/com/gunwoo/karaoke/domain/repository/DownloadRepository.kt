@@ -9,4 +9,6 @@ interface DownloadRepository {
     fun getDownloadList(): Single<List<Download>>
 
     fun insertDownload(download: Download): Completable
+
+    fun deleteDownload(download: Download): Completable
 }

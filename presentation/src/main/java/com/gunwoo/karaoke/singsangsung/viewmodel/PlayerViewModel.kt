@@ -4,7 +4,7 @@ import android.media.MediaRecorder
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.InsertRecordUseCase
+import com.gunwoo.karaoke.domain.usecase.*
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
@@ -15,27 +15,24 @@ import java.util.*
 
 
 class PlayerViewModel(
-    private val insertRecordUseCase: InsertRecordUseCase
-) : BaseViewModel() {
+    private val insertRecordUseCase: InsertRecordUseCase,
+    insertDownloadUseCase: InsertDownloadUseCase,
+    insertFavoritesUseCase: InsertFavoritesUseCase,
+    insertHidingUseCase: InsertHidingUseCase,
+    deleteFavoritesUseCase: DeleteFavoritesUseCase
+) : MusicViewModel(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase) {
 
     lateinit var video: YoutubeData
-    val youtubeDataList = ArrayList<YoutubeData>()
 
     private var recorder: MediaRecorder? = null
+    private var path: String = Constants.DIRECTORY_RECORD
     private var file: File
-    private var path: String
-
-    val musicListAdapter = MusicListAdapter()
 
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
 
     val onStoppedRecording = SingleLiveEvent<Unit>()
 
     init {
-        musicListAdapter.setYoutubeDataList(youtubeDataList)
-
-        path = Constants.DIRECTORY_RECORD
-
         file = File(path)
 
         if (!file.exists())

@@ -79,6 +79,49 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
                 finish()
             })
 
+            with(musicListAdapter) {
+                onClickItem.observe(this@PlayerActivity, Observer {
+                    startActivity(
+                        Intent(this@PlayerActivity.applicationContext, PlayerActivity::class.java)
+                            .putExtra(EXTRA_VIDEO, it)
+                            .putExtra(EXTRA_VIDEO_LIST, youtubeDataList))
+
+                    finish()
+                })
+
+                onDownloadEvent.observe(this@PlayerActivity, Observer {
+                    mViewModel.download(it, this@PlayerActivity.applicationContext)
+                })
+
+                onAddFavoritesEvent.observe(this@PlayerActivity, Observer {
+                    mViewModel.addFavorites(it)
+                })
+
+                onDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
+                    mViewModel.deleteFavorites(it)
+                })
+
+                onHideEvent.observe(this@PlayerActivity, Observer {
+                    mViewModel.hide(it)
+                })
+            }
+
+            onSuccessDownloadEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_download_complete)
+            })
+
+            onSuccessAddFavoritesEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_add_favorites_complete)
+            })
+
+            onSuccessDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_delete_favorites_complete)
+            })
+
+            onSuccessHideEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_hide_complete)
+            })
+
             onErrorEvent.observe(this@PlayerActivity, Observer {
                 shortToast(it.message)
             })

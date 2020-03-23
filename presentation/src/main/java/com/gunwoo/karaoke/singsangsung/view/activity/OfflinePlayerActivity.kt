@@ -75,13 +75,23 @@ class OfflinePlayerActivity : BaseActivity<ActivityOfflinePlayerBinding, Offline
 
             onStoppedRecording.observe(this@OfflinePlayerActivity, Observer { shortToast(R.string.message_stopped_recoding) })
 
-            offlineMusicListAdapter.onClickItem.observe(this@OfflinePlayerActivity, Observer {
-                startActivity(
-                    Intent(this@OfflinePlayerActivity.applicationContext, OfflinePlayerActivity::class.java)
-                        .putExtra(EXTRA_VIDEO, it)
-                        .putExtra(EXTRA_VIDEO_LIST, downloadList))
+            with(offlineMusicListAdapter) {
+                onClickItem.observe(this@OfflinePlayerActivity, Observer {
+                    startActivity(
+                        Intent(this@OfflinePlayerActivity.applicationContext, OfflinePlayerActivity::class.java)
+                            .putExtra(EXTRA_VIDEO, it)
+                            .putExtra(EXTRA_VIDEO_LIST, downloadList))
 
-                finish()
+                    finish()
+                })
+
+                onDeleteDownloadEvent.observe(this@OfflinePlayerActivity, Observer {
+                    mViewModel.deleteDownload(it)
+                })
+            }
+
+            onSuccessDeleteDownloadEvent.observe(this@OfflinePlayerActivity, Observer {
+                shortToast(R.string.message_show_complete)
             })
 
             onErrorEvent.observe(this@OfflinePlayerActivity, Observer {

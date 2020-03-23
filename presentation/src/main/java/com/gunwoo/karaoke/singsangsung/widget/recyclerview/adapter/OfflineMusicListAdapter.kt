@@ -17,6 +17,7 @@ class OfflineMusicListAdapter : Adapter<OfflineMusicListAdapter.MusicItemViewHol
     private lateinit var downloadList: List<Download>
 
     val onClickItem = SingleLiveEvent<Download>()
+    val onDeleteDownloadEvent = SingleLiveEvent<Download>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemViewHolder {
         return MusicItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_offline_music, parent, false))
@@ -33,6 +34,10 @@ class OfflineMusicListAdapter : Adapter<OfflineMusicListAdapter.MusicItemViewHol
 
     override fun onClickItem(download: Download) {
         onClickItem.value = download
+    }
+
+    override fun deleteDownload(download: Download) {
+        onDeleteDownloadEvent.value = download
     }
 
     override fun getItemCount(): Int {

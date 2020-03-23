@@ -32,6 +32,24 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewMo
                 val action = FavoritesFragmentDirections.actionFavoritesFragmentToOfflineListFragment(list)
                 this@FavoritesFragment.findNavController().navigate(action)
             })
+
+            onOpenFavoritesListFragmentEvent.observe(this@FavoritesFragment, Observer {
+                val list = YoutubeDataList()
+                list.addAll(videoList)
+                val title = "즐겨찾기 목록"
+                val type = ListFragment.STORAGE_TYPE
+                val action = FavoritesFragmentDirections.actionFavoritesFragmentToListFragment(list, title, type)
+                this@FavoritesFragment.findNavController().navigate(action)
+            })
+
+            onOpenHidingListFragmentEvent.observe(this@FavoritesFragment, Observer {
+                val list = YoutubeDataList()
+                list.addAll(videoList)
+                val title = "숨김 목록"
+                val type = ListFragment.STORAGE_TYPE
+                val action = FavoritesFragmentDirections.actionFavoritesFragmentToListFragment(list, title, type)
+                this@FavoritesFragment.findNavController().navigate(action)
+            })
         }
     }
 }
