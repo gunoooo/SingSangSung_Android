@@ -16,14 +16,14 @@
         android:onClick="@{() -> viewModel.onClickItem()}">
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="160dp"
-            android:layout_height="90dp"
+            android:layout_width="144dp"
+            android:layout_height="81dp"
             android:scaleType="centerCrop"
             app:mutableImageUrl="@{viewModel.thumbnail}"
             tools:src="@drawable/thumbnail" />
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanum_square_regular"
             android:layout_marginTop="10dp"

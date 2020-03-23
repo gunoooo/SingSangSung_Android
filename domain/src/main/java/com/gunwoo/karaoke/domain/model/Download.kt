@@ -6,6 +6,7 @@ import java.io.Serializable
 data class Download(
     val videoId: String,
     val title: String,
-    val thumbnail: File?,
+    val thumbnail: File,
+    val thumbnailUrl: String?,
     val video: File
 ) : Serializable

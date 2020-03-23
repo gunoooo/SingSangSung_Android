@@ -4,6 +4,7 @@ import com.gunwoo.karaoke.singsangsung.view.activity.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.gunwoo.karaoke.singsangsung.di.scope.PerActivity
+import com.gunwoo.karaoke.singsangsung.view.activity.OfflinePlayerActivity
 import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.view.activity.SplashActivity
 
@@ -21,4 +22,8 @@ abstract class ActivityBindingModule {
     @PerActivity
     @ContributesAndroidInjector
     abstract fun bindingPlayerAcitivity(): PlayerActivity
+
+    @PerActivity
+    @ContributesAndroidInjector
+    abstract fun bindingOfflinePlayerActivity(): OfflinePlayerActivity
 }

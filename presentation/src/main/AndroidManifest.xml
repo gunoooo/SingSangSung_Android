@@ -40,5 +40,8 @@
 
         <activity android:name=".view.activity.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+
+        <activity android:name=".view.activity.OfflinePlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 </manifest>

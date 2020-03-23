@@ -116,7 +116,7 @@ class ListViewModel(
                                 }
 
                                 val video = File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/$videoFileName")
-                                insertDownload(youtubeData.videoId!!, youtubeData.videoTitle, fileOutput, video)
+                                insertDownload(youtubeData.videoId!!, youtubeData.videoTitle, fileOutput, youtubeData.thumbnailUrl, video)
                             }
                         })
                 }
@@ -125,8 +125,8 @@ class ListViewModel(
         youtubeExtractor.extract("http://youtube.com/watch?v=${youtubeData.videoId}", true, false)
     }
 
-    private fun insertDownload(videoId: String, title: String, thumbnail: File?, video: File) {
-        addDisposable(insertDownloadUseCase.buildUseCaseObservable(InsertDownloadUseCase.Params(videoId, title, thumbnail, video)),
+    private fun insertDownload(videoId: String, title: String, thumbnail: File, thumbnailUrl: String?, video: File) {
+        addDisposable(insertDownloadUseCase.buildUseCaseObservable(InsertDownloadUseCase.Params(videoId, title, thumbnail, thumbnailUrl, video)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() { }
 

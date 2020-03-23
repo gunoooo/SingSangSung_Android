@@ -11,7 +11,8 @@ class DownloadMapper : BaseEntityMapper<Download, DownloadEntity> {
         return Download(
             entity.videoId,
             entity.title,
-            if (entity.thumbnailPath != null) File(entity.thumbnailPath) else null,
+            File(entity.thumbnailPath),
+            entity.thumbnailUrl,
             File(entity.videoPath)
         )
     }
@@ -20,7 +21,8 @@ class DownloadMapper : BaseEntityMapper<Download, DownloadEntity> {
         return DownloadEntity(
             model.videoId,
             model.title,
-            model.thumbnail?.absolutePath,
+            model.thumbnail.absolutePath,
+            model.thumbnailUrl,
             model.video.absolutePath
         )
     }

@@ -25,6 +25,7 @@ class InsertDownloadUseCase @Inject constructor(
                 params.videoId,
                 params.title,
                 params.thumbnail,
+                params.thumbnailUrl,
                 params.video
             )
         )
@@ -33,7 +34,8 @@ class InsertDownloadUseCase @Inject constructor(
     data class Params(
         val videoId: String,
         val title: String,
-        val thumbnail: File?,
+        val thumbnail: File,
+        val thumbnailUrl: String?,
         val video: File
     )
 }

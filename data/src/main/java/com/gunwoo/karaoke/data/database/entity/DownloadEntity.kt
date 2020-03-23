@@ -8,6 +8,7 @@ data class DownloadEntity(
     @PrimaryKey
     val videoId: String,
     val title: String,
-    val thumbnailPath: String?,
+    val thumbnailPath: String,
+    val thumbnailUrl: String?,
     val videoPath: String
 )

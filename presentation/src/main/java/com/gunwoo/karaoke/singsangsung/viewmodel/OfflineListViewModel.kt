@@ -19,7 +19,7 @@ class OfflineListViewModel : BaseViewModel() {
     init { offlineMusicListAdapter.setDownloadList(downloadList) }
 
     fun setData(downloadList: List<Download>) {
-        thumbnail.value = if (downloadList[0].thumbnail != null) Uri.fromFile(downloadList[0].thumbnail) else null
+        thumbnail.value = Uri.fromFile(downloadList[0].thumbnail)
         description.value = "총 ${downloadList.size}곡  |  다운로드"
         this.downloadList.clear()
         this.downloadList.addAll(downloadList)
