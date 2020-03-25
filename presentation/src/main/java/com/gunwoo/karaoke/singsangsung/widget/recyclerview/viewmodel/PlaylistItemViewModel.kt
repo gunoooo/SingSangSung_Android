@@ -9,7 +9,7 @@ class PlaylistItemViewModel : BaseItemViewModel<PlaylistNavigator>() {
 
     private lateinit var playlist: Playlist
 
-    val thumbnail = MutableLiveData<String>()
+    val thumbnail = MutableLiveData<Int>()
     val title = MutableLiveData<String>()
 
     fun bind(data: Playlist) {

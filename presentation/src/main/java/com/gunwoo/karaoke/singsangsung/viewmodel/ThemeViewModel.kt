@@ -1,5 +1,6 @@
 package com.gunwoo.karaoke.singsangsung.viewmodel
 
+import com.gunwoo.karaoke.data.util.PlaylistFactory
 import com.gunwoo.karaoke.domain.model.Playlist
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.PlaylistListAdapter
@@ -23,21 +24,21 @@ class ThemeViewModel : BaseViewModel() {
     private fun setGenrePlaylist() {
         genrePlaylistListAdapter.setPlaylistList(genrePlaylistList)
         genrePlaylistList.clear()
-        genrePlaylistList.addAll(Playlist.getGenrePlaylistList())
+        genrePlaylistList.addAll(PlaylistFactory.getGenrePlaylistList())
         genrePlaylistListAdapter.notifyDataSetChanged()
     }
 
     private fun setProgramPlaylist() {
         programPlaylistListAdapter.setPlaylistList(programPlaylistList)
         programPlaylistList.clear()
-        programPlaylistList.addAll(Playlist.getProgramPlaylistList())
+        programPlaylistList.addAll(PlaylistFactory.getProgramPlaylistList())
         programPlaylistListAdapter.notifyDataSetChanged()
     }
 
     private fun setMoodPlaylist() {
         moodPlaylistListAdapter.setPlaylistList(moodPlaylistList)
         moodPlaylistList.clear()
-        moodPlaylistList.addAll(Playlist.getMoodPlaylistList())
+        moodPlaylistList.addAll(PlaylistFactory.getMoodPlaylistList())
         moodPlaylistListAdapter.notifyDataSetChanged()
     }
 }

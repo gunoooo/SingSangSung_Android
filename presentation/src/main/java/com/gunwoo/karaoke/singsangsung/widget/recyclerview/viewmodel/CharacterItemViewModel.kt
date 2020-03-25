@@ -11,7 +11,7 @@ class CharacterItemViewModel : BaseItemViewModel<CharacterNavigator>() {
 
     private lateinit var character: Character
 
-    val profileImage = MutableLiveData<String>()
+    val profileImage = MutableLiveData<Int>()
     val name = MutableLiveData<String>()
 
     fun bind(data: Character) {

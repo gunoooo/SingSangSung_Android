@@ -18,7 +18,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             tools:src="@mipmap/ic_launcher_round"
-            app:mutableImageUrl="@{viewModel.profileImage}"/>
+            app:mutableImageDrawable="@{viewModel.profileImage}"/>
 
         <TextView
             android:layout_width="wrap_content"

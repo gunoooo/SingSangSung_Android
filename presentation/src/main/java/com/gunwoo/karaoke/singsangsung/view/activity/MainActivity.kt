@@ -9,6 +9,7 @@ import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityMainBinding
 import com.gunwoo.karaoke.singsangsung.viewmodel.MainViewModel
+import com.gunwoo.karaoke.singsangsung.widget.extension.checkPermission
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,6 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkPermission()
         navController = findNavController(R.id.page_fragment)
         bottom_navigation_view.setupWithNavController(navController)
     }

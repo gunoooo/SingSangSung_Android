@@ -1,7 +1,9 @@
 package com.gunwoo.karaoke.singsangsung.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.gunwoo.karaoke.data.util.CharacterFactory
 import com.gunwoo.karaoke.data.util.Constants
+import com.gunwoo.karaoke.data.util.PlaylistFactory
 import com.gunwoo.karaoke.domain.model.Character
 import com.gunwoo.karaoke.domain.model.Playlist
 import com.gunwoo.karaoke.domain.model.YoutubeData
@@ -90,14 +92,14 @@ class HomeViewModel(
 
     private fun setCharacterList() {
         characterListAdapter.setCharacterList(characterList)
-        characterList.addAll(Character.getCharacterList())
+        characterList.addAll(CharacterFactory.getCharacterList())
         characterListAdapter.notifyDataSetChanged()
     }
 
     private fun setGenrePlaylist() {
         recommendPlaylistListAdapter.setPlaylistList(recommendPlaylistList)
         recommendPlaylistList.clear()
-        recommendPlaylistList.addAll(Playlist.getRecommendPlaylistList())
+        recommendPlaylistList.addAll(PlaylistFactory.getRecommendPlaylistList())
         recommendPlaylistListAdapter.notifyDataSetChanged()
     }
 
