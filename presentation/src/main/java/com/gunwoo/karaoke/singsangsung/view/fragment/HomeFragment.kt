@@ -66,15 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             })
 
             onErrorEvent.observe(this@HomeFragment, Observer {
-                if (it is UserRecoverableAuthException) {
-                    startActivityForResult(
-                        it.intent,
-                        REQUEST_AUTHORIZATION
-                    )
-                }
-                else {
-                    shortToast(it.message)
-                }
+                shortToast(it.message)
             })
 
             recommendListAdapter.onClickItem.observe(this@HomeFragment, Observer {
@@ -151,23 +143,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         val adRequest: AdRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
         smallAdView.loadAd(adRequest)
-    }
-
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val isOK = resultCode == DaggerAppCompatActivity.RESULT_OK
-        when (requestCode) {
-            REQUEST_AUTHORIZATION ->
-                if (isOK) mViewModel.setPlaylistList()
-        }
-    }
-
-    companion object {
-        private const val REQUEST_AUTHORIZATION = 0
     }
 }

@@ -2,6 +2,9 @@ package com.gunwoo.karaoke.data.datasource
 
 import androidx.core.text.HtmlCompat
 import com.gunwoo.karaoke.data.base.BaseDataSource
+import com.gunwoo.karaoke.data.database.cache.SearchCache
+import com.gunwoo.karaoke.data.database.entity.SearchEntity
+import com.gunwoo.karaoke.data.mapper.SearchMapper
 import com.gunwoo.karaoke.data.network.remote.SearchRemote
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.data.util.trimTitle
@@ -13,49 +16,54 @@ import javax.inject.Inject
 
 class SearchDataSource @Inject constructor(
     override val remote: SearchRemote,
-    override val cache: Any
-) : BaseDataSource<SearchRemote, Any>() {
+    override val cache: SearchCache
+) : BaseDataSource<SearchRemote, SearchCache>() {
 
-    fun getSearchList(search: String): Single<List<YoutubeData>> {
-        val searchList = ArrayList<SearchItem>()
+    private val searchMapper = SearchMapper()
+
+    fun getSearchList(search: String): Single<List<YoutubeData>> =
+        cache.getSearchList(search).onErrorResumeNext { getSearchListRemote(search) }
+            .map { searchEntityList -> searchEntityList.map { searchMapper.mapToModel(it) } }
+
+    private fun getSearchListRemote(search: String): Single<List<SearchEntity>> {
+        val list = ArrayList<SearchItem>()
 
         return remote.getSearchList(Constants.KY_CHANNEL_ID, search).flatMap { kyChannelResponse ->
-            searchList.addAll(kyChannelResponse.filter { item -> isContains(item, "[KY 금영노래방]", "[KY ENTERTAINMENT]") })
-
+            list.addAll(kyChannelResponse.filter { item -> isContains(item, "[KY 금영노래방]", "[KY ENTERTAINMENT]") })
             remote.getSearchList(Constants.MO_CHANNEL_ID, search).flatMap { moChannelResponse ->
-                searchList.addAll(moChannelResponse)
-
+                list.addAll(moChannelResponse)
                 remote.getSearchList(Constants.ZZANG_CHANNEL_ID, search).flatMap { zzangRespnse ->
-                    searchList.addAll(zzangRespnse)
-
+                    list.addAll(zzangRespnse)
                     remote.getSearchList(Constants.LALA_CHANNEL_ID, search).flatMap { lalaResponse ->
-                        searchList.addAll(lalaResponse)
-
+                        list.addAll(lalaResponse)
                         remote.getSearchList(Constants.CHILD_CHANNEL_ID, search).flatMap { childResponse ->
-                            searchList.addAll(childResponse)
-
-                            Single.just(searchList)
+                            list.addAll(childResponse)
+                            Single.just(list)
                         }
                     }
                 }
             }
         }.map { searchItem ->
             searchItem.map {
-                YoutubeData(
-                    it.id.videoId,
-                    it.snippet.thumbnails?.getThumbnailUrl(),
-                    HtmlCompat.fromHtml(
-                        it.snippet.title.trimTitle(),
-                        HtmlCompat.FROM_HTML_MODE_COMPACT
-                    ).toString(),
-                    HtmlCompat.fromHtml(
-                        it.snippet.channelTitle,
-                        HtmlCompat.FROM_HTML_MODE_COMPACT
-                    ).toString(),
-                    YoutubeData.State.NONE
+                searchMapper.mapToEntity(
+                    YoutubeData(
+                        it.id.videoId,
+                        it.snippet.thumbnails?.getThumbnailUrl(),
+                        HtmlCompat.fromHtml(
+                            it.snippet.title.trimTitle(),
+                            HtmlCompat.FROM_HTML_MODE_COMPACT
+                        ).toString(),
+                        HtmlCompat.fromHtml(
+                            it.snippet.channelTitle,
+                            HtmlCompat.FROM_HTML_MODE_COMPACT
+                        ).toString(),
+                        YoutubeData.State.NONE,
+                        null,
+                        search
+                    )
                 )
             }
-        }
+        }.flatMap { searchList -> cache.insertSearchList(searchList).toSingleDefault(searchList) }
     }
 
     private fun isContains(searchItem: SearchItem, vararg other: String): Boolean =

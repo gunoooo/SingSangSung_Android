@@ -24,9 +24,4 @@ class AppModule {
     @Singleton
     @Provides
     fun bindAny(): Any = Any()
-
-    @Singleton
-    @Provides
-    fun bindGoogleAccountCredential(context: Context): GoogleAccountCredential =
-        GoogleAccountCredential.usingOAuth2(context, listOf<String?>(YouTubeScopes.YOUTUBE_READONLY)).setBackOff(ExponentialBackOff())
 }

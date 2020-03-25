@@ -10,7 +10,7 @@ import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.CharacterListAdapter
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.PlaylistListAdapter
-import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.RecommendListAdapter
+import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.HorizontalMusicListAdapter
 import io.reactivex.observers.DisposableSingleObserver
 
 class HomeViewModel(
@@ -29,7 +29,7 @@ class HomeViewModel(
     val recentlyList = MutableLiveData<List<YoutubeData>>()
 
     val characterListAdapter = CharacterListAdapter()
-    val recommendListAdapter = RecommendListAdapter()
+    val recommendListAdapter = HorizontalMusicListAdapter()
     val recommendPlaylistListAdapter = PlaylistListAdapter()
 
     val onClickPopularityChartEvent = SingleLiveEvent<Unit>()
@@ -42,16 +42,12 @@ class HomeViewModel(
     }
 
     fun setPlaylistList() {
-        setPopularityChart()
-        setRecentlyChart()
-        setRecommendList()
-    }
-
-    private fun setPopularityChart() {
         addDisposable(getPlaylistListUseCase.buildUseCaseObservable(GetPlaylistListUseCase.Params(Constants.POPULARITY_PLAYLIST_ID)),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     popularityList.value = t
+
+                    setRecentlyChart()
                 }
 
                 override fun onError(e: Throwable) {
@@ -65,6 +61,8 @@ class HomeViewModel(
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     recentlyList.value = t
+
+                    setRecommendList()
                 }
 
                 override fun onError(e: Throwable) {

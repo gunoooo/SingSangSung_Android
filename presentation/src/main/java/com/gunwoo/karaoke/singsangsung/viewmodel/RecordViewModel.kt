@@ -23,6 +23,8 @@ class RecordViewModel(
     val recordListAdapter = RecordListAdapter()
 
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
+    val isChronological = MutableLiveData<Boolean>(true)
+    val isEmpty = MutableLiveData<Boolean>()
     val title = MutableLiveData<String>()
     val time = MutableLiveData<String>()
     val thumbnail = MutableLiveData<String>()
@@ -36,6 +38,11 @@ class RecordViewModel(
         addDisposable(getRecordListUseCase.buildUseCaseObservable(),
             object : DisposableSingleObserver<List<Record>>() {
                 override fun onSuccess(t: List<Record>) {
+                    if (t.isEmpty()) {
+                        isEmpty.value = true
+                        return
+                    }
+                    isEmpty.value = false
                     recordList.clear()
                     recordList.addAll(t)
                     recordListAdapter.notifyDataSetChanged()
@@ -96,6 +103,24 @@ class RecordViewModel(
             viewType.value = ViewType.STOP
             stopAudio()
         }
+    }
+
+    fun onClickChronological() {
+        if (isChronological.value!!) return
+
+        recordList.reverse()
+        recordListAdapter.notifyDataSetChanged()
+
+        isChronological.value = true
+    }
+
+    fun onClickReverse() {
+        if (!isChronological.value!!) return
+
+        recordList.reverse()
+        recordListAdapter.notifyDataSetChanged()
+
+        isChronological.value = false
     }
 
     enum class ViewType {

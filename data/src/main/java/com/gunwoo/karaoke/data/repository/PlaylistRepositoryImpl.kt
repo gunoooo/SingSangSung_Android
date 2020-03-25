@@ -8,6 +8,7 @@ import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.youtuberesponse.playlist.PlaylistItem
 import com.gunwoo.karaoke.domain.repository.PlaylistRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.lang.Exception
 import javax.inject.Inject
@@ -34,6 +35,10 @@ class PlaylistRepositoryImpl @Inject constructor(
                 }
             }
         }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
+    }
+
+    override fun deleteAllPlaylist(): Completable {
+        return playlistDataSource.deleteAllPlaylist()
     }
 
     private fun getResultPlaylistsList(): List<YoutubeData> {

@@ -19,7 +19,10 @@ import com.bumptech.glide.request.transition.Transition
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.*
+import com.gunwoo.karaoke.domain.usecase.DeleteFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.InsertDownloadUseCase
+import com.gunwoo.karaoke.domain.usecase.InsertFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.InsertHidingUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
@@ -49,8 +52,8 @@ abstract class MusicViewModel(
     fun download(youtubeData: YoutubeData, context: Context) {
         val youtubeExtractor = @SuppressLint("StaticFieldLeak")
         object : YouTubeExtractor(context) {
-            override fun onExtractionComplete(ytFiles: SparseArray<YtFile>, vMeta: VideoMeta) {
-                val tag = ytFiles.keyAt(0)
+            override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
+                val tag = ytFiles?.keyAt(0) ?: return
                 val downloadUrl = ytFiles[tag].url
                 val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
                 val uri: Uri = Uri.parse(downloadUrl)

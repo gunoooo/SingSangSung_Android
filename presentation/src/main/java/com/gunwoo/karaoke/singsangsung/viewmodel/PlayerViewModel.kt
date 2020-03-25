@@ -16,6 +16,7 @@ import java.util.*
 
 class PlayerViewModel(
     private val insertRecordUseCase: InsertRecordUseCase,
+    private val insertRecentUseCase: InsertRecentUseCase,
     insertDownloadUseCase: InsertDownloadUseCase,
     insertFavoritesUseCase: InsertFavoritesUseCase,
     insertHidingUseCase: InsertHidingUseCase,
@@ -41,6 +42,17 @@ class PlayerViewModel(
             file.delete()
             file.mkdirs()
         }
+    }
+
+    fun insertRecent() {
+        addDisposable(insertRecentUseCase.buildUseCaseObservable(InsertRecentUseCase.Params(video)),
+            object : DisposableCompletableObserver() {
+                override fun onComplete() { }
+
+                override fun onError(e: Throwable) {
+                    onErrorEvent.value = e
+                }
+            })
     }
 
     fun setMusicList(youtubeDataList: List<YoutubeData>) {

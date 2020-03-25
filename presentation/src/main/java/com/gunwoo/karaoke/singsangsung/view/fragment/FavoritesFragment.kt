@@ -1,11 +1,13 @@
 package com.gunwoo.karaoke.singsangsung.view.fragment
 
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.gunwoo.karaoke.domain.model.DownloadList
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentFavoritesBinding
+import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.FavoritesViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodelfactory.FavoritesViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
@@ -22,6 +24,13 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewMo
 
     override fun observerViewModel() {
         with(mViewModel) {
+            recentListAdapter.onClickItem.observe(this@FavoritesFragment, Observer {
+                startActivity(
+                    Intent(this@FavoritesFragment.context!!.applicationContext, PlayerActivity::class.java)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO, it)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, recentList))
+            })
+
             onErrorEvent.observe(this@FavoritesFragment, Observer {
                 shortToast(it.message)
             })

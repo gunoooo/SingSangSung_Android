@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 open class PlayerViewModelFactory @Inject constructor(
     private val insertRecordUseCase: InsertRecordUseCase,
+    private val insertRecentUseCase: InsertRecentUseCase,
     private val insertDownloadUseCase: InsertDownloadUseCase,
     private val insertFavoritesUseCase: InsertFavoritesUseCase,
     private val insertHidingUseCase: InsertHidingUseCase,
@@ -15,9 +16,10 @@ open class PlayerViewModelFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         modelClass.getConstructor(
             InsertRecordUseCase::class.java,
+            InsertRecentUseCase::class.java,
             InsertDownloadUseCase::class.java,
             InsertFavoritesUseCase::class.java,
             InsertHidingUseCase::class.java,
             DeleteFavoritesUseCase::class.java
-        ).newInstance(insertRecordUseCase, insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase)
+        ).newInstance(insertRecordUseCase, insertRecentUseCase, insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase)
 }

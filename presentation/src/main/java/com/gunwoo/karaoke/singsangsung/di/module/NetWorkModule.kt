@@ -1,7 +1,6 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
 import com.gunwoo.karaoke.data.network.interceptor.ErrorResponseInterceptor
-import com.gunwoo.karaoke.data.network.interceptor.TokenInterceptor
 import com.gunwoo.karaoke.data.util.Constants
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
@@ -18,13 +17,12 @@ class NetWorkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
+    fun provideHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val errorResponseInterceptor = ErrorResponseInterceptor()
         val okhttpBuilder = OkHttpClient().newBuilder()
             .addInterceptor(interceptor)
-            .addInterceptor(tokenInterceptor)
             .addInterceptor(errorResponseInterceptor)
         return okhttpBuilder.build()
     }

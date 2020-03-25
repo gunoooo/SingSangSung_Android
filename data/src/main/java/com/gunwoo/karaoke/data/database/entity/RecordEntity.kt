@@ -10,6 +10,7 @@ data class RecordEntity(
     val time: String,
     val path: String
 ) {
+
     @PrimaryKey(autoGenerate = true)
     var idx: Int = 0
 }

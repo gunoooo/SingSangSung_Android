@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.gunwoo.karaoke.singsangsung.viewmodel.FavoritesViewModel" />
@@ -14,7 +17,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:text="@string/text_recent"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:adapter="@{viewModel.recentListAdapter}"
+                tools:listitem="@layout/item_horizontal_music" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGrey"
+            android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:padding="15dp"
             android:onClick="@{() -> viewModel.onClickDownloadList()}">
             <ImageView
@@ -68,7 +108,7 @@
             android:padding="15dp"
             android:onClick="@{() -> viewModel.onClickHidingList()}">
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="20dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"

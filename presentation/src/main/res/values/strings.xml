@@ -46,4 +46,7 @@
     <string name="menu_delete_hide">숨김 목록에서 삭제</string>
     <string name="menu_delete_download">다운로드 목록에서 삭제</string>
     <string name="menu_download">오프라인 저장</string>
+    <string name="text_recent">최근 기록</string>
+    <string name="content_chronological">시간순</string>
+    <string name="content_reverse">역시간순</string>
 </resources>

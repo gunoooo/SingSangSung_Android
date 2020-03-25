@@ -32,4 +32,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideHidingRepository(hidingRepositoryImpl: HidingRepositoryImpl): HidingRepository = hidingRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideRecentRepository(recentRepositoryImpl: RecentRepositoryImpl): RecentRepository = recentRepositoryImpl
 }

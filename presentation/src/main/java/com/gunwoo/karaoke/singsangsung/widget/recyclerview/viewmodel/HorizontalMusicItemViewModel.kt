@@ -3,10 +3,9 @@ package com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseItemViewModel
-import com.gunwoo.karaoke.singsangsung.widget.recyclerview.navigator.MusicNavigator
-import com.gunwoo.karaoke.singsangsung.widget.recyclerview.navigator.RecommendNavigator
+import com.gunwoo.karaoke.singsangsung.widget.recyclerview.navigator.HorizontalMusicNavigator
 
-class RecommendItemViewModel : BaseItemViewModel<RecommendNavigator>() {
+class HorizontalMusicItemViewModel : BaseItemViewModel<HorizontalMusicNavigator>() {
 
     private lateinit var youtubeData: YoutubeData
 

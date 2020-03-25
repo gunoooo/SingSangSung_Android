@@ -77,7 +77,6 @@ fun AppCompatActivity.checkPermission() {
         .setPermissions(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.GET_ACCOUNTS,
             Manifest.permission.RECORD_AUDIO
         )
         .check()

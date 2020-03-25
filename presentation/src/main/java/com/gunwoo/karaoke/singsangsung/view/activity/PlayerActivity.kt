@@ -150,6 +150,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
         }
         mViewModel.video = video as YoutubeData
         youtube_player_view.play(mViewModel.video.videoId!!, this)
+        mViewModel.insertRecent()
 
         val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST) ?: return
         mViewModel.setMusicList(videoList as ArrayList<YoutubeData>)

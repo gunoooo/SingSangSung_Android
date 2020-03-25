@@ -34,7 +34,7 @@ buildscript {
         materialVersion = '1.2.0-alpha04'
         navigationVersion = '2.2.1'
         recyclerViewVersion = '1.1.0'
-        roomVersion = '2.2.4'
+        roomVersion = '2.2.3'
         supportLibraryVersion = '1.1.0'
         mediaVersion = '1.1.0'
         circularimageviewVersion = '3.2.0'

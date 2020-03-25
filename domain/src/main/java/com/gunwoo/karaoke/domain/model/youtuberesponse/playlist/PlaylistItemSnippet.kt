@@ -9,6 +9,7 @@ data class PlaylistItemSnippet(
     val channelTitle: String,
     val description: String,
     val publishedAt: Date,
+    val playlistId: String,
     val resourceId: ResourceId?,
     val thumbnails: ThumbnailDetails?,
     val title: String
