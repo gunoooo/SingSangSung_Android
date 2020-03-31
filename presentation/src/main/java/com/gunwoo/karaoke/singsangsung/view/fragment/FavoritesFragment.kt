@@ -61,4 +61,9 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewMo
             })
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        mViewModel.setRecentList()
+    }
 }

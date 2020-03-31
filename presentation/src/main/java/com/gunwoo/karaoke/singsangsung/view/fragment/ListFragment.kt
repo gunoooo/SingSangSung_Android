@@ -43,7 +43,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 })
 
                 onDeleteFavoritesEvent.observe(this@ListFragment, Observer {
-                    mViewModel.deleteFavorites(it)
+                    mViewModel.deleteFavorites(it, title)
                 })
 
                 onHideEvent.observe(this@ListFragment, Observer {
@@ -88,7 +88,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
         initUI(title)
 
-        mViewModel.setData(youtubeDataList, type)
+        mViewModel.setData(youtubeDataList, type, title)
     }
 
     private fun initUI(title: String) {

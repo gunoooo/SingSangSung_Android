@@ -31,11 +31,9 @@ class FavoritesViewModel(
     val onOpenFavoritesListFragmentEvent = SingleLiveEvent<Unit>()
     val onOpenHidingListFragmentEvent = SingleLiveEvent<Unit>()
 
-    init { setRecentList() }
+    init { recentListAdapter.setYoutubeDataList(recentList) }
 
-    private fun setRecentList() {
-        recentListAdapter.setYoutubeDataList(recentList)
-
+    fun setRecentList() {
         addDisposable(getRecentListUseCase.buildUseCaseObservable(),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {

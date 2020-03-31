@@ -10,6 +10,7 @@ import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.data.util.trimTitle
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.youtuberesponse.search.SearchItem
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.lang.Exception
 import javax.inject.Inject
@@ -24,6 +25,8 @@ class SearchDataSource @Inject constructor(
     fun getSearchList(search: String): Single<List<YoutubeData>> =
         cache.getSearchList(search).onErrorResumeNext { getSearchListRemote(search) }
             .map { searchEntityList -> searchEntityList.map { searchMapper.mapToModel(it) } }
+
+    fun deleteAllPlaylist(): Completable = cache.deleteAll()
 
     private fun getSearchListRemote(search: String): Single<List<SearchEntity>> {
         val list = ArrayList<SearchItem>()

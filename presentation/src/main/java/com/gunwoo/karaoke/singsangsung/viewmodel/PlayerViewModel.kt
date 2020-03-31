@@ -5,11 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.usecase.*
-import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
-import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableSingleObserver
 import java.io.File
 import java.util.*
 

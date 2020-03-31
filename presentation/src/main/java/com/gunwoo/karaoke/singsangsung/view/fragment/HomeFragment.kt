@@ -1,6 +1,8 @@
 package com.gunwoo.karaoke.singsangsung.view.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -8,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.auth.UserRecoverableAuthException
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.R
@@ -20,7 +21,10 @@ import com.gunwoo.karaoke.singsangsung.viewmodelfactory.HomeViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
-import dagger.android.support.DaggerAppCompatActivity
+import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.ImageSliderAdapter
+import com.smarteist.autoimageslider.IndicatorAnimations
+import com.smarteist.autoimageslider.SliderAnimations
+import com.smarteist.autoimageslider.SliderView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_chart.view.*
 import javax.inject.Inject
@@ -129,8 +133,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUI()
         initAds()
-        recommend_playlist_recyclerview.layoutManager = GridLayoutManager(this.context, 2)
     }
 
     override fun onStart() {
@@ -143,5 +147,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         val adRequest: AdRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
         smallAdView.loadAd(adRequest)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initUI() {
+        recommend_playlist_recyclerview.layoutManager = GridLayoutManager(this.context, 2)
+
+        image_slider.apply {
+            setSliderAdapter(ImageSliderAdapter())
+            setIndicatorAnimation(IndicatorAnimations.WORM)
+            setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+            startAutoCycle()
+        }
     }
 }

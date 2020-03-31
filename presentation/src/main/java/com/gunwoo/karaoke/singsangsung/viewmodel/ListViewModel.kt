@@ -17,14 +17,16 @@ class ListViewModel(
 ) : MusicViewModel(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase) {
 
     lateinit var type: String
+    lateinit var title: String
 
     val thumbnail = MutableLiveData<String>()
     val description = MutableLiveData<String>()
 
     val onSuccessDeleteHidingEvent = SingleLiveEvent<Unit>()
 
-    fun setData(youtubeDataList: YoutubeDataList, type: String) {
+    fun setData(youtubeDataList: YoutubeDataList, type: String, title: String) {
         this.type = type
+        this.title = title
         thumbnail.value = youtubeDataList[0].thumbnailUrl
         description.value = "총 ${youtubeDataList.size}곡  |  $type"
         this.youtubeDataList.clear()

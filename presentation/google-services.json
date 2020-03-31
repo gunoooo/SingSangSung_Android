@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "227175043736",
+    "firebase_url": "https://singsangsung.firebaseio.com",
+    "project_id": "singsangsung",
+    "storage_bucket": "singsangsung.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227175043736:android:9cbd06bdb739f0c17676ed",
+        "android_client_info": {
+          "package_name": "com.gunwoo.karaoke.singsangsung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227175043736-8gplo8b55iaf5luuovom26sr7cj7mgss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5L7cUOKHtmaFWBtU0bAKboPIu0KQXbLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227175043736-8gplo8b55iaf5luuovom26sr7cj7mgss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

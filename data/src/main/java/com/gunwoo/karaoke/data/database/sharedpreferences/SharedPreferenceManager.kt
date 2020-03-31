@@ -2,22 +2,20 @@ package com.gunwoo.karaoke.data.database.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.gunwoo.karaoke.data.util.dateFormat
+import java.util.*
 
 
 object SharedPreferenceManager {
 
-    private const val PREF_ACCOUNT_NAME = "account"
+    private const val PREF_UPDATE_DATE = "update"
 
-    fun insertAccountName(context: Context, accountName: String) {
-        getDefaultSharedPreferences(context).edit().putString(PREF_ACCOUNT_NAME, accountName).apply()
+    fun insertUpdateDate(context: Context, updateDate: String) {
+        getDefaultSharedPreferences(context).edit().putString(PREF_UPDATE_DATE, updateDate).apply()
     }
 
-    fun deleteAccountName(context: Context) {
-        getDefaultSharedPreferences(context).edit().remove(PREF_ACCOUNT_NAME).apply()
-    }
-
-    fun getAccountName(context: Context): String? {
-        return getDefaultSharedPreferences(context).getString(PREF_ACCOUNT_NAME, null)
+    fun getUpdateDate(context: Context): String? {
+        return getDefaultSharedPreferences(context).getString(PREF_UPDATE_DATE, Date().dateFormat())
     }
 
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {

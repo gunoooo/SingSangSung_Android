@@ -17,21 +17,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="?actionBarSize" >
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="end"
-                android:tint="@color/colorGrey"
-                android:src="@drawable/ic_settings" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_logo"/>
+
+                <TextView
+                    android:id="@+id/text_update_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp"
+                    android:text="@string/text_app_name" />
+
+                <TextView
+                    android:id="@+id/text_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:text="@string/text_app_name_sub" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorGrey"
+                    android:src="@drawable/ic_question" />
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorGrey"
+                    android:src="@drawable/ic_settings" />
+            </LinearLayout>
+
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/image_slider"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="15dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleEnabled="true"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="end|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="@color/colorWhite"
+                app:sliderIndicatorUnselectedColor="@color/colorGrey"
+                app:sliderScrollTimeInSec="7"
+                app:sliderStartAutoCycle="true" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1.5dp" >
+                android:layout_marginTop="5dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp" >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -72,14 +139,6 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:textSize="11sp"
-                            android:text="@string/text_update_popularity_chart" />
                     </LinearLayout>
 
                     <include
@@ -91,9 +150,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1.5dp" >
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp" >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -134,14 +193,6 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:textSize="11sp"
-                            android:text="@string/text_update_popularity_chart" />
                     </LinearLayout>
 
                     <include
@@ -149,35 +200,6 @@
                         layout="@layout/item_chart" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:fontFamily="@font/nanum_square_round"
-                        android:text="@string/text_recommend"/>
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:adapter="@{viewModel.recommendListAdapter}"
-                    tools:listitem="@layout/item_horizontal_music" />
-            </LinearLayout>
 
             <com.google.android.gms.ads.AdView
                 xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -209,7 +231,36 @@
                         android:textSize="16sp"
                         android:textColor="@color/colorPrimaryDark"
                         android:fontFamily="@font/nanum_square_round"
-                        android:text="@string/text_genre"/>
+                        android:text="@string/text_recommend"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:adapter="@{viewModel.recommendListAdapter}"
+                    tools:listitem="@layout/item_horizontal_music" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="@string/text_recommend_theme"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

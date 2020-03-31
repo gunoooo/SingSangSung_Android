@@ -14,6 +14,6 @@ interface SearchDao : BaseDao<SearchEntity> {
     @Query("SELECT * FROM search_table WHERE search=:search")
     fun getSearchList(search: String): Single<List<SearchEntity>>
 
-    @Query("DELETE FROM playlist_table")
+    @Query("DELETE FROM search_table")
     fun deleteAll(): Completable
 }

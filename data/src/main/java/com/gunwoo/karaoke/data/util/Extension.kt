@@ -1,5 +1,8 @@
 package com.gunwoo.karaoke.data.util
 
+import java.text.SimpleDateFormat
+import java.util.*
+
 fun String.trimTitle(): String {
     return this
         .replace("[KY ENTERTAINMENT]", "")
@@ -20,4 +23,10 @@ fun String.trimTitle(): String {
         .replace("/ Karaoke 싱잇 노래방", "")
         .replace("KPOP Karaoke", "")
         .trim()
+}
+
+fun Date.dateFormat(): String {
+    val format = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+
+    return format.format(this)
 }

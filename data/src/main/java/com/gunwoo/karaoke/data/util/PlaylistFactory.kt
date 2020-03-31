@@ -60,28 +60,28 @@ object PlaylistFactory {
             add(
                 Playlist(
                     "고등래퍼 1",
-                    R.drawable.thumbnail_highschool_rapper_1,
+                    R.drawable.thumbnail_default_1,
                     ""
                 )
             )
             add(
                 Playlist(
                     "고등래퍼 2",
-                    R.drawable.thumbnail_highschool_rapper_2,
+                    R.drawable.thumbnail_default_2,
                     ""
                 )
             )
             add(
                 Playlist(
                     "고등래퍼 3",
-                    R.drawable.thumbnail_highschool_rapper_3,
+                    R.drawable.thumbnail_default_3,
                     ""
                 )
             )
             add(
                 Playlist(
                     "미스터트롯",
-                    R.drawable.thumbnail_mr_trot,
+                    R.drawable.thumbnail_default_4,
                     ""
                 )
             )
@@ -130,21 +130,21 @@ object PlaylistFactory {
             add(
                 Playlist(
                     "고등래퍼 3",
-                    R.drawable.thumbnail_highschool_rapper_3,
+                    R.drawable.thumbnail_default_3,
                     ""
                 )
             )
             add(
                 Playlist(
                     "KPOP/댄스",
-                    R.drawable.thumbnail_hiphop,
+                    R.drawable.thumbnail_kpop,
                     ""
                 )
             )
             add(
                 Playlist(
-                    "미스터트롯",
-                    R.drawable.thumbnail_mr_trot,
+                    "발라드",
+                    R.drawable.thumbnail_ballade,
                     ""
                 )
             )

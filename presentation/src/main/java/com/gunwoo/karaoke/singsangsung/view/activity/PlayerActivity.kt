@@ -1,15 +1,25 @@
 package com.gunwoo.karaoke.singsangsung.view.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
+import android.util.SparseArray
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.MediaController
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
+import at.huber.youtubeExtractor.VideoMeta
+import at.huber.youtubeExtractor.YouTubeExtractor
+import at.huber.youtubeExtractor.YtFile
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.gunwoo.karaoke.domain.model.YoutubeData
@@ -18,6 +28,7 @@ import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityPlayerBinding
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodelfactory.PlayerViewModelFactory
+import com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
 import com.gunwoo.karaoke.singsangsung.widget.extension.*
 import kotlinx.android.synthetic.main.activity_player.*
 import kr.co.prnd.YouTubePlayerView
@@ -98,7 +109,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
                 })
 
                 onDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
-                    mViewModel.deleteFavorites(it)
+                    mViewModel.deleteFavorites(it, null)
                 })
 
                 onHideEvent.observe(this@PlayerActivity, Observer {
@@ -149,11 +160,61 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>(),
             return
         }
         mViewModel.video = video as YoutubeData
-        youtube_player_view.play(mViewModel.video.videoId!!, this)
+        initVideo()
         mViewModel.insertRecent()
 
         val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST) ?: return
         mViewModel.setMusicList(videoList as ArrayList<YoutubeData>)
+    }
+
+    private fun initVideo() {
+        val youtubeExtractor =
+            @SuppressLint("StaticFieldLeak")
+            object : YouTubeExtractor(this) {
+                override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
+                    val tag = ytFiles?.keyAt(0) ?: return
+                    val url = ytFiles[tag].url
+                    initVideoView(url)
+                }
+            }
+
+        youtubeExtractor.extract("http://youtube.com/watch?v=${mViewModel.video.videoId}", true, false)
+    }
+
+    private fun initVideoView(videoUrl: String) {
+        video_view.setVideoPath(videoUrl)
+
+        val controller = MediaController(this)
+        controller.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM)
+        (controller.parent as ViewGroup).removeView(controller)
+        controller.visibility = View.INVISIBLE
+        video_frame_layout.addView(controller)
+
+        video_view.setMediaController(controller)
+        controller.setAnchorView(video_view)
+        video_view.start()
+
+        video_view.setOnClickListener {
+            if (controller.visibility == View.VISIBLE)
+                controller.visibility = View.INVISIBLE
+            else
+                controller.visibility = View.VISIBLE
+        }
+
+        video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
+            override fun onPlay() {
+                setMusicGif(music_sound)
+            }
+
+            override fun onPause() {
+                music_sound.setImageDrawable(null)
+            }
+        })
+
+        video_view.setOnCompletionListener {
+            music_sound.setImageDrawable(null)
+            stop()
+        }
     }
 
     private fun stop() {

@@ -49,4 +49,6 @@
     <string name="text_recent">최근 기록</string>
     <string name="content_chronological">시간순</string>
     <string name="content_reverse">역시간순</string>
+    <string name="text_app_name">SSS</string>
+    <string name="text_app_name_sub">ng</string>
 </resources>

@@ -7,6 +7,7 @@ import com.gunwoo.karaoke.data.datasource.SearchDataSource
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.SearchRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -32,6 +33,10 @@ class SearchRepositoryImpl @Inject constructor(
                 }
             }
         }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
+    }
+
+    override fun deleteAllSearch(): Completable {
+        return searchDataSource.deleteAllPlaylist()
     }
 
     private fun getResultSearchList(): List<YoutubeData> {
