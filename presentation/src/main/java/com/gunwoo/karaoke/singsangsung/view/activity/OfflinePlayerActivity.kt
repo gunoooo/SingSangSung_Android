@@ -1,6 +1,7 @@
 package com.gunwoo.karaoke.singsangsung.view.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -22,7 +23,7 @@ import com.gunwoo.karaoke.singsangsung.databinding.ActivityOfflinePlayerBinding
 import com.gunwoo.karaoke.singsangsung.viewmodel.OfflinePlayerViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodelfactory.OfflinePlayerViewModelFactory
-import com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
+import com.gunwoo.karaoke.singsangsung.widget.TempSingSangSungVideoView
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
 import com.gunwoo.karaoke.singsangsung.widget.extension.setImageTint
@@ -146,7 +147,7 @@ class OfflinePlayerActivity : BaseActivity<ActivityOfflinePlayerBinding, Offline
                 controller.visibility = View.VISIBLE
         }
 
-        video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
+        video_view.setPlayPauseListener(object : TempSingSangSungVideoView.PlayPauseListener {
             override fun onPlay() {
                 setMusicGif(music_sound)
             }
@@ -178,6 +179,7 @@ class OfflinePlayerActivity : BaseActivity<ActivityOfflinePlayerBinding, Offline
         super.finish()
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 

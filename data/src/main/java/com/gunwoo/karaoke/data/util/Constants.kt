@@ -14,7 +14,7 @@ object Constants {
     const val SERVER_ERROR_MESSAGE = "이용에 불편을 드려 대단히 죄송합니다\n추후에 다시 시도해주세요"
 
     const val KY_CHANNEL_ID = "UCDqaUIUSJP5EVMEI178Zfag"
-    const val MAGIC_GHANNEL_ID = "UCFumn6op29lOyzUU85bpQ2Q"
+    const val MAGIC_CHANNEL_ID = "UCFumn6op29lOyzUU85bpQ2Q"
     const val MO_CHANNEL_ID = "UCu6lq1dzsQNoJ4M5ZY8Ozkw"
     const val ZZANG_CHANNEL_ID = "UCzv4mCu3YS_9WjAWSt9Xg9Q"
     const val LALA_CHANNEL_ID = "UCz9GBSHaCF4omH_7LdP5_CA"

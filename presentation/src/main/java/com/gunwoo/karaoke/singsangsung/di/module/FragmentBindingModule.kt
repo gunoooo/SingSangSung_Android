@@ -35,4 +35,12 @@ abstract class FragmentBindingModule {
     @PerFragment
     @ContributesAndroidInjector
     abstract fun bindingOfflineListFragment(): OfflineListFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingPlayerPlaylistFragment(): PlayerPlaylistFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingPlayerControllerFragment(): PlayerControllerFragment
 }

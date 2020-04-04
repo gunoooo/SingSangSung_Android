@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
+            <com.gunwoo.karaoke.singsangsung.widget.TempSingSangSungVideoView
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

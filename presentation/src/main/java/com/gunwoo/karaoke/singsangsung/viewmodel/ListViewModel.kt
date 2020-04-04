@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.domain.usecase.*
+import com.gunwoo.karaoke.singsangsung.base.viewmodel.BasePlaylistViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import io.reactivex.observers.DisposableCompletableObserver
 
@@ -14,7 +15,7 @@ class ListViewModel(
     insertHidingUseCase: InsertHidingUseCase,
     deleteFavoritesUseCase: DeleteFavoritesUseCase,
     private val deleteHidingUseCase: DeleteHidingUseCase
-) : MusicViewModel(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase) {
+) : BasePlaylistViewModel(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase) {
 
     lateinit var type: String
     lateinit var title: String

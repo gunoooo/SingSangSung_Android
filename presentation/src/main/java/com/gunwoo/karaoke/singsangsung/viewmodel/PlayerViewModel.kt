@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.usecase.*
+import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
+import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
 import io.reactivex.observers.DisposableCompletableObserver
 import java.io.File
 import java.util.*
@@ -13,13 +15,10 @@ import java.util.*
 
 class PlayerViewModel(
     private val insertRecordUseCase: InsertRecordUseCase,
-    private val insertRecentUseCase: InsertRecentUseCase,
-    insertDownloadUseCase: InsertDownloadUseCase,
-    insertFavoritesUseCase: InsertFavoritesUseCase,
-    insertHidingUseCase: InsertHidingUseCase,
-    deleteFavoritesUseCase: DeleteFavoritesUseCase
-) : MusicViewModel(insertDownloadUseCase, insertFavoritesUseCase, insertHidingUseCase, deleteFavoritesUseCase) {
+    private val insertRecentUseCase: InsertRecentUseCase
+) : BaseViewModel() {
 
+    lateinit var playerViewPagerAdapter: PlayerViewPagerAdapter
     lateinit var video: YoutubeData
 
     private var recorder: MediaRecorder? = null
@@ -50,12 +49,6 @@ class PlayerViewModel(
                     onErrorEvent.value = e
                 }
             })
-    }
-
-    fun setMusicList(youtubeDataList: List<YoutubeData>) {
-        this.youtubeDataList.clear()
-        this.youtubeDataList.addAll(youtubeDataList)
-        musicListAdapter.notifyDataSetChanged()
     }
 
     private fun startRecord() {

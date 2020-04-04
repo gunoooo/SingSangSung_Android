@@ -1,4 +1,4 @@
-package com.gunwoo.karaoke.singsangsung.viewmodel
+package com.gunwoo.karaoke.singsangsung.base.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
@@ -23,8 +23,6 @@ import com.gunwoo.karaoke.domain.usecase.DeleteFavoritesUseCase
 import com.gunwoo.karaoke.domain.usecase.InsertDownloadUseCase
 import com.gunwoo.karaoke.domain.usecase.InsertFavoritesUseCase
 import com.gunwoo.karaoke.domain.usecase.InsertHidingUseCase
-import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
-import com.gunwoo.karaoke.singsangsung.view.fragment.ListFragment
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
 import io.reactivex.observers.DisposableCompletableObserver
@@ -32,7 +30,7 @@ import java.io.*
 import java.nio.channels.FileChannel
 import java.util.*
 
-abstract class MusicViewModel(
+abstract class BasePlaylistViewModel(
     private val insertDownloadUseCase: InsertDownloadUseCase,
     private val insertFavoritesUseCase: InsertFavoritesUseCase,
     private val insertHidingUseCase: InsertHidingUseCase,
