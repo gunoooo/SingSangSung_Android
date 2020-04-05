@@ -14,4 +14,6 @@ interface MusicNavigator {
     fun hide(youtubeData: YoutubeData)
 
     fun deleteHiding(youtubeData: YoutubeData)
+
+    fun deleteDownload(youtubeData: YoutubeData)
 }

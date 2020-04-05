@@ -17,4 +17,6 @@ class DownloadCache @Inject constructor(application: Application) : BaseCache(ap
     fun insertDownload(downloadEntity: DownloadEntity): Completable = downloadDao.insert(downloadEntity)
 
     fun deleteDownload(downloadEntity: DownloadEntity): Completable = downloadDao.delete(downloadEntity)
+
+    fun deleteDownload(videoId: String): Completable = downloadDao.delete(videoId)
 }

@@ -3,6 +3,7 @@ package com.gunwoo.karaoke.singsangsung.widget
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.SurfaceHolder
@@ -11,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -33,6 +33,7 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
     private var backListener: BackListener? = null
     private var playPauseListener: PlayPauseListener? = null
     private var pitchSpeedListener: PitchSpeedListener? = null
+    private var jumpListener: JumpListener? = null
 
     private var player: MediaPlayer? = null
     private var videoPath: String? = null
@@ -51,8 +52,7 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
     }
 
     interface MoreListener {
-        fun moreOn()
-        fun moreOff()
+        fun onClickMore()
     }
 
     interface BackListener {
@@ -67,6 +67,10 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
     interface PitchSpeedListener {
         fun onChangedPitch(pitchCount: Int)
         fun onChangedTempo(speedCount: Int)
+    }
+    
+    interface JumpListener {
+        fun onSetJumpSpot(jumpSpot: Int)
     }
 
     private enum class ViewType {
@@ -104,6 +108,10 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
         pitchSpeedListener = listener
     }
 
+    fun setJumpListener(listener: JumpListener) {
+        jumpListener = listener
+    }
+
     constructor(context: Context) : super(context) {
         init(context, null, null)
     }
@@ -129,6 +137,7 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
         addView(view)
 
         surface_view.holder.addCallback(this)
+        surface_view.holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
     }
 
     private fun setFrameVisibility(visibility: Int) {
@@ -151,7 +160,9 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
         cover.visibility = visibility
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) { }
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+        player?.setDisplay(holder)
+    }
 
     override fun surfaceCreated(holder: SurfaceHolder) { this.holder = holder }
 
@@ -187,6 +198,10 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
                 backListener?.finish()
             }
             isFullscreen = !isFullscreen
+        }
+
+        more_btn.setOnClickListener {
+            moreListener?.onClickMore()
         }
 
         fullscreen_btn.setOnClickListener {
@@ -227,14 +242,23 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
 
         Timer().scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                video_seekbar.progress = player?.currentPosition ?: return
+                try {
+                    video_seekbar.progress = player?.currentPosition ?: return
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
             }
         }, 0, 1000)
 
         video_seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    player?.seekTo(progress)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        player?.seekTo(progress.toLong(), MediaPlayer.SEEK_CLOSEST)
+                    }
+                    else {
+                        player?.seekTo(progress)
+                    }
                     video_seekbar.progress = progress
                 }
             }
@@ -295,7 +319,6 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
         player?.stop()
         player?.release()
         player = null
-        playPauseListener?.pause()
     }
 
     private var pitch = 1.0f
@@ -345,6 +368,28 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
             speedCount--
             player?.playbackParams = player?.playbackParams?.setSpeed(speed)!!
             pitchSpeedListener?.onChangedTempo(speedCount)
+        }
+    }
+
+    private var jumpSpot: Int = 0
+
+    fun setJumpSpot(jumpSpot: Int) {
+        this.jumpSpot = jumpSpot
+        jumpListener?.onSetJumpSpot(jumpSpot)
+    }
+
+    fun setJumpSpot() {
+        jumpSpot = player?.currentPosition ?: return
+        jumpListener?.onSetJumpSpot(jumpSpot)
+    }
+
+    fun jump() {
+        video_seekbar.progress = jumpSpot
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            player?.seekTo(jumpSpot.toLong(), MediaPlayer.SEEK_CLOSEST)
+        }
+        else {
+            player?.seekTo(jumpSpot)
         }
     }
 }

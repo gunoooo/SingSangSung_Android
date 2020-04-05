@@ -1,6 +1,5 @@
 package com.gunwoo.karaoke.singsangsung.base
 
-import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
@@ -9,8 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.gunwoo.karaoke.singsangsung.BR
 import com.gunwoo.karaoke.singsangsung.R
-import dagger.android.support.DaggerAppCompatActivity
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
+import dagger.android.support.DaggerAppCompatActivity
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.*

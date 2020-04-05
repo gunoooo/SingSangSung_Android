@@ -54,20 +54,22 @@ class SearchRepositoryImpl @Inject constructor(
                 list.add(searchItem)
         }
 
-        list.forEach { playlistItem ->
+        @Suppress("LABEL_NAME_CLASH")
+        list.forEach { searchItem ->
             favoritesList.forEach { favorites ->
-                @Suppress("LABEL_NAME_CLASH")
-                if (playlistItem.videoId == favorites.videoId) {
-                    playlistItem.state = YoutubeData.State.FAVORITES
+                if (searchItem.videoId == favorites.videoId) {
+                    searchItem.state = YoutubeData.State.FAVORITES
+                    return@forEach
+                }
+            }
 
-                    downloadList.forEach { download ->
-                        if (favorites.videoId == download.videoId) {
-                            playlistItem.state = YoutubeData.State.FAVORITES_AND_DOWNLOAD
-
-                            return@forEach
-                        }
-                    }
-
+            downloadList.forEach { download ->
+                if (searchItem.videoId == download.videoId) {
+                    searchItem.state =
+                        if (searchItem.state == YoutubeData.State.FAVORITES)
+                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
+                        else
+                            YoutubeData.State.DOWNLOAD
                     return@forEach
                 }
             }

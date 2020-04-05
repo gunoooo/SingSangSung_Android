@@ -54,20 +54,22 @@ class RecentRepositoryImpl @Inject constructor(
                 list.add(recent)
         }
 
+        @Suppress("LABEL_NAME_CLASH")
         list.forEach { recent ->
             favoritesList.forEach { favorites ->
-                @Suppress("LABEL_NAME_CLASH")
                 if (recent.videoId == favorites.videoId) {
                     recent.state = YoutubeData.State.FAVORITES
+                    return@forEach
+                }
+            }
 
-                    downloadList.forEach { download ->
-                        if (favorites.videoId == download.videoId) {
-                            recent.state = YoutubeData.State.FAVORITES_AND_DOWNLOAD
-
-                            return@forEach
-                        }
-                    }
-
+            downloadList.forEach { download ->
+                if (recent.videoId == download.videoId) {
+                    recent.state =
+                        if (recent.state == YoutubeData.State.FAVORITES)
+                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
+                        else
+                            YoutubeData.State.DOWNLOAD
                     return@forEach
                 }
             }

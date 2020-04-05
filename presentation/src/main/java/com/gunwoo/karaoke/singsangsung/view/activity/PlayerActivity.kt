@@ -24,13 +24,11 @@ import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityPlayerBinding
+import com.gunwoo.karaoke.singsangsung.view.dialog.PlayerBottomSheetDialog
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerViewModel
 import com.gunwoo.karaoke.singsangsung.viewmodelfactory.PlayerViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
-import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
-import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
-import com.gunwoo.karaoke.singsangsung.widget.extension.setImageTint
-import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
+import com.gunwoo.karaoke.singsangsung.widget.extension.*
 import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.fragment_player_controller.*
@@ -81,6 +79,30 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
             onStoppedRecording.observe(this@PlayerActivity, Observer { shortToast(R.string.message_stopped_recoding) })
 
+            onSuccessDownloadEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_download_complete)
+            })
+
+            onSuccessAddFavoritesEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_add_favorites_complete)
+            })
+
+            onSuccessDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_delete_favorites_complete)
+            })
+
+            onSuccessHideEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_hide_complete)
+            })
+
+            onSuccessDeleteDownloadEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_delete_download_complete)
+            })
+
+            onSuccessHideEvent.observe(this@PlayerActivity, Observer {
+                shortToast(R.string.message_hide_complete)
+            })
+
             onErrorEvent.observe(this@PlayerActivity, Observer {
                 shortToast(it.message)
             })
@@ -91,42 +113,13 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
         super.onCreate(savedInstanceState)
 
         if (!checkPermission()) mViewModel.viewType.value = PlayerViewModel.ViewType.PERMISSION
-        initViewPager()
         initIntent()
+        initViewPager()
     }
 
     private fun checkPermission() = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
     private fun setMusicGif(view: ImageView) { view.putImage(R.drawable.music) }
-
-    private val tabTitles = listOf("설정", "재생목록")
-
-    private fun initViewPager() {
-        mViewModel.playerViewPagerAdapter = PlayerViewPagerAdapter(this)
-        view_pager.adapter = mViewModel.playerViewPagerAdapter
-        TabLayoutMediator(tab_layout, view_pager) { tab, position ->
-            tab.text = tabTitles[position]
-            view_pager.setCurrentItem(tab.position, true)
-        }.attach()
-
-        with(mViewModel.playerViewPagerAdapter.playerControllerFragment) {
-            onPitchUpEvent.observe(this, Observer {
-                this@PlayerActivity.video_view.pitchUp()
-            })
-
-            onPitchDownEvent.observe(this, Observer {
-                this@PlayerActivity.video_view.pitchDown()
-            })
-
-            onTempoUpEvent.observe(this, Observer {
-                this@PlayerActivity.video_view.tempoUp()
-            })
-
-            onTempoDownEvent.observe(this, Observer {
-                this@PlayerActivity.video_view.tempoDown()
-            })
-        }
-    }
 
     @Suppress("UNCHECKED_CAST")
     private fun initIntent() {
@@ -139,8 +132,74 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
         initVideo()
         mViewModel.insertRecent()
 
-        val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST) ?: return
-        mViewModel.playerViewPagerAdapter.playerPlaylistFragment.youtubeDataList = videoList as ArrayList<YoutubeData>
+        val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST)
+        if (videoList == null) {
+            finish()
+            return
+        }
+        mViewModel.videoList = videoList as ArrayList<YoutubeData>
+    }
+
+    private val tabTitles = listOf("재생목록", "설정")
+
+    private fun initViewPager() {
+        val playerViewPagerAdapter = PlayerViewPagerAdapter(this)
+        playerViewPagerAdapter.playerPlaylistFragment.youtubeDataList = mViewModel.videoList
+        view_pager.adapter = playerViewPagerAdapter
+        TabLayoutMediator(tab_layout, view_pager) { tab, position ->
+            tab.text = tabTitles[position]
+            view_pager.setCurrentItem(tab.position, true)
+        }.attach()
+
+        with(playerViewPagerAdapter) {
+            with(playerPlaylistFragment) {
+                onDownloadEvent.observe(this, Observer {
+                    mViewModel.download(it)
+                })
+
+                onAddFavoritesEvent.observe(this, Observer {
+                    mViewModel.addFavorites(it)
+                })
+
+                onDeleteFavoritesEvent.observe(this, Observer {
+                    mViewModel.deleteFavorites(it)
+                })
+
+                onDeleteDownloadEvent.observe(this, Observer {
+                    mViewModel.deleteDownload(it)
+                })
+
+                onHideEvent.observe(this, Observer {
+                    mViewModel.hide(it)
+                })
+            }
+
+            with(playerControllerFragment) {
+                onPitchUpEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.pitchUp()
+                })
+
+                onPitchDownEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.pitchDown()
+                })
+
+                onTempoUpEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.tempoUp()
+                })
+
+                onTempoDownEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.tempoDown()
+                })
+
+                onClickSetJumpSpotEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.setJumpSpot()
+                })
+
+                onClickJumpEvent.observe(this, Observer {
+                    this@PlayerActivity.video_view.jump()
+                })
+            }
+        }
     }
 
     private fun initVideo() {
@@ -181,6 +240,51 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                         }
                     })
 
+                    video_view.setMoreListener(object : SingSangSungVideoView.MoreListener {
+                        override fun onClickMore() {
+                            val playerBottomSheetDialog = PlayerBottomSheetDialog(mViewModel.video)
+                            playerBottomSheetDialog.show(supportFragmentManager)
+
+                            with(playerBottomSheetDialog) {
+                                onClickAddFavoritesEvent.observe(this@PlayerActivity, Observer {
+                                    mViewModel.addFavorites()
+                                    mViewModel.video.state =
+                                        if (mViewModel.video.state == YoutubeData.State.DOWNLOAD)
+                                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
+                                        else
+                                            YoutubeData.State.FAVORITES
+                                })
+
+                                onClickDownloadEvent.observe(this@PlayerActivity, Observer {
+                                    mViewModel.download()
+                                    mViewModel.video.state =
+                                        if (mViewModel.video.state == YoutubeData.State.FAVORITES)
+                                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
+                                        else
+                                            YoutubeData.State.DOWNLOAD
+                                })
+
+                                onClickDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
+                                    mViewModel.deleteFavorites()
+                                    mViewModel.video.state =
+                                        if (mViewModel.video.state == YoutubeData.State.FAVORITES)
+                                            YoutubeData.State.NONE
+                                        else
+                                            YoutubeData.State.DOWNLOAD
+                                })
+
+                                onClickDeleteDownloadEvent.observe(this@PlayerActivity, Observer {
+                                    mViewModel.deleteDownload()
+                                    mViewModel.video.state =
+                                        if (mViewModel.video.state == YoutubeData.State.DOWNLOAD)
+                                            YoutubeData.State.NONE
+                                        else
+                                            YoutubeData.State.FAVORITES
+                                })
+                            }
+                        }
+                    })
+
                     video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
                         override fun play() {
                             setMusicGif(music_sound)
@@ -198,6 +302,12 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
                         override fun onChangedTempo(speedCount: Int) {
                             text_tempo.text = "템포 $speedCount"
+                        }
+                    })
+
+                    video_view.setJumpListener(object : SingSangSungVideoView.JumpListener {
+                        override fun onSetJumpSpot(jumpSpot: Int) {
+                            mViewModel.playerViewPagerAdapter.playerControllerFragment.setJumpSpot(jumpSpot.millisecondsToMinutes())
                         }
                     })
 

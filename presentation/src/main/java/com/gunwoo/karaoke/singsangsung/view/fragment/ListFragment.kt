@@ -35,7 +35,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 })
 
                 onDownloadEvent.observe(this@ListFragment, Observer {
-                    mViewModel.download(it, this@ListFragment.context!!.applicationContext)
+                    mViewModel.download(it)
                 })
 
                 onAddFavoritesEvent.observe(this@ListFragment, Observer {
@@ -43,7 +43,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 })
 
                 onDeleteFavoritesEvent.observe(this@ListFragment, Observer {
-                    mViewModel.deleteFavorites(it, title)
+                    mViewModel.deleteFavorites(it)
                 })
 
                 onHideEvent.observe(this@ListFragment, Observer {
@@ -52,6 +52,10 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
                 onDeleteHidingEvent.observe(this@ListFragment, Observer {
                     mViewModel.deleteHiding(it)
+                })
+
+                onDeleteDownloadEvent.observe(this@ListFragment, Observer {
+                    mViewModel.deleteDownload(it)
                 })
             }
 
@@ -64,6 +68,8 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
             })
 
             onSuccessDeleteFavoritesEvent.observe(this@ListFragment, Observer {
+                thumbnail.value = youtubeDataList[0].thumbnailUrl
+                description.value = "총 ${youtubeDataList.size}곡  |  $type"
                 shortToast(R.string.message_delete_favorites_complete)
             })
 
@@ -73,7 +79,15 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 shortToast(R.string.message_hide_complete)
             })
 
+            onSuccessDeleteDownloadEvent.observe(this@ListFragment, Observer {
+                thumbnail.value = youtubeDataList[0].thumbnailUrl
+                description.value = "총 ${youtubeDataList.size}곡  |  $type"
+                shortToast(R.string.message_delete_download_complete)
+            })
+
             onSuccessDeleteHidingEvent.observe(this@ListFragment, Observer {
+                thumbnail.value = youtubeDataList[0].thumbnailUrl
+                description.value = "총 ${youtubeDataList.size}곡  |  $type"
                 shortToast(R.string.message_show_complete)
             })
         }

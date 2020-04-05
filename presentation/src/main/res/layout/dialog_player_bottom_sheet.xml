@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="15dp"
+            android:layout_marginStart="20dp"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/thumbnail" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            tools:text="흔들리는 꽃들 속에서 니 샴푸향이 느껴진거야" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLightGrey" />
+
+    <LinearLayout
+        android:id="@+id/download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_file_download"
+            android:tint="@color/colorGrey" />
+
+        <TextView
+            android:id="@+id/download_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorGrey"
+            tools:text="오프라인 저장" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/favorites_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_star"
+            android:tint="@color/colorGrey" />
+
+        <TextView
+            android:id="@+id/favorites_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorGrey"
+            tools:text="즐겨찾기 목록에 추가" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+</LinearLayout>

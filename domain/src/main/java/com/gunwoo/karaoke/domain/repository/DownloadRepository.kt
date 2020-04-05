@@ -11,4 +11,6 @@ interface DownloadRepository {
     fun insertDownload(download: Download): Completable
 
     fun deleteDownload(download: Download): Completable
+
+    fun deleteDownload(videoId: String): Completable
 }

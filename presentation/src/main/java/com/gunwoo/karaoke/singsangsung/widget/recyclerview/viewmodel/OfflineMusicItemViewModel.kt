@@ -30,7 +30,7 @@ class OfflineMusicItemViewModel : BaseItemViewModel<OfflineMusicNavigator>() {
         val menuButton = view as LinearLayout
 
         val popup = PopupMenu(view.context, menuButton)
-        popup.inflate(R.menu.menu_download_music_item)
+        popup.inflate(R.menu.menu_download)
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {

@@ -25,4 +25,6 @@ class DownloadDataSource @Inject constructor(
     fun insertDownload(download: Download): Completable = cache.insertDownload(downloadMapper.mapToEntity(download))
 
     fun deleteDownload(download: Download): Completable = cache.deleteDownload(downloadMapper.mapToEntity(download))
+
+    fun deleteDownload(videoId: String): Completable = cache.deleteDownload(videoId)
 }

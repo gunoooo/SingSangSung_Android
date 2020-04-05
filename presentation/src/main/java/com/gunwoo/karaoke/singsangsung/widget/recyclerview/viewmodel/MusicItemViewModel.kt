@@ -23,7 +23,10 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
         title.value = youtubeData.videoTitle
     }
 
-    fun onClickItem() { getNavigator().onClickItem(youtubeData) }
+    fun onClickItem() {
+        if (youtubeData.state != YoutubeData.State.HIDING)
+            getNavigator().onClickItem(youtubeData)
+    }
 
     fun onClickMenu(view: View) {
         val menuButton = view as LinearLayout
@@ -33,6 +36,7 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
             YoutubeData.State.NONE -> popup.inflate(R.menu.menu_music_item)
             YoutubeData.State.FAVORITES -> popup.inflate(R.menu.menu_favorites_music_item)
             YoutubeData.State.HIDING -> popup.inflate(R.menu.menu_hiding_music_item)
+            YoutubeData.State.DOWNLOAD -> popup.inflate(R.menu.menu_download_music_item)
             else -> popup.inflate(R.menu.menu_download_favorites_music_item)
         }
 
@@ -56,6 +60,10 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
                 }
                 R.id.menu_delete_hiding -> {
                     getNavigator().deleteHiding(youtubeData)
+                    true
+                }
+                R.id.menu_delete_download -> {
+                    getNavigator().deleteDownload(youtubeData)
                     true
                 }
                 else -> false

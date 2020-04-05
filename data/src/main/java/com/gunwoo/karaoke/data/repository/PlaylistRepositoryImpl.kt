@@ -56,20 +56,22 @@ class PlaylistRepositoryImpl @Inject constructor(
                 list.add(playlistItem)
         }
 
+        @Suppress("LABEL_NAME_CLASH")
         list.forEach { playlistItem ->
             favoritesList.forEach { favorites ->
-                @Suppress("LABEL_NAME_CLASH")
                 if (playlistItem.videoId == favorites.videoId) {
                     playlistItem.state = YoutubeData.State.FAVORITES
+                    return@forEach
+                }
+            }
 
-                    downloadList.forEach { download ->
-                        if (favorites.videoId == download.videoId) {
-                            playlistItem.state = YoutubeData.State.FAVORITES_AND_DOWNLOAD
-
-                            return@forEach
-                        }
-                    }
-
+            downloadList.forEach { download ->
+                if (playlistItem.videoId == download.videoId) {
+                    playlistItem.state =
+                        if (playlistItem.state == YoutubeData.State.FAVORITES)
+                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
+                        else
+                            YoutubeData.State.DOWNLOAD
                     return@forEach
                 }
             }

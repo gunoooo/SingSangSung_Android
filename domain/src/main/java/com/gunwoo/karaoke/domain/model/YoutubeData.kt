@@ -20,6 +20,7 @@ data class YoutubeData(
         NONE,
         FAVORITES,
         FAVORITES_AND_DOWNLOAD,
+        DOWNLOAD,
         HIDING
     }
 }

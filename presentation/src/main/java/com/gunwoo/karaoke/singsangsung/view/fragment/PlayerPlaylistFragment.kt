@@ -4,24 +4,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentPlayerPlaylistBinding
 import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerPlaylistViewModel
-import com.gunwoo.karaoke.singsangsung.viewmodelfactory.PlayerPlaylistViewModelFactory
+import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
-import javax.inject.Inject
 
 class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, PlayerPlaylistViewModel>() {
 
-    @Inject
-    lateinit var vewModelFactory: PlayerPlaylistViewModelFactory
-
     override val viewModel: PlayerPlaylistViewModel
-        get() = getViewModel(vewModelFactory)
+        get() = getViewModel()
+
+    val onDownloadEvent = SingleLiveEvent<YoutubeData>()
+    val onDeleteDownloadEvent = SingleLiveEvent<YoutubeData>()
+    val onAddFavoritesEvent = SingleLiveEvent<YoutubeData>()
+    val onDeleteFavoritesEvent = SingleLiveEvent<YoutubeData>()
+    val onHideEvent = SingleLiveEvent<YoutubeData>()
 
     override fun observerViewModel() {
         with(mViewModel) {
@@ -36,7 +39,7 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
                 })
 
                 onDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                    mViewModel.download(it, this@PlayerPlaylistFragment.context!!.applicationContext.applicationContext)
+                    mViewModel.insertDownload(it)
                 })
 
                 onAddFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
@@ -44,32 +47,36 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
                 })
 
                 onDeleteFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
-                    mViewModel.deleteFavorites(it, null)
+                    mViewModel.deleteFavorites(it)
                 })
 
                 onHideEvent.observe(this@PlayerPlaylistFragment, Observer {
                     mViewModel.hide(it)
                 })
+
+                onDeleteDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
+                    mViewModel.deleteDownload(it)
+                })
             }
 
-            onSuccessDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                shortToast(R.string.message_download_complete)
+            onDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
+                this@PlayerPlaylistFragment.onDownloadEvent.value = it
             })
 
-            onSuccessAddFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
-                shortToast(R.string.message_add_favorites_complete)
+            onAddFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
+                this@PlayerPlaylistFragment.onAddFavoritesEvent.value = it
             })
 
-            onSuccessDeleteFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
-                shortToast(R.string.message_delete_favorites_complete)
+            onDeleteFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
+                this@PlayerPlaylistFragment.onDeleteFavoritesEvent.value = it
             })
 
-            onSuccessHideEvent.observe(this@PlayerPlaylistFragment, Observer {
-                shortToast(R.string.message_hide_complete)
+            onDeleteDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
+                this@PlayerPlaylistFragment.onDeleteDownloadEvent.value = it
             })
 
-            onErrorEvent.observe(this@PlayerPlaylistFragment, Observer {
-                shortToast(it.message)
+            onHideEvent.observe(this@PlayerPlaylistFragment, Observer {
+                this@PlayerPlaylistFragment.onHideEvent.value = it
             })
         }
     }

@@ -22,6 +22,8 @@ class PlayerControllerFragment : BaseFragment<FragmentPlayerControllerBinding, P
     val onPitchDownEvent = SingleLiveEvent<Unit>()
     val onTempoUpEvent = SingleLiveEvent<Unit>()
     val onTempoDownEvent = SingleLiveEvent<Unit>()
+    val onClickSetJumpSpotEvent = SingleLiveEvent<Unit>()
+    val onClickJumpEvent = SingleLiveEvent<Unit>()
 
     override fun observerViewModel() {
         with(mViewModel) {
@@ -40,7 +42,19 @@ class PlayerControllerFragment : BaseFragment<FragmentPlayerControllerBinding, P
             onTempoDownEvent.observe(this@PlayerControllerFragment, Observer {
                 this@PlayerControllerFragment.onTempoDownEvent.call()
             })
+
+            onClickSetJumpSpotEvent.observe(this@PlayerControllerFragment, Observer {
+                this@PlayerControllerFragment.onClickSetJumpSpotEvent.call()
+            })
+
+            onClickJumpEvent.observe(this@PlayerControllerFragment, Observer {
+                this@PlayerControllerFragment.onClickJumpEvent.call()
+            })
         }
+    }
+
+    fun setJumpSpot(jumpSpot: String) {
+        mViewModel.jumpSpot.value = jumpSpot
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -24,4 +24,8 @@ class DownloadRepositoryImpl @Inject constructor(
     override fun deleteDownload(download: Download): Completable {
         return downloadDataSource.deleteDownload(download)
     }
+
+    override fun deleteDownload(videoId: String): Completable {
+        return downloadDataSource.deleteDownload(videoId)
+    }
 }

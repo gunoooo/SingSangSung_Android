@@ -129,8 +129,8 @@ object PlaylistFactory {
         playlistList.apply {
             add(
                 Playlist(
-                    "고등래퍼 3",
-                    R.drawable.thumbnail_default_3,
+                    "잔잔한",
+                    R.drawable.thumbnail_windless,
                     ""
                 )
             )

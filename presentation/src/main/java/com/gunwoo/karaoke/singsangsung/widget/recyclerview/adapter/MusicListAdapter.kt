@@ -22,6 +22,7 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
     val onDeleteFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onHideEvent = SingleLiveEvent<YoutubeData>()
     val onDeleteHidingEvent = SingleLiveEvent<YoutubeData>()
+    val onDeleteDownloadEvent = SingleLiveEvent<YoutubeData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemViewHolder {
         return MusicItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_music, parent, false))
@@ -58,6 +59,10 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
 
     override fun deleteHiding(youtubeData: YoutubeData) {
         onDeleteHidingEvent.value = youtubeData
+    }
+
+    override fun deleteDownload(youtubeData: YoutubeData) {
+        onDeleteDownloadEvent.value = youtubeData
     }
 
     override fun getItemCount(): Int {

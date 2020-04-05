@@ -15,8 +15,8 @@ class PlayerViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> playerControllerFragment
-            1 -> playerPlaylistFragment
+            0 -> playerPlaylistFragment
+            1 -> playerControllerFragment
             else -> playerControllerFragment
         }
     }
