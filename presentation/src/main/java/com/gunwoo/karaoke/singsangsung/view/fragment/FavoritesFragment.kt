@@ -24,7 +24,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewMo
 
     override fun observerViewModel() {
         with(mViewModel) {
-            recentListAdapter.onClickItem.observe(this@FavoritesFragment, Observer {
+            recentListAdapter.onClickItemEvent.observe(this@FavoritesFragment, Observer {
                 startActivity(
                     Intent(this@FavoritesFragment.context!!.applicationContext, PlayerActivity::class.java)
                         .putExtra(PlayerActivity.EXTRA_VIDEO, it)

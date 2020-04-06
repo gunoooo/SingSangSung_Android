@@ -3,10 +3,10 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.GetDownloadListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetFavoritesListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetHidingListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetRecentListUseCase
+import com.gunwoo.karaoke.domain.usecase.download.GetDownloadListUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.GetFavoritesListUseCase
+import com.gunwoo.karaoke.domain.usecase.hiding.GetHidingListUseCase
+import com.gunwoo.karaoke.domain.usecase.recent.GetRecentListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.HorizontalMusicListAdapter

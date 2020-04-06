@@ -143,15 +143,16 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
     private val tabTitles = listOf("재생목록", "설정")
 
     private fun initViewPager() {
-        val playerViewPagerAdapter = PlayerViewPagerAdapter(this)
-        playerViewPagerAdapter.playerPlaylistFragment.youtubeDataList = mViewModel.videoList
-        view_pager.adapter = playerViewPagerAdapter
+        mViewModel.playerViewPagerAdapter = PlayerViewPagerAdapter(this)
+        mViewModel.playerViewPagerAdapter.playerPlaylistFragment.youtubeDataList = mViewModel.videoList
+        view_pager.adapter = mViewModel.playerViewPagerAdapter
+        view_pager.offscreenPageLimit = 2
         TabLayoutMediator(tab_layout, view_pager) { tab, position ->
             tab.text = tabTitles[position]
             view_pager.setCurrentItem(tab.position, true)
         }.attach()
 
-        with(playerViewPagerAdapter) {
+        with(mViewModel.playerViewPagerAdapter) {
             with(playerPlaylistFragment) {
                 onDownloadEvent.observe(this, Observer {
                     mViewModel.download(it)

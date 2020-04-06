@@ -29,7 +29,7 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
     override fun observerViewModel() {
         with(mViewModel) {
             with(musicListAdapter) {
-                onClickItem.observe(this@PlayerPlaylistFragment, Observer {
+                onClickItemEvent.observe(this@PlayerPlaylistFragment, Observer {
                     startActivity(
                         Intent(this@PlayerPlaylistFragment.context!!.applicationContext, PlayerActivity::class.java)
                             .putExtra(PlayerActivity.EXTRA_VIDEO, it)

@@ -9,7 +9,7 @@ import com.gunwoo.karaoke.data.database.entity.*
 
 @Database(entities = [RecordEntity::class, DownloadEntity::class,
     HidingEntity::class, FavoritesEntity::class, RecentEntity::class,
-    PlaylistEntity::class, SearchEntity::class],
+    PlaylistEntity::class, SearchEntity::class, SearchHistoryEntity::class],
     version = 1, exportSchema = false
 )
 abstract class RoomDatabase : androidx.room.RoomDatabase() {
@@ -21,6 +21,7 @@ abstract class RoomDatabase : androidx.room.RoomDatabase() {
     abstract fun recentDao(): RecentDao
     abstract fun playlistsDao(): PlaylistDao
     abstract fun searchDao(): SearchDao
+    abstract fun searchHistoryDao(): SearchHistoryDao
 
     companion object {
 

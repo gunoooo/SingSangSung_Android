@@ -21,7 +21,13 @@ import com.bumptech.glide.request.transition.Transition
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.*
+import com.gunwoo.karaoke.domain.usecase.download.DeleteDownloadByVideoIdUseCase
+import com.gunwoo.karaoke.domain.usecase.download.InsertDownloadUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.hiding.InsertHidingUseCase
+import com.gunwoo.karaoke.domain.usecase.recent.InsertRecentUseCase
+import com.gunwoo.karaoke.domain.usecase.record.InsertRecordUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
@@ -165,7 +171,8 @@ class PlayerViewModel(
     }
 
     fun deleteDownload(youtubeData: YoutubeData = video) {
-        addDisposable(deleteDownloadByVideoIdUseCase.buildUseCaseObservable(DeleteDownloadByVideoIdUseCase.Params(youtubeData.videoId!!)),
+        addDisposable(deleteDownloadByVideoIdUseCase.buildUseCaseObservable(
+            DeleteDownloadByVideoIdUseCase.Params(youtubeData.videoId!!)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     onSuccessDeleteDownloadEvent.call()

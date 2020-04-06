@@ -1,9 +1,6 @@
 package com.gunwoo.karaoke.data.repository
 
-import com.gunwoo.karaoke.data.datasource.DownloadDataSource
-import com.gunwoo.karaoke.data.datasource.FavoritesDataSource
-import com.gunwoo.karaoke.data.datasource.HidingDataSource
-import com.gunwoo.karaoke.data.datasource.SearchDataSource
+import com.gunwoo.karaoke.data.datasource.*
 import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.SearchRepository
@@ -13,6 +10,7 @@ import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
     private val searchDataSource: SearchDataSource,
+    private val searchHistoryDataSource: SearchHistoryDataSource,
     private val favoritesDataSource: FavoritesDataSource,
     private val hidingDataSource: HidingDataSource,
     private val downloadDataSource: DownloadDataSource
@@ -28,7 +26,7 @@ class SearchRepositoryImpl @Inject constructor(
             favoritesDataSource.getFavoritesList().flatMap { favoritesList -> this.favoritesList = favoritesList
                 hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
                     downloadDataSource.getDownloadList().flatMap { downloadList -> this.downloadList = downloadList
-                        Single.just(getResultSearchList())
+                        searchHistoryDataSource.insertSearchHistory(search).toSingleDefault(getResultSearchList())
                     }
                 }
             }

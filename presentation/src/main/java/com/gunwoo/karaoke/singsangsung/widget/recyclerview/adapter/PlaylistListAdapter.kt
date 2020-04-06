@@ -21,7 +21,7 @@ class PlaylistListAdapter : Adapter<PlaylistListAdapter.PlaylistItemViewHolder>(
 
     private lateinit var playlistList: List<Playlist>
 
-    val onClickItem = SingleLiveEvent<Playlist>()
+    val onClickItemEvent = SingleLiveEvent<Playlist>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistItemViewHolder {
         return PlaylistItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_playlist, parent, false))
@@ -37,7 +37,7 @@ class PlaylistListAdapter : Adapter<PlaylistListAdapter.PlaylistItemViewHolder>(
     }
 
     override fun onClickItem(playlist: Playlist) {
-        onClickItem.value = playlist
+        onClickItemEvent.value = playlist
     }
 
     override fun getItemCount(): Int {

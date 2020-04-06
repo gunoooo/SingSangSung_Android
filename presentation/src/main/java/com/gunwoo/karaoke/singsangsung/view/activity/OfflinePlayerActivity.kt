@@ -77,7 +77,7 @@ class OfflinePlayerActivity : BaseActivity<ActivityOfflinePlayerBinding, Offline
             onStoppedRecording.observe(this@OfflinePlayerActivity, Observer { shortToast(R.string.message_stopped_recoding) })
 
             with(offlineMusicListAdapter) {
-                onClickItem.observe(this@OfflinePlayerActivity, Observer {
+                onClickItemEvent.observe(this@OfflinePlayerActivity, Observer {
                     startActivity(
                         Intent(this@OfflinePlayerActivity.applicationContext, OfflinePlayerActivity::class.java)
                             .putExtra(EXTRA_VIDEO, it)

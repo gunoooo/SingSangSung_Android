@@ -27,7 +27,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
     override fun observerViewModel() {
         with(mViewModel) {
             with(musicListAdapter) {
-                onClickItem.observe(this@ListFragment, Observer {
+                onClickItemEvent.observe(this@ListFragment, Observer {
                     startActivity(
                         Intent(this@ListFragment.context!!.applicationContext, PlayerActivity::class.java)
                             .putExtra(PlayerActivity.EXTRA_VIDEO, it)

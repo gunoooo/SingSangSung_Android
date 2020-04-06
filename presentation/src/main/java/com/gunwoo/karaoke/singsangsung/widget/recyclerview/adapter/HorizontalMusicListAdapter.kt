@@ -16,7 +16,7 @@ class HorizontalMusicListAdapter : Adapter<HorizontalMusicListAdapter.Horizontal
 
     private lateinit var youtubeDataList: List<YoutubeData>
 
-    val onClickItem = SingleLiveEvent<YoutubeData>()
+    val onClickItemEvent = SingleLiveEvent<YoutubeData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorizontalMusicItemViewHolder {
         return HorizontalMusicItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_horizontal_music, parent, false))
@@ -32,7 +32,7 @@ class HorizontalMusicListAdapter : Adapter<HorizontalMusicListAdapter.Horizontal
     }
 
     override fun onClickItem(youtubeData: YoutubeData) {
-        onClickItem.value = youtubeData
+        onClickItemEvent.value = youtubeData
     }
 
     override fun getItemCount(): Int {

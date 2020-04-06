@@ -27,7 +27,7 @@ class OfflineListFragment : BaseFragment<FragmentOfflineListBinding, OfflineList
     override fun observerViewModel() {
         with(mViewModel) {
             with(offlineMusicListAdapter) {
-                onClickItem.observe(this@OfflineListFragment, Observer {
+                onClickItemEvent.observe(this@OfflineListFragment, Observer {
                     startActivity(
                         Intent(this@OfflineListFragment.context!!.applicationContext, OfflinePlayerActivity::class.java)
                             .putExtra(OfflinePlayerActivity.EXTRA_VIDEO, it)

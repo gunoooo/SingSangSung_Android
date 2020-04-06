@@ -16,7 +16,7 @@ class RecordListAdapter : Adapter<RecordListAdapter.RecordItemViewHolder>(), Rec
 
     private lateinit var youtubeDataList: List<Record>
 
-    val onClickItem = SingleLiveEvent<Record>()
+    val onClickItemEvent = SingleLiveEvent<Record>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordItemViewHolder {
         return RecordItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_record, parent, false))
@@ -32,7 +32,7 @@ class RecordListAdapter : Adapter<RecordListAdapter.RecordItemViewHolder>(), Rec
     }
 
     override fun onClickItem(record: Record) {
-        onClickItem.value = record
+        onClickItemEvent.value = record
     }
 
     override fun getItemCount(): Int {

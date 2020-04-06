@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
 
@@ -14,6 +15,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="?actionBarSize" >
         <LinearLayout
+            android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:background="@color/colorAccent"
@@ -35,17 +37,27 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:background="@null"
-                android:focusableInTouchMode="true"
                 android:focusable="true"
-                android:textSize="15sp"
+                android:focusableInTouchMode="true"
                 android:hint="@string/hint_search"
-                android:textColorHighlight="@color/colorWhite"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorLightGrey"
-                android:inputType="text"
                 android:imeOptions="actionSearch"
-                android:text="@={viewModel.search}"/>
+                android:inputType="text"
+                android:text="@={viewModel.search}"
+                android:textColor="@color/colorWhite"
+                android:textColorHighlight="@color/colorWhite"
+                android:textColorHint="@color/colorLightGrey"
+                android:textSize="15sp" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:adapter="@{viewModel.searchHistoryListAdapter}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_layout"
+            tools:listitem="@layout/item_search_history" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="?android:attr/progressBarStyle"

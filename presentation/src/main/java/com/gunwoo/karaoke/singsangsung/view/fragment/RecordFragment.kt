@@ -25,7 +25,7 @@ class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
 
     override fun observerViewModel() {
         with(mViewModel) {
-            recordListAdapter.onClickItem.observe(this@RecordFragment, Observer {
+            recordListAdapter.onClickItemEvent.observe(this@RecordFragment, Observer {
                 viewType.value = RecordViewModel.ViewType.PLAY
                 startAudio(it)
                 seekbar.max = player!!.duration / 1000

@@ -73,19 +73,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 shortToast(it.message)
             })
 
-            recommendListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+            recommendListAdapter.onClickItemEvent.observe(this@HomeFragment, Observer {
                 startActivity(Intent(this@HomeFragment.context!!.applicationContext, PlayerActivity::class.java)
                     .putExtra(PlayerActivity.EXTRA_VIDEO, it)
                     .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, recommendList))
             })
 
-            recommendPlaylistListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+            recommendPlaylistListAdapter.onClickItemEvent.observe(this@HomeFragment, Observer {
                 playlistTitle = it.title
                 playlistType = ListFragment.PLAYLIST_TYPE
                 setVideoList(it.playlistId)
             })
 
-            characterListAdapter.onClickItem.observe(this@HomeFragment, Observer {
+            characterListAdapter.onClickItemEvent.observe(this@HomeFragment, Observer {
                 playlistTitle = it.name
                 playlistType = ListFragment.CHARACTER_TYPE
                 setVideoList(it.playlistId)

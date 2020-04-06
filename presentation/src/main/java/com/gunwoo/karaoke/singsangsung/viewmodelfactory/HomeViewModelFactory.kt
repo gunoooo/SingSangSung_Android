@@ -2,7 +2,7 @@ package com.gunwoo.karaoke.singsangsung.viewmodelfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gunwoo.karaoke.domain.usecase.GetPlaylistListUseCase
+import com.gunwoo.karaoke.domain.usecase.playlist.GetPlaylistListUseCase
 import javax.inject.Inject
 
 open class HomeViewModelFactory @Inject constructor(

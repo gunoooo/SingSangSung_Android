@@ -36,4 +36,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRecentRepository(recentRepositoryImpl: RecentRepositoryImpl): RecentRepository = recentRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideSearchHistoryRepository(searchHistoryRepositoryImpl: SearchHistoryRepositoryImpl): SearchHistoryRepository = searchHistoryRepositoryImpl
 }

@@ -3,7 +3,12 @@ package com.gunwoo.karaoke.singsangsung.viewmodelfactory
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gunwoo.karaoke.domain.usecase.*
+import com.gunwoo.karaoke.domain.usecase.download.DeleteDownloadByVideoIdUseCase
+import com.gunwoo.karaoke.domain.usecase.download.InsertDownloadUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.hiding.DeleteHidingUseCase
+import com.gunwoo.karaoke.domain.usecase.hiding.InsertHidingUseCase
 import javax.inject.Inject
 
 open class ListViewModelFactory @Inject constructor(

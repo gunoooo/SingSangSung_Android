@@ -16,7 +16,7 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
 
     private lateinit var youtubeDataList: List<YoutubeData>
 
-    val onClickItem = SingleLiveEvent<YoutubeData>()
+    val onClickItemEvent = SingleLiveEvent<YoutubeData>()
     val onDownloadEvent = SingleLiveEvent<YoutubeData>()
     val onAddFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onDeleteFavoritesEvent = SingleLiveEvent<YoutubeData>()
@@ -38,7 +38,7 @@ class MusicListAdapter : Adapter<MusicListAdapter.MusicItemViewHolder>(), MusicN
     }
 
     override fun onClickItem(youtubeData: YoutubeData) {
-        onClickItem.value = youtubeData
+        onClickItemEvent.value = youtubeData
     }
 
     override fun download(youtubeData: YoutubeData) {

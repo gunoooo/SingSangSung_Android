@@ -3,7 +3,7 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.Download
-import com.gunwoo.karaoke.domain.usecase.DeleteDownloadUseCase
+import com.gunwoo.karaoke.domain.usecase.download.DeleteDownloadUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.OfflineMusicListAdapter

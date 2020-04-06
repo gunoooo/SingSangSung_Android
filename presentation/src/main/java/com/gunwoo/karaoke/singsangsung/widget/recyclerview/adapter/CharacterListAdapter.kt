@@ -17,7 +17,7 @@ class CharacterListAdapter : Adapter<CharacterListAdapter.MusicItemViewHolder>()
 
     private lateinit var characterList: List<Character>
 
-    val onClickItem = SingleLiveEvent<Character>()
+    val onClickItemEvent = SingleLiveEvent<Character>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemViewHolder {
         return MusicItemViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_character, parent, false))
@@ -33,7 +33,7 @@ class CharacterListAdapter : Adapter<CharacterListAdapter.MusicItemViewHolder>()
     }
 
     override fun onClickItem(character: Character) {
-        onClickItem.value = character
+        onClickItemEvent.value = character
     }
 
     override fun getItemCount(): Int {

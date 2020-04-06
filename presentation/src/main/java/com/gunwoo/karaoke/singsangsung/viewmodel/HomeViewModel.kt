@@ -7,7 +7,7 @@ import com.gunwoo.karaoke.data.util.PlaylistFactory
 import com.gunwoo.karaoke.domain.model.Character
 import com.gunwoo.karaoke.domain.model.Playlist
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.GetPlaylistListUseCase
+import com.gunwoo.karaoke.domain.usecase.playlist.GetPlaylistListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.CharacterListAdapter

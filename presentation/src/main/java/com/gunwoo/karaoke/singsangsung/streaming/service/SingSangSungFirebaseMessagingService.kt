@@ -4,8 +4,8 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.gunwoo.karaoke.data.database.sharedpreferences.SharedPreferenceManager
 import com.gunwoo.karaoke.data.util.dateFormat
-import com.gunwoo.karaoke.domain.usecase.DeleteAllPlaylistUseCase
-import com.gunwoo.karaoke.domain.usecase.DeleteAllSearchUseCase
+import com.gunwoo.karaoke.domain.usecase.playlist.DeleteAllPlaylistUseCase
+import com.gunwoo.karaoke.domain.usecase.search.DeleteAllSearchUseCase
 import com.gunwoo.karaoke.singsangsung.streaming.notification.SingSangSungNotification
 import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers

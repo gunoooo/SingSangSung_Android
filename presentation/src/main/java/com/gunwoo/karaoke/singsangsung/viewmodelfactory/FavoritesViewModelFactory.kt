@@ -2,10 +2,10 @@ package com.gunwoo.karaoke.singsangsung.viewmodelfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.gunwoo.karaoke.domain.usecase.GetDownloadListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetFavoritesListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetHidingListUseCase
-import com.gunwoo.karaoke.domain.usecase.GetRecentListUseCase
+import com.gunwoo.karaoke.domain.usecase.download.GetDownloadListUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.GetFavoritesListUseCase
+import com.gunwoo.karaoke.domain.usecase.hiding.GetHidingListUseCase
+import com.gunwoo.karaoke.domain.usecase.recent.GetRecentListUseCase
 import javax.inject.Inject
 
 open class FavoritesViewModelFactory @Inject constructor(

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel.SearchHistoryItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:onClick="@{() -> viewModel.onClickItem()}" >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="20dp"
+            android:singleLine="true"
+            android:textColor="@color/colorGrey"
+            android:textSize="17sp"
+            android:fontFamily="@font/nanum_square_regular"
+            app:mutableText="@{viewModel.searchText}"
+            tools:text="아이즈원 피에스타" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorSoftGrey"
+            android:src="@drawable/ic_close"
+            android:onClick="@{() -> viewModel.onClickRemove()}" />
+    </LinearLayout>
+</layout>

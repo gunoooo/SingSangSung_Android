@@ -3,7 +3,7 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 import android.media.MediaPlayer
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.Record
-import com.gunwoo.karaoke.domain.usecase.GetRecordListUseCase
+import com.gunwoo.karaoke.domain.usecase.record.GetRecordListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.minuteFormat
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.RecordListAdapter

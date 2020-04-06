@@ -52,13 +52,28 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             onErrorEvent.observe(this@SearchFragment, Observer {
                 shortToast(it.message)
             })
+
+            with(searchHistoryListAdapter) {
+                onClickItemEvent.observe(this@SearchFragment, Observer {
+                    search(it)
+                })
+
+                onClickRemoveEvent.observe(this@SearchFragment, Observer {
+                    deleteSearchHistory(it)
+                })
+            }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         onSearchEvent()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mViewModel.search.value = null
+        mViewModel.setSearchHistoryList()
     }
 
     private fun onSearchEvent() {
