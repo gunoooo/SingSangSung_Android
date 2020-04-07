@@ -2,9 +2,7 @@ package com.gunwoo.karaoke.data.database.cache
 
 import android.app.Application
 import com.gunwoo.karaoke.data.base.BaseCache
-import com.gunwoo.karaoke.data.database.entity.DownloadEntity
 import com.gunwoo.karaoke.data.database.entity.HidingEntity
-import com.gunwoo.karaoke.data.database.entity.RecordEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject

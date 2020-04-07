@@ -36,16 +36,11 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
             YoutubeData.State.NONE -> popup.inflate(R.menu.menu_music_item)
             YoutubeData.State.FAVORITES -> popup.inflate(R.menu.menu_favorites_music_item)
             YoutubeData.State.HIDING -> popup.inflate(R.menu.menu_hiding_music_item)
-            YoutubeData.State.DOWNLOAD -> popup.inflate(R.menu.menu_download_music_item)
-            else -> popup.inflate(R.menu.menu_download_favorites_music_item)
+            else -> popup.inflate(R.menu.menu_music_item)
         }
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.menu_download -> {
-                    getNavigator().download(youtubeData)
-                    true
-                }
                 R.id.menu_add_favorites -> {
                     getNavigator().addFavorites(youtubeData)
                     true
@@ -62,8 +57,12 @@ class MusicItemViewModel : BaseItemViewModel<MusicNavigator>() {
                     getNavigator().deleteHiding(youtubeData)
                     true
                 }
-                R.id.menu_delete_download -> {
-                    getNavigator().deleteDownload(youtubeData)
+                R.id.menu_open_youtube -> {
+                    getNavigator().openYoutube(youtubeData)
+                    true
+                }
+                R.id.menu_share -> {
+                    getNavigator().share(youtubeData)
                     true
                 }
                 else -> false

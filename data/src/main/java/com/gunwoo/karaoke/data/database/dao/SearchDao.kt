@@ -11,8 +11,8 @@ import io.reactivex.Single
 @Dao
 interface SearchDao : BaseDao<SearchEntity> {
 
-    @Query("SELECT * FROM search_table WHERE search=:search")
-    fun getSearchList(search: String): Single<List<SearchEntity>>
+    @Query("SELECT * FROM search_table WHERE search=:search AND channelId=:channelId")
+    fun getSearchList(search: String, channelId: String): Single<List<SearchEntity>>
 
     @Query("DELETE FROM search_table")
     fun deleteAll(): Completable

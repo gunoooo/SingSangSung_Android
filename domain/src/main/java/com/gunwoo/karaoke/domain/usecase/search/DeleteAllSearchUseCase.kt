@@ -1,9 +1,6 @@
 package com.gunwoo.karaoke.domain.usecase.search
 
 import com.gunwoo.karaoke.domain.base.BaseUseCase
-import com.gunwoo.karaoke.domain.model.Download
-import com.gunwoo.karaoke.domain.repository.DownloadRepository
-import com.gunwoo.karaoke.domain.repository.PlaylistRepository
 import com.gunwoo.karaoke.domain.repository.SearchRepository
 import io.reactivex.Completable
 import io.reactivex.Single

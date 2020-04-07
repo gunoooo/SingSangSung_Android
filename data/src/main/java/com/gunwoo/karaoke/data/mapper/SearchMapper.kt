@@ -21,6 +21,7 @@ class SearchMapper : BaseEntityMapper<YoutubeData, SearchEntity> {
         return SearchEntity(
             "${model.videoId}.${model.search}",
             model.videoId!!,
+            model.channelId!!,
             model.search!!,
             model.thumbnailUrl,
             model.videoTitle,

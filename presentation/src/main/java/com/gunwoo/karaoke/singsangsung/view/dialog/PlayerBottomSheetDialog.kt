@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.dialog_player_bottom_sheet.*
 class PlayerBottomSheetDialog(private val youtubeData: YoutubeData) : BottomSheetDialogFragment() {
 
     val onClickAddFavoritesEvent = SingleLiveEvent<Unit>()
-    val onClickDownloadEvent = SingleLiveEvent<Unit>()
     val onClickDeleteFavoritesEvent = SingleLiveEvent<Unit>()
-    val onClickDeleteDownloadEvent = SingleLiveEvent<Unit>()
+    val onClickOpenYoutubeEvent = SingleLiveEvent<Unit>()
+    val onClickShareEvent = SingleLiveEvent<Unit>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_player_bottom_sheet, container, false)
@@ -31,42 +31,38 @@ class PlayerBottomSheetDialog(private val youtubeData: YoutubeData) : BottomShee
 
         when (youtubeData.state) {
             YoutubeData.State.NONE -> {
-                download_text.text = getString(R.string.menu_download)
                 favorites_text.text = getString(R.string.menu_add_favorites)
-            }
-            YoutubeData.State.DOWNLOAD -> {
-                download_text.text = getString(R.string.menu_delete_download)
-                favorites_text.text = getString(R.string.menu_add_favorites)
+                open_youtube_text.text = getString(R.string.menu_open_youtube)
+                share_text.text = getString(R.string.menu_share)
             }
             YoutubeData.State.FAVORITES -> {
-                download_text.text = getString(R.string.menu_download)
                 favorites_text.text = getString(R.string.menu_delete_favorites)
-            }
-            YoutubeData.State.FAVORITES_AND_DOWNLOAD -> {
-                download_text.text = getString(R.string.menu_delete_download)
-                favorites_text.text = getString(R.string.menu_delete_favorites)
+                open_youtube_text.text = getString(R.string.menu_open_youtube)
+                share_text.text = getString(R.string.menu_share)
             }
             else -> {
-                download_text.text = getString(R.string.menu_download)
                 favorites_text.text = getString(R.string.menu_add_favorites)
+                open_youtube_text.text = getString(R.string.menu_open_youtube)
+                share_text.text = getString(R.string.menu_share)
             }
-        }
-
-        download_btn.setOnClickListener {
-            if (youtubeData.state == YoutubeData.State.DOWNLOAD || youtubeData.state == YoutubeData.State.FAVORITES_AND_DOWNLOAD)
-                onClickDeleteDownloadEvent.call()
-            else
-                onClickDownloadEvent.call()
-
-            dismiss()
         }
 
         favorites_btn.setOnClickListener {
-            if (youtubeData.state == YoutubeData.State.FAVORITES || youtubeData.state == YoutubeData.State.FAVORITES_AND_DOWNLOAD)
+            if (youtubeData.state == YoutubeData.State.FAVORITES)
                 onClickDeleteFavoritesEvent.call()
             else
                 onClickAddFavoritesEvent.call()
 
+            dismiss()
+        }
+
+        open_youtube_btn.setOnClickListener {
+            onClickOpenYoutubeEvent.call()
+            dismiss()
+        }
+
+        share_btn.setOnClickListener {
+            onClickShareEvent.call()
             dismiss()
         }
     }

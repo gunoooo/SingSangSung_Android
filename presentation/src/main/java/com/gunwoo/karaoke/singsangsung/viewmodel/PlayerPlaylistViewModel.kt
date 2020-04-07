@@ -12,8 +12,6 @@ class PlayerPlaylistViewModel : BaseViewModel() {
 
     val musicListAdapter = MusicListAdapter()
 
-    val onDownloadEvent = SingleLiveEvent<YoutubeData>()
-    val onDeleteDownloadEvent = SingleLiveEvent<YoutubeData>()
     val onAddFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onDeleteFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onHideEvent = SingleLiveEvent<YoutubeData>()
@@ -26,48 +24,11 @@ class PlayerPlaylistViewModel : BaseViewModel() {
         musicListAdapter.notifyDataSetChanged()
     }
 
-    fun insertDownload(youtubeData: YoutubeData) {
-        youtubeDataList
-            .forEachIndexed { index: Int, data: YoutubeData ->
-                if (data.videoId == youtubeData.videoId) {
-                    youtubeDataList[index].state =
-                        if (data.state == YoutubeData.State.FAVORITES)
-                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
-                        else
-                            YoutubeData.State.DOWNLOAD
-
-                    musicListAdapter.notifyItemChanged(index)
-                }
-            }
-
-        onDownloadEvent.value = youtubeData
-    }
-
-    fun deleteDownload(youtubeData: YoutubeData) {
-        youtubeDataList
-            .forEachIndexed { index: Int, data: YoutubeData ->
-                if (data.videoId == youtubeData.videoId) {
-                    youtubeDataList[index].state =
-                        if (data.state == YoutubeData.State.FAVORITES_AND_DOWNLOAD)
-                            YoutubeData.State.FAVORITES
-                        else
-                            YoutubeData.State.NONE
-                    musicListAdapter.notifyItemChanged(index)
-                }
-            }
-
-        onDeleteDownloadEvent.value = youtubeData
-    }
-
     fun addFavorites(youtubeData: YoutubeData) {
         youtubeDataList
             .forEachIndexed { index: Int, data: YoutubeData ->
                 if (data.videoId == youtubeData.videoId) {
-                    youtubeDataList[index].state =
-                        if (data.state == YoutubeData.State.DOWNLOAD)
-                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
-                        else
-                            YoutubeData.State.FAVORITES
+                    youtubeDataList[index].state = YoutubeData.State.FAVORITES
                     musicListAdapter.notifyItemChanged(index)
                 }
             }
@@ -79,11 +40,7 @@ class PlayerPlaylistViewModel : BaseViewModel() {
         youtubeDataList
             .forEachIndexed { index: Int, data: YoutubeData ->
                 if (data.videoId == youtubeData.videoId) {
-                    youtubeDataList[index].state =
-                        if (data.state == YoutubeData.State.FAVORITES_AND_DOWNLOAD)
-                            YoutubeData.State.DOWNLOAD
-                        else
-                            YoutubeData.State.NONE
+                    youtubeDataList[index].state = YoutubeData.State.NONE
                     musicListAdapter.notifyItemChanged(index)
                 }
             }

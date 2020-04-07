@@ -1,10 +1,8 @@
 package com.gunwoo.karaoke.data.repository
 
-import com.gunwoo.karaoke.data.datasource.DownloadDataSource
 import com.gunwoo.karaoke.data.datasource.FavoritesDataSource
 import com.gunwoo.karaoke.data.datasource.HidingDataSource
 import com.gunwoo.karaoke.data.datasource.RecentDataSource
-import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.RecentRepository
 import io.reactivex.Completable
@@ -14,22 +12,18 @@ import javax.inject.Inject
 class RecentRepositoryImpl @Inject constructor(
     private val recentDataSource: RecentDataSource,
     private val favoritesDataSource: FavoritesDataSource,
-    private val hidingDataSource: HidingDataSource,
-    private val downloadDataSource: DownloadDataSource
+    private val hidingDataSource: HidingDataSource
 ) : RecentRepository {
 
     private lateinit var recentList: List<YoutubeData>
     private lateinit var favoritesList: List<YoutubeData>
     private lateinit var hidingList: List<YoutubeData>
-    private lateinit var downloadList: List<Download>
 
     override fun getRecentList(): Single<List<YoutubeData>> {
         return recentDataSource.getRecentList().flatMap { recentList -> this.recentList = recentList
             favoritesDataSource.getFavoritesList().flatMap { favoritesList -> this.favoritesList = favoritesList
                 hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
-                    downloadDataSource.getDownloadList().flatMap { downloadList -> this.downloadList = downloadList
-                        Single.just(getResultRecentList())
-                    }
+                    Single.just(getResultRecentList())
                 }
             }
         }
@@ -59,17 +53,6 @@ class RecentRepositoryImpl @Inject constructor(
             favoritesList.forEach { favorites ->
                 if (recent.videoId == favorites.videoId) {
                     recent.state = YoutubeData.State.FAVORITES
-                    return@forEach
-                }
-            }
-
-            downloadList.forEach { download ->
-                if (recent.videoId == download.videoId) {
-                    recent.state =
-                        if (recent.state == YoutubeData.State.FAVORITES)
-                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
-                        else
-                            YoutubeData.State.DOWNLOAD
                     return@forEach
                 }
             }

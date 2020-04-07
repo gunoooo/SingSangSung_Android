@@ -37,6 +37,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
                 this@SearchFragment.findNavController().navigate(action)
             })
 
+            onOpenSettingEvent.observe(this@SearchFragment, Observer {
+                this@SearchFragment.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchSettingFragment())
+            })
+
             onEmptyEvent.observe(this@SearchFragment, Observer {
                 shortToast(R.string.error_empty)
             })

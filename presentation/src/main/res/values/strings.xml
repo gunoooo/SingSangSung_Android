@@ -14,6 +14,8 @@
     <string name="hint_search">검색어를 입력해주세요</string>
 
     <string name="error_empty">공백없이 입력해주세요</string>
+    <string name="error_search_setting_list_remove">더이상 삭제할 수 없습니다</string>
+    <string name="error_search_setting_list_over">검색 채널은 최대 5개 설정할 수 있습니다</string>
 
     <string name="text_popularity_chart">인기차트</string>
     <string name="text_recently_chart">최신차트</string>
@@ -31,24 +33,29 @@
 
     <string name="message_permission">애플리케이션 설정에서 권한을 수정할 수 있습니다</string>
     <string name="message_stopped_recoding">녹음이 완료되었습니다</string>
-    <string name="message_download_complete">다운로드 완료</string>
-    <string name="message_delete_download_complete">해당 게시물을 다운로드 목록에서 삭제하였습니다</string>
     <string name="message_add_favorites_complete">해당 게시물을 즐겨찾기 목록에 추가하였습니다</string>
     <string name="message_delete_favorites_complete">해당 게시물을 즐겨찾기 목록에 삭제하였습니다</string>
-    <string name="message_hide_complete">해당 게시물을 숨김 목록에 추가하였습니다</string>
-    <string name="message_show_complete">해당 게시물을 숨김 목록에서 삭제하였습니다</string>
-    <string name="text_download_list">다운로드 목록</string>
+    <string name="message_hide_complete">해당 게시물을 차단 목록에 추가하였습니다</string>
+    <string name="message_show_complete">해당 게시물을 차단 목록에서 삭제하였습니다</string>
     <string name="text_favorites_list">즐겨찾기 목록</string>
-    <string name="text_hide_list">숨김 목록</string>
-    <string name="menu_hide">숨김</string>
+    <string name="text_hide_list">차단 목록</string>
+    <string name="menu_hide">차단</string>
     <string name="menu_add_favorites">즐겨찾기에 추가</string>
     <string name="menu_delete_favorites">즐겨찾기에서 삭제</string>
-    <string name="menu_delete_hide">숨김 목록에서 삭제</string>
-    <string name="menu_delete_download">다운로드 목록에서 삭제</string>
-    <string name="menu_download">오프라인 저장</string>
+    <string name="menu_delete_hide">차단 목록에서 삭제</string>
     <string name="text_recent">최근 기록</string>
     <string name="content_chronological">시간순</string>
     <string name="content_reverse">역시간순</string>
     <string name="text_app_name">SSS</string>
     <string name="text_app_name_sub">ng</string>
+    <string name="text_add_channel">채널 추가</string>
+    <string name="text_setting_priority">채널을 길게 눌러 드래그하여\n검색 우선순위를 설정할 수 있습니다</string>
+    <string name="text_channel">채널</string>
+    <string name="text_max_results">최대 검색량</string>
+    <string name="text_remove">삭제</string>
+    <string name="text_complain_search">검색결과가 불만족스러우신가요?</string>
+    <string name="text_search_setting">검색 설정</string>
+    <string name="text_remove_all">모두 삭제하기</string>
+    <string name="menu_open_youtube">유튜브에서 열기</string>
+    <string name="menu_share">공유</string>
 </resources>

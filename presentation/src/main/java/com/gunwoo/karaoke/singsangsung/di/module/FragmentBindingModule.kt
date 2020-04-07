@@ -4,6 +4,7 @@ import com.gunwoo.karaoke.singsangsung.view.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.gunwoo.karaoke.singsangsung.di.scope.PerFragment
+import com.gunwoo.karaoke.singsangsung.view.dialog.ChannelAddDialog
 
 @Module
 abstract class FragmentBindingModule {
@@ -34,13 +35,17 @@ abstract class FragmentBindingModule {
 
     @PerFragment
     @ContributesAndroidInjector
-    abstract fun bindingOfflineListFragment(): OfflineListFragment
-
-    @PerFragment
-    @ContributesAndroidInjector
     abstract fun bindingPlayerPlaylistFragment(): PlayerPlaylistFragment
 
     @PerFragment
     @ContributesAndroidInjector
     abstract fun bindingPlayerControllerFragment(): PlayerControllerFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingSearchSettingFragment(): SearchSettingFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingChannelAddDialog(): ChannelAddDialog
 }

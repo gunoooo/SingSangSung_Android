@@ -8,6 +8,7 @@ data class SearchEntity(
     @PrimaryKey
     val searchVideoId: String,
     val videoId: String,
+    val channelId: String,
     val search: String,
     val thumbnailUrl: String?,
     val videoTitle: String,

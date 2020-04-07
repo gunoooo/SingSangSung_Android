@@ -1,9 +1,7 @@
 package com.gunwoo.karaoke.singsangsung.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.download.GetDownloadListUseCase
 import com.gunwoo.karaoke.domain.usecase.favorites.GetFavoritesListUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.GetHidingListUseCase
 import com.gunwoo.karaoke.domain.usecase.recent.GetRecentListUseCase
@@ -14,12 +12,10 @@ import io.reactivex.observers.DisposableSingleObserver
 
 class FavoritesViewModel(
     private val getRecentListUseCase: GetRecentListUseCase,
-    private val getDownloadListUseCase: GetDownloadListUseCase,
     private val getFavoritesListUseCase: GetFavoritesListUseCase,
     private val getHidingListUseCase: GetHidingListUseCase
 ) : BaseViewModel() {
 
-    val downloadList = ArrayList<Download>()
     val videoList = ArrayList<YoutubeData>()
     val recentList = ArrayList<YoutubeData>()
 
@@ -27,7 +23,6 @@ class FavoritesViewModel(
 
     val isEmptyRecentList = MutableLiveData<Boolean>()
 
-    val onOpenOfflineListFragmentEvent = SingleLiveEvent<Unit>()
     val onOpenFavoritesListFragmentEvent = SingleLiveEvent<Unit>()
     val onOpenHidingListFragmentEvent = SingleLiveEvent<Unit>()
 
@@ -45,21 +40,6 @@ class FavoritesViewModel(
                     recentList.clear()
                     recentList.addAll(t)
                     recentListAdapter.notifyDataSetChanged()
-                }
-
-                override fun onError(e: Throwable) {
-                    onErrorEvent.value = e
-                }
-            })
-    }
-
-    private fun setDownloadList() {
-        addDisposable(getDownloadListUseCase.buildUseCaseObservable(),
-            object : DisposableSingleObserver<List<Download>>() {
-                override fun onSuccess(t: List<Download>) {
-                    downloadList.clear()
-                    downloadList.addAll(t)
-                    onOpenOfflineListFragmentEvent.call()
                 }
 
                 override fun onError(e: Throwable) {
@@ -97,8 +77,6 @@ class FavoritesViewModel(
                 }
             })
     }
-
-    fun onClickDownloadList() { setDownloadList() }
 
     fun onClickFavoritesList() { setFavoritesList() }
 

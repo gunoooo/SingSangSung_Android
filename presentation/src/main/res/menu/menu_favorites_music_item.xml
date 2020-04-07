@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_download"
-        android:title="@string/menu_download" />
-
-    <item
         android:id="@+id/menu_delete_favorites"
         android:title="@string/menu_delete_favorites" />
+
+    <item
+        android:id="@+id/menu_open_youtube"
+        android:title="@string/menu_open_youtube" />
+
+    <item
+        android:id="@+id/menu_hide"
+        android:title="@string/menu_hide" />
+
+    <item
+        android:id="@+id/menu_share"
+        android:title="@string/menu_share" />
 </menu>

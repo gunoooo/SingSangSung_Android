@@ -3,7 +3,6 @@ package com.gunwoo.karaoke.singsangsung.view.fragment
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.gunwoo.karaoke.domain.model.DownloadList
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentFavoritesBinding
@@ -33,13 +32,6 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewMo
 
             onErrorEvent.observe(this@FavoritesFragment, Observer {
                 shortToast(it.message)
-            })
-
-            onOpenOfflineListFragmentEvent.observe(this@FavoritesFragment, Observer {
-                val list = DownloadList()
-                list.addAll(downloadList)
-                val action = FavoritesFragmentDirections.actionFavoritesFragmentToOfflineListFragment(list)
-                this@FavoritesFragment.findNavController().navigate(action)
             })
 
             onOpenFavoritesListFragmentEvent.observe(this@FavoritesFragment, Observer {

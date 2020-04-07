@@ -4,27 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.gunwoo.karaoke.domain.model.Download
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentPlayerPlaylistBinding
 import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.viewmodel.PlayerPlaylistViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
-import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 
 class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, PlayerPlaylistViewModel>() {
 
     override val viewModel: PlayerPlaylistViewModel
         get() = getViewModel()
 
-    val onDownloadEvent = SingleLiveEvent<YoutubeData>()
-    val onDeleteDownloadEvent = SingleLiveEvent<YoutubeData>()
     val onAddFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onDeleteFavoritesEvent = SingleLiveEvent<YoutubeData>()
     val onHideEvent = SingleLiveEvent<YoutubeData>()
+    val onOpenYoutubeEvent = SingleLiveEvent<YoutubeData>()
+    val onShareEvent = SingleLiveEvent<YoutubeData>()
 
     override fun observerViewModel() {
         with(mViewModel) {
@@ -36,10 +33,6 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
                             .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
 
                     activity!!.finish()
-                })
-
-                onDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                    mViewModel.insertDownload(it)
                 })
 
                 onAddFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
@@ -54,14 +47,14 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
                     mViewModel.hide(it)
                 })
 
-                onDeleteDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                    mViewModel.deleteDownload(it)
+                onOpenYoutubeEvent.observe(this@PlayerPlaylistFragment, Observer {
+                    this@PlayerPlaylistFragment.onOpenYoutubeEvent.value = it
+                })
+
+                onShareEvent.observe(this@PlayerPlaylistFragment, Observer {
+                    this@PlayerPlaylistFragment.onShareEvent.value = it
                 })
             }
-
-            onDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                this@PlayerPlaylistFragment.onDownloadEvent.value = it
-            })
 
             onAddFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
                 this@PlayerPlaylistFragment.onAddFavoritesEvent.value = it
@@ -69,10 +62,6 @@ class PlayerPlaylistFragment : BaseFragment<FragmentPlayerPlaylistBinding, Playe
 
             onDeleteFavoritesEvent.observe(this@PlayerPlaylistFragment, Observer {
                 this@PlayerPlaylistFragment.onDeleteFavoritesEvent.value = it
-            })
-
-            onDeleteDownloadEvent.observe(this@PlayerPlaylistFragment, Observer {
-                this@PlayerPlaylistFragment.onDeleteDownloadEvent.value = it
             })
 
             onHideEvent.observe(this@PlayerPlaylistFragment, Observer {

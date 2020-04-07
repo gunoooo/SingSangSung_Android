@@ -12,7 +12,8 @@ class SearchHistoryDataSource @Inject constructor(
     override val cache: SearchHistoryCache
 ) : BaseDataSource<Any, SearchHistoryCache>() {
 
-    fun getSearchHistoryList(): Single<List<String>> = cache.getSearchHistoryList().map { searchHistoryList -> searchHistoryList.map { it.search }.sortedDescending() }
+    fun getSearchHistoryList(): Single<List<String>> = cache.getSearchHistoryList()
+        .map { searchHistoryList -> searchHistoryList.sortedByDescending { it.idx }.map { it.search }.distinct().take(6) }
 
     fun insertSearchHistory(search: String): Completable = cache.insertSearchHistory(SearchHistoryEntity(search))
 

@@ -10,17 +10,16 @@ data class YoutubeData(
     var state: State,
 
     val playlistId: String?,
+    val channelId: String?,
     val search: String?
 ) : Serializable {
 
     constructor(videoId: String?, thumbnailUrl: String?, videoTitle: String, channelTitle: String, state: State):
-            this(videoId, thumbnailUrl, videoTitle, channelTitle, state, null, null)
+            this(videoId, thumbnailUrl, videoTitle, channelTitle, state, null, null, null)
 
     enum class State {
         NONE,
         FAVORITES,
-        FAVORITES_AND_DOWNLOAD,
-        DOWNLOAD,
         HIDING
     }
 }

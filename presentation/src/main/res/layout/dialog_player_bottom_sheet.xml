@@ -37,34 +37,10 @@
         android:background="@color/colorLightGrey" />
 
     <LinearLayout
-        android:id="@+id/download_btn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="30dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_file_download"
-            android:tint="@color/colorGrey" />
-
-        <TextView
-            android:id="@+id/download_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:fontFamily="@font/nanum_square_round"
-            android:textColor="@color/colorGrey"
-            tools:text="오프라인 저장" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/favorites_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
         <ImageView
             android:layout_width="25dp"
@@ -83,6 +59,54 @@
             android:fontFamily="@font/nanum_square_round"
             android:textColor="@color/colorGrey"
             tools:text="즐겨찾기 목록에 추가" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/open_youtube_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_open_in_new"
+            android:tint="@color/colorGrey" />
+
+        <TextView
+            android:id="@+id/open_youtube_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorGrey"
+            tools:text="유튜브에서 열기" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_share"
+            android:tint="@color/colorGrey" />
+
+        <TextView
+            android:id="@+id/share_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/nanum_square_round"
+            android:textColor="@color/colorGrey"
+            tools:text="공유" />
     </LinearLayout>
 
     <View

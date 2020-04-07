@@ -2,15 +2,14 @@ package com.gunwoo.karaoke.singsangsung.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.SparseArray
 import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -79,10 +78,6 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
             onStoppedRecording.observe(this@PlayerActivity, Observer { shortToast(R.string.message_stopped_recoding) })
 
-            onSuccessDownloadEvent.observe(this@PlayerActivity, Observer {
-                shortToast(R.string.message_download_complete)
-            })
-
             onSuccessAddFavoritesEvent.observe(this@PlayerActivity, Observer {
                 shortToast(R.string.message_add_favorites_complete)
             })
@@ -93,10 +88,6 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
             onSuccessHideEvent.observe(this@PlayerActivity, Observer {
                 shortToast(R.string.message_hide_complete)
-            })
-
-            onSuccessDeleteDownloadEvent.observe(this@PlayerActivity, Observer {
-                shortToast(R.string.message_delete_download_complete)
             })
 
             onSuccessHideEvent.observe(this@PlayerActivity, Observer {
@@ -154,10 +145,6 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
 
         with(mViewModel.playerViewPagerAdapter) {
             with(playerPlaylistFragment) {
-                onDownloadEvent.observe(this, Observer {
-                    mViewModel.download(it)
-                })
-
                 onAddFavoritesEvent.observe(this, Observer {
                     mViewModel.addFavorites(it)
                 })
@@ -166,12 +153,16 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                     mViewModel.deleteFavorites(it)
                 })
 
-                onDeleteDownloadEvent.observe(this, Observer {
-                    mViewModel.deleteDownload(it)
-                })
-
                 onHideEvent.observe(this, Observer {
                     mViewModel.hide(it)
+                })
+
+                onOpenYoutubeEvent.observe(this, Observer {
+                    openYoutube(it)
+                })
+
+                onShareEvent.observe(this, Observer {
+                    share(it)
                 })
             }
 
@@ -249,38 +240,21 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                             with(playerBottomSheetDialog) {
                                 onClickAddFavoritesEvent.observe(this@PlayerActivity, Observer {
                                     mViewModel.addFavorites()
-                                    mViewModel.video.state =
-                                        if (mViewModel.video.state == YoutubeData.State.DOWNLOAD)
-                                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
-                                        else
-                                            YoutubeData.State.FAVORITES
-                                })
+                                    mViewModel.video.state = YoutubeData.State.FAVORITES
 
-                                onClickDownloadEvent.observe(this@PlayerActivity, Observer {
-                                    mViewModel.download()
-                                    mViewModel.video.state =
-                                        if (mViewModel.video.state == YoutubeData.State.FAVORITES)
-                                            YoutubeData.State.FAVORITES_AND_DOWNLOAD
-                                        else
-                                            YoutubeData.State.DOWNLOAD
                                 })
 
                                 onClickDeleteFavoritesEvent.observe(this@PlayerActivity, Observer {
                                     mViewModel.deleteFavorites()
-                                    mViewModel.video.state =
-                                        if (mViewModel.video.state == YoutubeData.State.FAVORITES)
-                                            YoutubeData.State.NONE
-                                        else
-                                            YoutubeData.State.DOWNLOAD
+                                    mViewModel.video.state = YoutubeData.State.NONE
                                 })
 
-                                onClickDeleteDownloadEvent.observe(this@PlayerActivity, Observer {
-                                    mViewModel.deleteDownload()
-                                    mViewModel.video.state =
-                                        if (mViewModel.video.state == YoutubeData.State.DOWNLOAD)
-                                            YoutubeData.State.NONE
-                                        else
-                                            YoutubeData.State.FAVORITES
+                                onClickOpenYoutubeEvent.observe(this@PlayerActivity, Observer {
+                                    openYoutube(mViewModel.video)
+                                })
+
+                                onClickShareEvent.observe(this@PlayerActivity, Observer {
+                                    share(mViewModel.video)
                                 })
                             }
                         }
@@ -317,6 +291,22 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
             }
 
         youtubeExtractor.extract("http://youtube.com/watch?v=${mViewModel.video.videoId}", true, false)
+    }
+
+    private fun openYoutube(youtubeData: YoutubeData) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://youtube.com/watch?v=${youtubeData.videoId}")
+            )
+        )
+    }
+
+    private fun share(youtubeData: YoutubeData) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, "http://youtube.com/watch?v=${youtubeData.videoId}")
+        startActivity(Intent.createChooser(intent, "싱생송 - 무료 노래방"))
     }
 
     private fun stopRecord() {

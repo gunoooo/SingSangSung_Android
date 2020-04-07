@@ -42,6 +42,7 @@ class PlaylistDataSource @Inject constructor(
                             ).toString(),
                             YoutubeData.State.NONE,
                             id,
+                            null,
                             null
                         )
                     )

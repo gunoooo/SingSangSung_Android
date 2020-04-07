@@ -5,11 +5,13 @@ import android.net.Uri
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
@@ -17,6 +19,7 @@ import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.widget.extension.getParentActivity
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 @BindingAdapter("adapter")
 fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
@@ -107,4 +110,19 @@ fun setMutableImageUri(view: ImageView, uri: MutableLiveData<Uri>?) {
             .load(R.color.colorLightGrey)
             .into(view)
     }
+}
+
+@BindingAdapter("mutableSpinnerPosition")
+fun setMutableSpinnerPosition(view: Spinner, spinnerPosition: MutableLiveData<Int>?) {
+    val parentActivity: AppCompatActivity = view.getParentActivity() ?: return
+
+    spinnerPosition?.observe(parentActivity, Observer { value ->
+        view.setSelection(value, false)
+    })
+}
+
+@BindingAdapter("dragListener")
+fun setDragListener(recyclerView: RecyclerView, onItemDrag: DragItemTouchHelperCallback.OnItemCallbackListener) {
+    val itemTouchHelper = ItemTouchHelper(DragItemTouchHelperCallback(onItemDrag))
+    itemTouchHelper.attachToRecyclerView(recyclerView)
 }

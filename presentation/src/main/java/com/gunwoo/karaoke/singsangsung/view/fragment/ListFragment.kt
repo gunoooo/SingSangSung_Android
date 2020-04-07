@@ -1,10 +1,12 @@
 package com.gunwoo.karaoke.singsangsung.view.fragment
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentListBinding
@@ -14,6 +16,7 @@ import com.gunwoo.karaoke.singsangsung.viewmodelfactory.ListViewModelFactory
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import kotlinx.android.synthetic.main.fragment_list.*
+import java.lang.IndexOutOfBoundsException
 import javax.inject.Inject
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
@@ -34,10 +37,6 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                             .putExtra(PlayerActivity.EXTRA_VIDEO_LIST, youtubeDataList))
                 })
 
-                onDownloadEvent.observe(this@ListFragment, Observer {
-                    mViewModel.download(it)
-                })
-
                 onAddFavoritesEvent.observe(this@ListFragment, Observer {
                     mViewModel.addFavorites(it)
                 })
@@ -54,43 +53,59 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                     mViewModel.deleteHiding(it)
                 })
 
-                onDeleteDownloadEvent.observe(this@ListFragment, Observer {
-                    mViewModel.deleteDownload(it)
+                onOpenYoutubeEvent.observe(this@ListFragment, Observer {
+                    this@ListFragment.openYoutube(it)
+                })
+
+                onShareEvent.observe(this@ListFragment, Observer {
+                    this@ListFragment.share(it)
                 })
             }
-
-            onSuccessDownloadEvent.observe(this@ListFragment, Observer {
-                shortToast(R.string.message_download_complete)
-            })
 
             onSuccessAddFavoritesEvent.observe(this@ListFragment, Observer {
                 shortToast(R.string.message_add_favorites_complete)
             })
 
             onSuccessDeleteFavoritesEvent.observe(this@ListFragment, Observer {
-                thumbnail.value = youtubeDataList[0].thumbnailUrl
-                description.value = "총 ${youtubeDataList.size}곡  |  $type"
+                resetListInfo()
                 shortToast(R.string.message_delete_favorites_complete)
             })
 
             onSuccessHideEvent.observe(this@ListFragment, Observer {
-                thumbnail.value = youtubeDataList[0].thumbnailUrl
-                description.value = "총 ${youtubeDataList.size}곡  |  $type"
+                resetListInfo()
                 shortToast(R.string.message_hide_complete)
             })
 
-            onSuccessDeleteDownloadEvent.observe(this@ListFragment, Observer {
-                thumbnail.value = youtubeDataList[0].thumbnailUrl
-                description.value = "총 ${youtubeDataList.size}곡  |  $type"
-                shortToast(R.string.message_delete_download_complete)
-            })
-
             onSuccessDeleteHidingEvent.observe(this@ListFragment, Observer {
-                thumbnail.value = youtubeDataList[0].thumbnailUrl
-                description.value = "총 ${youtubeDataList.size}곡  |  $type"
+                resetListInfo()
                 shortToast(R.string.message_show_complete)
             })
         }
+    }
+
+    private fun resetListInfo() {
+        try {
+            mViewModel.thumbnail.value = mViewModel.youtubeDataList[0].thumbnailUrl
+            mViewModel.description.value = "총 ${mViewModel.youtubeDataList.size}곡  |  ${mViewModel.type}"
+        } catch (e: IndexOutOfBoundsException) {
+            this@ListFragment.activity?.onBackPressed()
+        }
+    }
+
+    private fun openYoutube(youtubeData: YoutubeData) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://youtube.com/watch?v=${youtubeData.videoId}")
+            )
+        )
+    }
+
+    private fun share(youtubeData: YoutubeData) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, "http://youtube.com/watch?v=${youtubeData.videoId}")
+        startActivity(Intent.createChooser(intent, "싱생송 - 무료 노래방"))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,13 +6,10 @@ import com.gunwoo.karaoke.data.database.cache.SearchCache
 import com.gunwoo.karaoke.data.database.entity.SearchEntity
 import com.gunwoo.karaoke.data.mapper.SearchMapper
 import com.gunwoo.karaoke.data.network.remote.SearchRemote
-import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.data.util.trimTitle
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.model.youtuberesponse.search.SearchItem
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.lang.Exception
 import javax.inject.Inject
 
 class SearchDataSource @Inject constructor(
@@ -22,31 +19,14 @@ class SearchDataSource @Inject constructor(
 
     private val searchMapper = SearchMapper()
 
-    fun getSearchList(search: String): Single<List<YoutubeData>> =
-        cache.getSearchList(search).onErrorResumeNext { getSearchListRemote(search) }
+    fun getSearchList(search: String, channelId: String, maxResults: Int): Single<List<YoutubeData>> =
+        cache.getSearchList(search, channelId, maxResults).onErrorResumeNext { getSearchListRemote(search, channelId, maxResults) }
             .map { searchEntityList -> searchEntityList.map { searchMapper.mapToModel(it) } }
 
     fun deleteAllPlaylist(): Completable = cache.deleteAll()
 
-    private fun getSearchListRemote(search: String): Single<List<SearchEntity>> {
-        val list = ArrayList<SearchItem>()
-
-        return remote.getSearchList(Constants.KY_CHANNEL_ID, search).flatMap { kyChannelResponse ->
-            list.addAll(kyChannelResponse.filter { item -> isContains(item, "[KY 금영노래방]", "[KY ENTERTAINMENT]") })
-            remote.getSearchList(Constants.MO_CHANNEL_ID, search).flatMap { moChannelResponse ->
-                list.addAll(moChannelResponse)
-                remote.getSearchList(Constants.ZZANG_CHANNEL_ID, search).flatMap { zzangRespnse ->
-                    list.addAll(zzangRespnse)
-                    remote.getSearchList(Constants.LALA_CHANNEL_ID, search).flatMap { lalaResponse ->
-                        list.addAll(lalaResponse)
-                        remote.getSearchList(Constants.CHILD_CHANNEL_ID, search).flatMap { childResponse ->
-                            list.addAll(childResponse)
-                            Single.just(list)
-                        }
-                    }
-                }
-            }
-        }.map { searchItem ->
+    private fun getSearchListRemote(search: String, channelId: String, maxResults: Int): Single<List<SearchEntity>> {
+        return remote.getSearchList(channelId, search, maxResults).map { searchItem ->
             searchItem.map {
                 searchMapper.mapToEntity(
                     YoutubeData(
@@ -62,15 +42,11 @@ class SearchDataSource @Inject constructor(
                         ).toString(),
                         YoutubeData.State.NONE,
                         null,
+                        channelId,
                         search
                     )
                 )
             }
         }.flatMap { searchList -> cache.insertSearchList(searchList).toSingleDefault(searchList) }
     }
-
-    private fun isContains(searchItem: SearchItem, vararg other: String): Boolean =
-        HtmlCompat.fromHtml(searchItem.snippet.title, HtmlCompat.FROM_HTML_MODE_COMPACT).toString().contains(other[0]) ||
-                HtmlCompat.fromHtml(searchItem.snippet.title, HtmlCompat.FROM_HTML_MODE_COMPACT).toString().contains(other[1])
-
 }

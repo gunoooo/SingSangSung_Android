@@ -8,6 +8,6 @@ import io.reactivex.Single
 
 class SearchRemote(override val service: SearchService) : BaseRemote<SearchService>() {
 
-    fun getSearchList(channelId: String, search: String): Single<List<SearchItem>> =
-        service.getSearchList(channelId, search).map(getResponse()).map { it.items }
+    fun getSearchList(channelId: String, search: String, maxResults: Int): Single<List<SearchItem>> =
+        service.getSearchList(channelId, search, maxResults).map(getResponse()).map { it.items }
 }

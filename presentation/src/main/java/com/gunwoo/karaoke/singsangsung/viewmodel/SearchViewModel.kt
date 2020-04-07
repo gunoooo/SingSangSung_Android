@@ -29,6 +29,7 @@ class SearchViewModel(
     val onHideKeyEvent = SingleLiveEvent<Unit>()
     val onEmptyEvent = SingleLiveEvent<Unit>()
     val onOpenListEvent = SingleLiveEvent<Unit>()
+    val onOpenSettingEvent = SingleLiveEvent<Unit>()
 
     init { searchHistoryListAdapter.setYoutubeDataList(searchHistoryList) }
 
@@ -81,7 +82,7 @@ class SearchViewModel(
             })
     }
 
-    fun deleteAllSearchHistory() {
+    private fun deleteAllSearchHistory() {
         addDisposable(deleteAllSearchHistoryUseCase.buildUseCaseObservable(),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
@@ -111,4 +112,8 @@ class SearchViewModel(
         else
             setSearchList()
     }
+
+    fun onClickDeleteAll() = deleteAllSearchHistory()
+
+    fun onClickOpenSetting() = onOpenSettingEvent.call()
 }

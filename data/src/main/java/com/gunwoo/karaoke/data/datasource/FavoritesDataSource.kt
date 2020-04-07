@@ -16,7 +16,8 @@ class FavoritesDataSource @Inject constructor(
 
     private val favoritesMapper = FavoritesMapper()
 
-    fun getFavoritesList(): Single<List<YoutubeData>> = cache.getFavoritesList().map { favoritesList -> favoritesList.map { favoritesMapper.mapToModel(it) } }
+    fun getFavoritesList(): Single<List<YoutubeData>> =
+        cache.getFavoritesList().map { favoritesList -> favoritesList.map { favoritesMapper.mapToModel(it) } }
 
     fun insertFavorites(youtubeData: YoutubeData): Completable = cache.insertFavorites(favoritesMapper.mapToEntity(youtubeData))
 

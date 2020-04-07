@@ -11,6 +11,8 @@ import android.view.ViewGroup.LayoutParams
 import android.view.Window
 import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 import com.gunwoo.karaoke.singsangsung.BR
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -26,8 +28,6 @@ import java.util.*
 abstract class BaseDialog<VB : ViewDataBinding, VM : BaseViewModel> : DaggerDialogFragment() {
     protected lateinit var mBinding: VB
     protected lateinit var mViewModel: VM
-
-    val dialogCloseEvent = SingleLiveEvent<Unit>()
 
     protected abstract val viewModel: VM
 
@@ -84,7 +84,6 @@ abstract class BaseDialog<VB : ViewDataBinding, VM : BaseViewModel> : DaggerDial
 
     override fun dismiss() {
         super.dismiss()
-        dialogCloseEvent.call()
         mBinding.unbind()
     }
 

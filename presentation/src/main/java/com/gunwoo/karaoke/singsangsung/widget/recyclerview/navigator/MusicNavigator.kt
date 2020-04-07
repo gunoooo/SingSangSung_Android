@@ -5,8 +5,6 @@ import com.gunwoo.karaoke.domain.model.YoutubeData
 interface MusicNavigator {
     fun onClickItem(youtubeData: YoutubeData)
 
-    fun download(youtubeData: YoutubeData)
-
     fun addFavorites(youtubeData: YoutubeData)
 
     fun deleteFavorites(youtubeData: YoutubeData)
@@ -15,5 +13,7 @@ interface MusicNavigator {
 
     fun deleteHiding(youtubeData: YoutubeData)
 
-    fun deleteDownload(youtubeData: YoutubeData)
+    fun openYoutube(youtubeData: YoutubeData)
+
+    fun share(youtubeData: YoutubeData)
 }

@@ -50,14 +50,76 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:adapter="@{viewModel.searchHistoryListAdapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            tools:listitem="@layout/item_search_history" />
+            tools:listitem="@layout/item_search_history"
+            tools:itemCount="6" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/colorLightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+
+        <TextView
+            android:id="@+id/text_remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:fontFamily="@font/nanum_square_regular"
+            android:textColor="@color/colorSoftGrey"
+            android:text="@string/text_remove_all"
+            android:onClick="@{() -> viewModel.onClickDeleteAll()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/colorLightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_remove" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/line2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_regular"
+                android:text="@string/text_complain_search"
+                android:textColor="@color/colorSoftGrey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nanum_square_round"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="15dp"
+                android:text="@string/text_search_setting"
+                android:textColor="@color/colorPrimaryDark"
+                android:onClick="@{() -> viewModel.onClickOpenSetting()}" />
+        </LinearLayout>
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="?android:attr/progressBarStyle"

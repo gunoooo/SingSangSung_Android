@@ -23,10 +23,6 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideDownloadRepository(downloadRepositoryImpl: DownloadRepositoryImpl): DownloadRepository = downloadRepositoryImpl
-
-    @Singleton
-    @Provides
     fun provideFavoritesRepository(favoritesRepositoryImpl: FavoritesRepositoryImpl): FavoritesRepository = favoritesRepositoryImpl
 
     @Singleton
@@ -40,4 +36,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideSearchHistoryRepository(searchHistoryRepositoryImpl: SearchHistoryRepositoryImpl): SearchHistoryRepository = searchHistoryRepositoryImpl
+
+    @Singleton
+    @Provides
+    fun provideSearchSettingRepository(searchSettingRepositoryImpl: SearchSettingRepositoryImpl): SearchSettingRepository = searchSettingRepositoryImpl
 }
