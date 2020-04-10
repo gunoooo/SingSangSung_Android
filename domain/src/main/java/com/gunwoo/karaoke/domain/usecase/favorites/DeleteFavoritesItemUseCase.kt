@@ -1,21 +1,21 @@
 package com.gunwoo.karaoke.domain.usecase.favorites
 
 import com.gunwoo.karaoke.domain.base.ParamsUseCase
-import com.gunwoo.karaoke.domain.model.Favorites
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.*
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class DeleteFavoritesUseCase @Inject constructor(
+class DeleteFavoritesItemUseCase @Inject constructor(
     private val favoritesRepository: FavoritesRepository
-) : ParamsUseCase<DeleteFavoritesUseCase.Params, Completable>() {
+) : ParamsUseCase<DeleteFavoritesItemUseCase.Params, Completable>() {
 
     override fun buildUseCaseObservable(params: Params): Completable {
-        return favoritesRepository.deleteFavorites(params.favorites)
+        return favoritesRepository.deleteFavoritesItem(params.youtubeData, params.favoritesId)
     }
 
     data class Params(
-        val favorites: Favorites
+        val youtubeData: YoutubeData,
+        val favoritesId: Int
     )
 }

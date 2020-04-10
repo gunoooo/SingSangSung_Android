@@ -1,10 +1,7 @@
 package com.gunwoo.karaoke.data.datasource
 
 import com.gunwoo.karaoke.data.base.BaseDataSource
-import com.gunwoo.karaoke.data.database.cache.FavoritesCache
 import com.gunwoo.karaoke.data.database.cache.RecentCache
-import com.gunwoo.karaoke.data.database.entity.FavoritesEntity
-import com.gunwoo.karaoke.data.mapper.FavoritesMapper
 import com.gunwoo.karaoke.data.mapper.RecentMapper
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import io.reactivex.Completable

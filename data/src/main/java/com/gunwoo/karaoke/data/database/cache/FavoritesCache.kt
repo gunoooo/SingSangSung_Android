@@ -3,6 +3,7 @@ package com.gunwoo.karaoke.data.database.cache
 import android.app.Application
 import com.gunwoo.karaoke.data.base.BaseCache
 import com.gunwoo.karaoke.data.database.entity.FavoritesEntity
+import com.gunwoo.karaoke.data.database.entity.FavoritesWithItemEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -10,8 +11,9 @@ import javax.inject.Inject
 class FavoritesCache @Inject constructor(application: Application) : BaseCache(application) {
 
     private val favoritesDao = database.favoritesDao()
+    private val favoritesWithItemDao = database.favoritesWithItemDao()
 
-    fun getFavoritesList(): Single<List<FavoritesEntity>> = favoritesDao.getFavoritesList()
+    fun getFavoritesWithItemList(): Single<List<FavoritesWithItemEntity>> = favoritesWithItemDao.getFavoritesWithItemList()
 
     fun insertFavorites(favoritesEntity: FavoritesEntity): Completable = favoritesDao.insert(favoritesEntity)
 

@@ -40,7 +40,6 @@ class SearchDataSource @Inject constructor(
                             it.snippet.channelTitle,
                             HtmlCompat.FROM_HTML_MODE_COMPACT
                         ).toString(),
-                        YoutubeData.State.NONE,
                         null,
                         channelId,
                         search

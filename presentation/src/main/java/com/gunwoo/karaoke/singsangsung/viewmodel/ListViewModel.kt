@@ -3,21 +3,22 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
-import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesUseCase
-import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesItemUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesItemUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.DeleteHidingUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.InsertHidingUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.recyclerview.adapter.MusicListAdapter
 import io.reactivex.observers.DisposableCompletableObserver
+import kr.co.prnd.YouTubePlayerView
 import java.util.*
 
 
 class ListViewModel(
-    private val insertFavoritesUseCase: InsertFavoritesUseCase,
+    private val insertFavoritesItemUseCase: InsertFavoritesItemUseCase,
     private val insertHidingUseCase: InsertHidingUseCase,
-    private val deleteFavoritesUseCase: DeleteFavoritesUseCase,
+    private val deleteFavoritesItemUseCase: DeleteFavoritesItemUseCase,
     private val deleteHidingUseCase: DeleteHidingUseCase
 ) : BaseViewModel() {
 
@@ -49,7 +50,7 @@ class ListViewModel(
     }
 
     fun addFavorites(youtubeData: YoutubeData) {
-        addDisposable(insertFavoritesUseCase.buildUseCaseObservable(InsertFavoritesUseCase.Params(youtubeData)),
+        addDisposable(insertFavoritesItemUseCase.buildUseCaseObservable(InsertFavoritesItemUseCase.Params(youtubeData)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     youtubeDataList
@@ -69,7 +70,7 @@ class ListViewModel(
     }
 
     fun deleteFavorites(youtubeData: YoutubeData) {
-        addDisposable(deleteFavoritesUseCase.buildUseCaseObservable(DeleteFavoritesUseCase.Params(youtubeData)),
+        addDisposable(deleteFavoritesItemUseCase.buildUseCaseObservable(DeleteFavoritesItemUseCase.Params(youtubeData)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     if (title == "즐겨찾기 목록") {

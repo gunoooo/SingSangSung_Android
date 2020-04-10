@@ -28,16 +28,9 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_genre" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:layout_gravity="center"
                         android:textSize="18sp"
                         android:textColor="@color/colorPrimaryDark"
@@ -49,6 +42,7 @@
                     android:id="@+id/genre_playlist_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:overScrollMode="never"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:adapter="@{viewModel.genrePlaylistListAdapter}"
@@ -66,16 +60,9 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_mood" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:layout_gravity="center"
                         android:textSize="18sp"
                         android:textColor="@color/colorPrimaryDark"
@@ -87,6 +74,7 @@
                     android:id="@+id/mood_playlist_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:overScrollMode="never"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:adapter="@{viewModel.moodPlaylistListAdapter}"
@@ -104,16 +92,9 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_program" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:layout_gravity="center"
                         android:textSize="18sp"
                         android:textColor="@color/colorPrimaryDark"
@@ -125,6 +106,7 @@
                     android:id="@+id/program_playlist_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:overScrollMode="never"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:adapter="@{viewModel.programPlaylistListAdapter}"

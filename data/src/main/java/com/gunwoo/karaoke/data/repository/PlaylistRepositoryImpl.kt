@@ -1,6 +1,6 @@
 package com.gunwoo.karaoke.data.repository
 
-import com.gunwoo.karaoke.data.datasource.FavoritesDataSource
+import com.gunwoo.karaoke.data.datasource.FavoritesItemDataSource
 import com.gunwoo.karaoke.data.datasource.HidingDataSource
 import com.gunwoo.karaoke.data.datasource.PlaylistDataSource
 import com.gunwoo.karaoke.domain.model.YoutubeData
@@ -11,17 +11,17 @@ import javax.inject.Inject
 
 class PlaylistRepositoryImpl @Inject constructor(
     private val playlistDataSource: PlaylistDataSource,
-    private val favoritesDataSource: FavoritesDataSource,
+    private val favoritesItemDataSource: FavoritesItemDataSource,
     private val hidingDataSource: HidingDataSource
 ) : PlaylistRepository {
 
     private lateinit var playlistList: List<YoutubeData>
-    private lateinit var favoritesList: List<YoutubeData>
+    private lateinit var favoritesItemList: List<YoutubeData>
     private lateinit var hidingList: List<YoutubeData>
 
     override fun getPlaylistsList(id: String): Single<List<YoutubeData>> {
         return playlistDataSource.getPlaylistsList(id).flatMap { playlistList -> this.playlistList = playlistList
-            favoritesDataSource.getFavoritesList().flatMap { favoritesList -> this.favoritesList = favoritesList
+            favoritesItemDataSource.getFavoritesItemList().flatMap { favoritesItemList -> this.favoritesItemList = favoritesItemList
                 hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
                     Single.just(getResultPlaylistsList())
                 }
@@ -46,16 +46,6 @@ class PlaylistRepositoryImpl @Inject constructor(
 
             if (!isHidden)
                 list.add(playlistItem)
-        }
-
-        @Suppress("LABEL_NAME_CLASH")
-        list.forEach { playlistItem ->
-            favoritesList.forEach { favorites ->
-                if (playlistItem.videoId == favorites.videoId) {
-                    playlistItem.state = YoutubeData.State.FAVORITES
-                    return@forEach
-                }
-            }
         }
 
         return list

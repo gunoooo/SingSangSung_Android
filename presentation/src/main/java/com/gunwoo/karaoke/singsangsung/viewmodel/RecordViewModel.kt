@@ -1,7 +1,10 @@
 package com.gunwoo.karaoke.singsangsung.viewmodel
 
 import android.media.MediaPlayer
+import android.view.View
+import android.widget.Spinner
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.textview.MaterialTextView
 import com.gunwoo.karaoke.domain.model.Record
 import com.gunwoo.karaoke.domain.usecase.record.GetRecordListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
@@ -16,14 +19,16 @@ class RecordViewModel(
 ) : BaseViewModel() {
 
     private val recordList = ArrayList<Record>()
+    private val notDistinctList = ArrayList<Record>()
+    private val distinctList = ArrayList<Record>()
 
     var player: MediaPlayer? = null
     private var record: Record? = null
+    private var sortPosition = 0
 
     val recordListAdapter = RecordListAdapter()
 
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
-    val isChronological = MutableLiveData<Boolean>(true)
     val isEmpty = MutableLiveData<Boolean>()
     val title = MutableLiveData<String>()
     val time = MutableLiveData<String>()
@@ -46,6 +51,9 @@ class RecordViewModel(
                     recordList.clear()
                     recordList.addAll(t)
                     recordListAdapter.notifyDataSetChanged()
+
+                    notDistinctList.addAll(recordList)
+                    distinctList.addAll(recordList.distinctBy { it.title })
                 }
 
                 override fun onError(e: Throwable) {
@@ -105,22 +113,25 @@ class RecordViewModel(
         }
     }
 
-    fun onClickChronological() {
-        if (isChronological.value!!) return
-
-        recordList.reverse()
-        recordListAdapter.notifyDataSetChanged()
-
-        isChronological.value = true
+    fun onSelectSortItem(position: Int) {
+        if (sortPosition != position) {
+            recordList.reverse()
+            recordListAdapter.notifyDataSetChanged()
+            sortPosition = position
+        }
     }
 
-    fun onClickReverse() {
-        if (!isChronological.value!!) return
-
-        recordList.reverse()
+    fun onSelectOverlapItem(view: View) {
+        val selectedTextView = view as MaterialTextView
+        if (selectedTextView.text == "중복포함") {
+            recordList.clear()
+            recordList.addAll(notDistinctList)
+        }
+        else {
+            recordList.clear()
+            recordList.addAll(distinctList)
+        }
         recordListAdapter.notifyDataSetChanged()
-
-        isChronological.value = false
     }
 
     enum class ViewType {

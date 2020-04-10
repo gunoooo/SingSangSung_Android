@@ -52,6 +52,14 @@
                     android:textSize="15sp"
                     android:text="@string/text_app_name_sub" />
 
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/ic_youtube_logo" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -267,6 +275,7 @@
                     android:id="@+id/recommend_playlist_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
                     android:overScrollMode="never"
                     android:orientation="horizontal"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"

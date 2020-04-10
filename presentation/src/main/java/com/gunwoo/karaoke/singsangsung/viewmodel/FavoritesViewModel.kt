@@ -2,7 +2,7 @@ package com.gunwoo.karaoke.singsangsung.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.favorites.GetFavoritesListUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.GetFavoritesItemListUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.GetHidingListUseCase
 import com.gunwoo.karaoke.domain.usecase.recent.GetRecentListUseCase
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
@@ -12,7 +12,7 @@ import io.reactivex.observers.DisposableSingleObserver
 
 class FavoritesViewModel(
     private val getRecentListUseCase: GetRecentListUseCase,
-    private val getFavoritesListUseCase: GetFavoritesListUseCase,
+    private val getFavoritesItemListUseCase: GetFavoritesItemListUseCase,
     private val getHidingListUseCase: GetHidingListUseCase
 ) : BaseViewModel() {
 
@@ -49,7 +49,7 @@ class FavoritesViewModel(
     }
 
     private fun setFavoritesList() {
-        addDisposable(getFavoritesListUseCase.buildUseCaseObservable(),
+        addDisposable(getFavoritesItemListUseCase.buildUseCaseObservable(),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     videoList.clear()

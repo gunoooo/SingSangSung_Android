@@ -11,8 +11,7 @@ class PlaylistMapper : BaseEntityMapper<YoutubeData, PlaylistEntity> {
             entity.videoId,
             entity.thumbnailUrl,
             entity.videoTitle,
-            entity.channelTitle,
-            YoutubeData.State.NONE
+            entity.channelTitle
         )
     }
 

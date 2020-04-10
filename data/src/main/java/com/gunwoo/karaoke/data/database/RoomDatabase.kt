@@ -8,20 +8,23 @@ import com.gunwoo.karaoke.data.database.dao.*
 import com.gunwoo.karaoke.data.database.entity.*
 
 @Database(entities = [RecordEntity::class, HidingEntity::class,
-    FavoritesEntity::class, RecentEntity::class, PlaylistEntity::class,
-    SearchEntity::class, SearchHistoryEntity::class, SearchSettingEntity::class],
+    FavoritesItemEntity::class, RecentEntity::class, PlaylistEntity::class,
+    SearchEntity::class, SearchHistoryEntity::class, SearchSettingEntity::class,
+    FavoritesEntity::class, FavoritesWithItemEntity::class],
     version = 1, exportSchema = false
 )
 abstract class RoomDatabase : androidx.room.RoomDatabase() {
 
     abstract fun recordDao(): RecordDao
     abstract fun hidingDao(): HidingDao
-    abstract fun favoritesDao(): FavoritesDao
+    abstract fun favoritesItemDao(): FavoritesItemDao
     abstract fun recentDao(): RecentDao
     abstract fun playlistsDao(): PlaylistDao
     abstract fun searchDao(): SearchDao
     abstract fun searchHistoryDao(): SearchHistoryDao
     abstract fun searchSettingDao(): SearchSettingDao
+    abstract fun favoritesDao(): FavoritesDao
+    abstract fun favoritesWithItemDao(): FavoritesWithItemDao
 
     companion object {
 

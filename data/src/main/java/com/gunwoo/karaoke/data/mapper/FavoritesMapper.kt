@@ -1,27 +1,26 @@
 package com.gunwoo.karaoke.data.mapper
 
-import com.gunwoo.karaoke.data.base.BaseEntityMapper
 import com.gunwoo.karaoke.data.database.entity.FavoritesEntity
-import com.gunwoo.karaoke.domain.model.YoutubeData
+import com.gunwoo.karaoke.data.database.entity.FavoritesWithItemEntity
+import com.gunwoo.karaoke.domain.model.Favorites
 
-class FavoritesMapper : BaseEntityMapper<YoutubeData, FavoritesEntity> {
+class FavoritesMapper {
 
-    override fun mapToModel(entity: FavoritesEntity): YoutubeData {
-        return YoutubeData(
-            entity.videoId,
-            entity.thumbnailUrl,
-            entity.videoTitle,
-            entity.channelTitle,
-            YoutubeData.State.FAVORITES
+    private val favoritesItemMapper = FavoritesItemMapper()
+
+    fun mapToModel(entity: FavoritesWithItemEntity): Favorites {
+        return Favorites(
+            entity.favorites.id,
+            entity.favorites.favoritesTitle,
+            entity.favorites.createDate,
+            entity.favoritesItemList.map { favoritesItemMapper.mapToModel(it) }
         )
     }
 
-    override fun mapToEntity(model: YoutubeData): FavoritesEntity {
+    fun mapToEntity(model: Favorites): FavoritesEntity {
         return FavoritesEntity(
-            model.videoId!!,
-            model.thumbnailUrl,
-            model.videoTitle,
-            model.channelTitle
+            model.favoritesTitle,
+            model.createDate
         )
     }
 }

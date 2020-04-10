@@ -4,8 +4,8 @@ import android.media.MediaRecorder
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
-import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesUseCase
-import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesItemUseCase
+import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesItemUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.InsertHidingUseCase
 import com.gunwoo.karaoke.domain.usecase.recent.InsertRecentUseCase
 import com.gunwoo.karaoke.domain.usecase.record.InsertRecordUseCase
@@ -20,9 +20,9 @@ import java.util.*
 class PlayerViewModel(
     private val insertRecordUseCase: InsertRecordUseCase,
     private val insertRecentUseCase: InsertRecentUseCase,
-    private val insertFavoritesUseCase: InsertFavoritesUseCase,
+    private val insertFavoritesItemUseCase: InsertFavoritesItemUseCase,
     private val insertHidingUseCase: InsertHidingUseCase,
-    private val deleteFavoritesUseCase: DeleteFavoritesUseCase
+    private val deleteFavoritesItemUseCase: DeleteFavoritesItemUseCase
 ) : BaseViewModel() {
 
     lateinit var playerViewPagerAdapter: PlayerViewPagerAdapter
@@ -63,7 +63,7 @@ class PlayerViewModel(
     }
 
     fun addFavorites(youtubeData: YoutubeData = video) {
-        addDisposable(insertFavoritesUseCase.buildUseCaseObservable(InsertFavoritesUseCase.Params(youtubeData)),
+        addDisposable(insertFavoritesItemUseCase.buildUseCaseObservable(InsertFavoritesItemUseCase.Params(youtubeData)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     onSuccessAddFavoritesEvent.call()
@@ -76,7 +76,7 @@ class PlayerViewModel(
     }
 
     fun deleteFavorites(youtubeData: YoutubeData = video) {
-        addDisposable(deleteFavoritesUseCase.buildUseCaseObservable(DeleteFavoritesUseCase.Params(youtubeData)),
+        addDisposable(deleteFavoritesItemUseCase.buildUseCaseObservable(DeleteFavoritesItemUseCase.Params(youtubeData)),
             object : DisposableCompletableObserver() {
                 override fun onComplete() {
                     onSuccessDeleteFavoritesEvent.call()

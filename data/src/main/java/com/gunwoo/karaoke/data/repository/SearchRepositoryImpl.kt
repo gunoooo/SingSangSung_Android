@@ -11,12 +11,12 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchDataSource: SearchDataSource,
     private val searchSettingDataSource: SearchSettingDataSource,
     private val searchHistoryDataSource: SearchHistoryDataSource,
-    private val favoritesDataSource: FavoritesDataSource,
+    private val favoritesItemDataSource: FavoritesItemDataSource,
     private val hidingDataSource: HidingDataSource
 ) : SearchRepository {
 
     private lateinit var searchList: List<YoutubeData>
-    private lateinit var favoritesList: List<YoutubeData>
+    private lateinit var favoritesItemList: List<YoutubeData>
     private lateinit var hidingList: List<YoutubeData>
 
     override fun getSearchList(search: String): Single<List<YoutubeData>> {
@@ -51,7 +51,7 @@ class SearchRepositoryImpl @Inject constructor(
                 Single.just(list)
             }}}}}}}}}}}}}}}}}
         }.flatMap { searchList -> this.searchList = searchList
-            favoritesDataSource.getFavoritesList().flatMap { favoritesList -> this.favoritesList = favoritesList
+            favoritesItemDataSource.getFavoritesItemList().flatMap { favoritesItemList -> this.favoritesItemList = favoritesItemList
                 hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
                     searchHistoryDataSource.insertSearchHistory(search).toSingleDefault(getResultSearchList())
                 }
@@ -77,16 +77,6 @@ class SearchRepositoryImpl @Inject constructor(
 
             if (!isHidden)
                 list.add(searchItem)
-        }
-
-        @Suppress("LABEL_NAME_CLASH")
-        list.forEach { searchItem ->
-            favoritesList.forEach { favorites ->
-                if (searchItem.videoId == favorites.videoId) {
-                    searchItem.state = YoutubeData.State.FAVORITES
-                    return@forEach
-                }
-            }
         }
 
         return list
