@@ -12,10 +12,10 @@ class DeleteFavoritesUseCase @Inject constructor(
 ) : ParamsUseCase<DeleteFavoritesUseCase.Params, Completable>() {
 
     override fun buildUseCaseObservable(params: Params): Completable {
-        return favoritesRepository.deleteFavorites(params.favorites)
+        return favoritesRepository.deleteFavorites(params.favoritesId)
     }
 
     data class Params(
-        val favorites: Favorites
+        val favoritesId: Int
     )
 }

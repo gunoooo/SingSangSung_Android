@@ -1,6 +1,7 @@
 package com.gunwoo.karaoke.data.repository
 
 import com.gunwoo.karaoke.data.datasource.*
+import com.gunwoo.karaoke.data.exception.ListEmptyException
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.SearchRepository
 import io.reactivex.Completable
@@ -56,7 +57,7 @@ class SearchRepositoryImpl @Inject constructor(
                     searchHistoryDataSource.insertSearchHistory(search).toSingleDefault(getResultSearchList())
                 }
             }
-        }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
+        }.map { if (it.isEmpty()) throw ListEmptyException("검색 결과가 없습니다") else it }
     }
 
 

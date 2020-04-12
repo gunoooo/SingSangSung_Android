@@ -9,10 +9,6 @@
         android:title="@string/menu_open_youtube" />
 
     <item
-        android:id="@+id/menu_hide"
-        android:title="@string/menu_hide" />
-
-    <item
         android:id="@+id/menu_share"
         android:title="@string/menu_share" />
 </menu>

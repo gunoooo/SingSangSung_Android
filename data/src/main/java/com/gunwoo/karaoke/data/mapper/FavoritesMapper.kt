@@ -11,7 +11,7 @@ class FavoritesMapper {
     fun mapToModel(entity: FavoritesWithItemEntity): Favorites {
         return Favorites(
             entity.favorites.id,
-            entity.favorites.favoritesTitle,
+            entity.favorites.title,
             entity.favorites.createDate,
             entity.favoritesItemList.map { favoritesItemMapper.mapToModel(it) }
         )
@@ -19,7 +19,7 @@ class FavoritesMapper {
 
     fun mapToEntity(model: Favorites): FavoritesEntity {
         return FavoritesEntity(
-            model.favoritesTitle,
+            model.title,
             model.createDate
         )
     }

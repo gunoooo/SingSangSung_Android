@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel.RecordItemViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.record.RecordItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

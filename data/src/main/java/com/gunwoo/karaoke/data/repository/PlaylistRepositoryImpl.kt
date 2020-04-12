@@ -3,6 +3,7 @@ package com.gunwoo.karaoke.data.repository
 import com.gunwoo.karaoke.data.datasource.FavoritesItemDataSource
 import com.gunwoo.karaoke.data.datasource.HidingDataSource
 import com.gunwoo.karaoke.data.datasource.PlaylistDataSource
+import com.gunwoo.karaoke.data.exception.ListEmptyException
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.PlaylistRepository
 import io.reactivex.Completable
@@ -26,7 +27,7 @@ class PlaylistRepositoryImpl @Inject constructor(
                     Single.just(getResultPlaylistsList())
                 }
             }
-        }.map { if (it.isEmpty()) throw Exception("검색 결과가 없습니다") else it }
+        }.map { if (it.isEmpty()) throw ListEmptyException("검색 결과가 없습니다") else it }
     }
 
     override fun deleteAllPlaylist(): Completable {

@@ -2,12 +2,12 @@ package com.gunwoo.karaoke.domain.model
 
 data class Favorites(
     val id: Int?,
-    val favoritesTitle: String,
+    val title: String,
     val createDate: String,
     val favoritesItemList: List<YoutubeData>?
 ) {
 
-    constructor(favoritesTitle: String, createDate: String): this(null, favoritesTitle, createDate, null)
+    constructor(title: String, createDate: String): this(null, title, createDate, null)
 
     var isContained: Boolean = false
 

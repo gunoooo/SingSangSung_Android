@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel.ChannelItemViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.channel.ChannelItemViewModel" />
     </data>
 
     <LinearLayout

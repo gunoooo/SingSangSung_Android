@@ -6,12 +6,14 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Toast
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -21,7 +23,11 @@ import java.io.IOException
 import java.util.*
 
 
-class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+class SingSangSungVideoView : FrameLayout,
+    SurfaceHolder.Callback,
+    MediaPlayer.OnPreparedListener,
+    MediaPlayer.OnCompletionListener,
+    MediaPlayer.OnErrorListener {
 
     private var mContext: Context? = null
     private var attrs: AttributeSet? = null
@@ -172,6 +178,12 @@ class SingSangSungVideoView : FrameLayout, SurfaceHolder.Callback, MediaPlayer.O
         video_play_btn.setImageDrawable(context.getDrawable(R.drawable.ic_replay))
         viewType = ViewType.REPLAY
         playPauseListener?.pause()
+    }
+
+    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+        Toast.makeText(context, what, Toast.LENGTH_LONG).show()
+        Log.e("MediaPlayer", what.toString())
+        return true
     }
 
     override fun onPrepared(mp: MediaPlayer) {

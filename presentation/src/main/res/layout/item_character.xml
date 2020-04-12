@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.viewmodel.CharacterItemViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.widget.recyclerview.character.CharacterItemViewModel" />
     </data>
 
     <LinearLayout

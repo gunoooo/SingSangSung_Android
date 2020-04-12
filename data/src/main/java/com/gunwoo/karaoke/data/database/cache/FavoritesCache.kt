@@ -11,11 +11,12 @@ import javax.inject.Inject
 class FavoritesCache @Inject constructor(application: Application) : BaseCache(application) {
 
     private val favoritesDao = database.favoritesDao()
-    private val favoritesWithItemDao = database.favoritesWithItemDao()
 
-    fun getFavoritesWithItemList(): Single<List<FavoritesWithItemEntity>> = favoritesWithItemDao.getFavoritesWithItemList()
+    fun getFavoritesWithItemList(): Single<List<FavoritesWithItemEntity>> = favoritesDao.getFavoritesWithItemList()
 
     fun insertFavorites(favoritesEntity: FavoritesEntity): Completable = favoritesDao.insert(favoritesEntity)
 
-    fun deleteFavorites(favoritesEntity: FavoritesEntity): Completable = favoritesDao.delete(favoritesEntity)
+    fun updateFavorites(id: Int, title: String): Completable = favoritesDao.updateFavorites(id, title)
+
+    fun deleteFavorites(id: Int): Completable = favoritesDao.deleteFavorites(id)
 }

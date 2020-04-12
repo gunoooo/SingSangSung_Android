@@ -24,6 +24,9 @@ class FavoritesDataSource @Inject constructor(
     fun insertFavorites(favorites: Favorites): Completable =
         cache.insertFavorites(favoritesMapper.mapToEntity(favorites))
 
-    fun deleteFavorites(favorites: Favorites): Completable =
-        cache.deleteFavorites(favoritesMapper.mapToEntity(favorites))
+    fun updateFavorites(id: Int, title: String): Completable =
+        cache.updateFavorites(id, title)
+
+    fun deleteFavorites(id: Int): Completable =
+        cache.deleteFavorites(id)
 }

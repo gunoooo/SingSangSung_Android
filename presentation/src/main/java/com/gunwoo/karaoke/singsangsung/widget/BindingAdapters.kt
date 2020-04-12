@@ -26,14 +26,7 @@ fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
     view.adapter = adapter
 }
 
-@BindingAdapter("cardViewChecked")
-fun setCardViewChecked(view: MaterialCardView, check: MutableLiveData<Boolean>) {
-    val parentActivity: AppCompatActivity = view.getParentActivity() ?: return
-
-    check.observe(parentActivity, Observer { value -> view.isChecked = value?:false })
-}
-
-@BindingAdapter("checkBoxChecked")
+@BindingAdapter("mutableChecked")
 fun setMutableChecked(view: CheckBox, check: MutableLiveData<Boolean>) {
     val parentActivity: AppCompatActivity = view.getParentActivity() ?: return
 

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.PlayerViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.player.PlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,10 +1,21 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
-import com.gunwoo.karaoke.singsangsung.view.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.gunwoo.karaoke.singsangsung.di.scope.PerFragment
-import com.gunwoo.karaoke.singsangsung.view.dialog.ChannelAddDialog
+import com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesAddDialog
+import com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesBottomSheetDialog
+import com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesFixDialog
+import com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesFragment
+import com.gunwoo.karaoke.singsangsung.ui.home.HomeFragment
+import com.gunwoo.karaoke.singsangsung.ui.list.ListFragment
+import com.gunwoo.karaoke.singsangsung.ui.player.PlayerControllerFragment
+import com.gunwoo.karaoke.singsangsung.ui.player.PlayerPlaylistFragment
+import com.gunwoo.karaoke.singsangsung.ui.record.RecordFragment
+import com.gunwoo.karaoke.singsangsung.ui.search.SearchFragment
+import com.gunwoo.karaoke.singsangsung.ui.search.SearchSettingFragment
+import com.gunwoo.karaoke.singsangsung.ui.theme.ThemeFragment
+import com.gunwoo.karaoke.singsangsung.ui.search.SearchChannelAddDialog
 
 @Module
 abstract class FragmentBindingModule {
@@ -47,5 +58,17 @@ abstract class FragmentBindingModule {
 
     @PerFragment
     @ContributesAndroidInjector
-    abstract fun bindingChannelAddDialog(): ChannelAddDialog
+    abstract fun bindingChannelAddDialog(): SearchChannelAddDialog
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingFavoritesBottomSheetDialog(): FavoritesBottomSheetDialog
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingFavoritesAddDialog(): FavoritesAddDialog
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun bindingFavoritesFixDialog(): FavoritesFixDialog
 }

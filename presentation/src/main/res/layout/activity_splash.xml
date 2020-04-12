@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.SplashViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.splash.SplashViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

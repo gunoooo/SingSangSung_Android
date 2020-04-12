@@ -58,7 +58,7 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/nanum_square_round"
             android:textColor="@color/colorGrey"
-            tools:text="즐겨찾기 목록에 추가" />
+            android:text="@string/menu_add_favorites" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +82,7 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/nanum_square_round"
             android:textColor="@color/colorGrey"
-            tools:text="유튜브에서 열기" />
+            android:text="@string/menu_open_youtube" />
     </LinearLayout>
 
     <LinearLayout
@@ -106,7 +106,7 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/nanum_square_round"
             android:textColor="@color/colorGrey"
-            tools:text="공유" />
+            android:text="@string/menu_share" />
     </LinearLayout>
 
     <View

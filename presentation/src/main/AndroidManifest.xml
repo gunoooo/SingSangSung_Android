@@ -27,7 +27,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id"/>
 
-        <activity android:name=".view.activity.SplashActivity" >
+        <activity android:name=".ui.splash.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,9 +35,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activity.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
 
-        <activity android:name=".view.activity.PlayerActivity"
+        <activity android:name=".ui.player.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <service android:name=".streaming.service.SingSangSungFirebaseMessagingService">

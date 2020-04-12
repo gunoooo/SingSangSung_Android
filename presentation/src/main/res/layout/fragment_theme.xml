@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.ThemeViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.theme.ThemeViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

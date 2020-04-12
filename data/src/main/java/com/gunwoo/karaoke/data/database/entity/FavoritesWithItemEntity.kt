@@ -1,6 +1,7 @@
 package com.gunwoo.karaoke.data.database.entity
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Relation
 
 data class FavoritesWithItemEntity(

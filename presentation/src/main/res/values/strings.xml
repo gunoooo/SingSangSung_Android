@@ -16,6 +16,7 @@
     <string name="error_empty">공백없이 입력해주세요</string>
     <string name="error_search_setting_list_remove">더이상 삭제할 수 없습니다</string>
     <string name="error_search_setting_list_over">검색 채널은 최대 5개 설정할 수 있습니다</string>
+    <string name="error_favorites_empty">즐겨찾기 목록이 비어있습니다</string>
 
     <string name="text_popularity_chart">인기차트</string>
     <string name="text_recently_chart">최신차트</string>
@@ -33,10 +34,11 @@
 
     <string name="message_permission">애플리케이션 설정에서 권한을 수정할 수 있습니다</string>
     <string name="message_stopped_recoding">녹음이 완료되었습니다</string>
-    <string name="message_add_favorites_complete">해당 게시물을 즐겨찾기 목록에 추가하였습니다</string>
-    <string name="message_delete_favorites_complete">해당 게시물을 즐겨찾기 목록에 삭제하였습니다</string>
-    <string name="message_hide_complete">해당 게시물을 차단 목록에 추가하였습니다</string>
-    <string name="message_show_complete">해당 게시물을 차단 목록에서 삭제하였습니다</string>
+    <string name="message_add_favorites_complete">해당 노래를 즐겨찾기 목록에 추가하였습니다</string>
+    <string name="message_delete_favorites_complete">해당 노래를 즐겨찾기 목록에 삭제하였습니다</string>
+    <string name="message_hide_complete">해당 노래를 차단 목록에 추가하였습니다</string>
+    <string name="message_show_complete">해당 노래를 차단 목록에서 삭제하였습니다</string>
+
     <string name="text_favorites_list">즐겨찾기 목록</string>
     <string name="text_hide_list">차단 목록</string>
     <string name="menu_hide">차단</string>
@@ -58,4 +60,12 @@
     <string name="text_remove_all">모두 삭제하기</string>
     <string name="menu_open_youtube">유튜브에서 열기</string>
     <string name="menu_share">공유</string>
+    <string name="text_check">확인</string>
+    <string name="text_add_favorites_item">즐겨찾기 추가</string>
+    <string name="text_add_favorites">즐겨찾기 목록 추가</string>
+    <string name="hint_title">제목</string>
+    <string name="menu_play">재생</string>
+    <string name="menu_delete">삭제</string>
+    <string name="menu_fix_title">제목 수정</string>
+    <string name="text_fix_favorites">즐겨찾기 목록 수정</string>
 </resources>

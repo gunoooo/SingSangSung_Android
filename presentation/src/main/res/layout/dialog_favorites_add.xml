@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesAddViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:cardCornerRadius="0dp"
+        app:rippleColor="@android:color/transparent">
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_close"
+                    android:onClick="@{() -> viewModel.onClickBack()}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/nanum_square_round"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp"
+                    android:text="@string/text_add_favorites"/>
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:theme="@style/AppTheme.ControlDark"
+                android:fontFamily="@font/nanum_square_regular"
+                android:backgroundTint="@color/colorPrimary"
+                android:singleLine="true"
+                android:hint="@string/hint_title"
+                android:text="@={viewModel.title}"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/text_check"
+                android:layout_gravity="end"
+                android:onClick="@{() -> viewModel.onClickApply()}"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

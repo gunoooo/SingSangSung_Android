@@ -7,98 +7,116 @@
 
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.FavoritesViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:overScrollMode="never">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}">
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:fontFamily="@font/nanum_square_round"
-                    android:text="@string/text_recent"/>
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    android:onClick="@{() -> viewModel.onClickRecentList()}">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="@string/text_recent"/>
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chevron"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:adapter="@{viewModel.recentListAdapter}"
+                    tools:listitem="@layout/item_music_horizontal" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLightGrey"
+                android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:adapter="@{viewModel.recentListAdapter}"
-                tools:listitem="@layout/item_horizontal_music" />
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="@string/text_favorites_list"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() -> viewModel.onClickAddFavorites()}">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginEnd="7.5dp"
+                        android:tint="@color/colorAccent"
+                        android:src="@drawable/ic_plus"
+                        android:layout_marginStart="22.5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="15dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorAccent"
+                        android:fontFamily="@font/nanum_square_round"
+                        android:text="@string/text_add_favorites"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:adapter="@{viewModel.favoritesListAdapter}"
+                    tools:listitem="@layout/item_favorites" />
+            </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLightGrey"
-            android:visibility="@{viewModel.isEmptyRecentList ? View.GONE : View.VISIBLE}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:onClick="@{() -> viewModel.onClickFavoritesList()}">
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:tint="@color/colorGrey"
-                android:src="@drawable/ic_star" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center"
-                android:textColor="@color/colorGrey"
-                android:textSize="15sp"
-                android:fontFamily="@font/nanum_square_round"
-                android:text="@string/text_favorites_list" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:onClick="@{() -> viewModel.onClickHidingList()}">
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:tint="@color/colorGrey"
-                android:src="@drawable/ic_delete" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center"
-                android:textColor="@color/colorGrey"
-                android:textSize="15sp"
-                android:fontFamily="@font/nanum_square_round"
-                android:text="@string/text_hide_list" />
-        </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

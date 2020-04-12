@@ -2,44 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/singsangsung_nav" app:startDestination="@id/homeFragment">
-    <fragment android:id="@+id/homeFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.HomeFragment"
+    <fragment android:id="@+id/homeFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.home.HomeFragment"
               android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_listFragment"
             app:destination="@id/listFragment" />
     </fragment>
 
-    <fragment android:id="@+id/themeFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.ThemeFragment"
+    <fragment android:id="@+id/themeFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.theme.ThemeFragment"
         android:label="ThemeFragment">
         <action
             android:id="@+id/action_themeFragment_to_listFragment"
             app:destination="@id/listFragment" />
     </fragment>
 
-    <fragment android:id="@+id/searchFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.SearchFragment"
+    <fragment android:id="@+id/searchFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.search.SearchFragment"
         android:label="SearchFragment">
         <action
             android:id="@+id/action_searchFragment_to_listFragment"
             app:destination="@id/listFragment" />
+
         <action
             android:id="@+id/action_searchFragment_to_searchSettingFragment"
             app:destination="@id/searchSettingFragment" />
     </fragment>
 
-    <fragment android:id="@+id/searchSettingFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.SearchSettingFragment"
+    <fragment android:id="@+id/searchSettingFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.search.SearchSettingFragment"
         android:label="SearchSettingFragment" />
 
-    <fragment android:id="@+id/recordFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.RecordFragment"
+    <fragment android:id="@+id/recordFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.record.RecordFragment"
         android:label="SearchFragment"/>
 
-    <fragment android:id="@+id/favoritesFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.FavoritesFragment"
+    <fragment android:id="@+id/favoritesFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesFragment"
         android:label="FavoritesFragment">
         <action
             android:id="@+id/action_favoritesFragment_to_listFragment"
             app:destination="@id/listFragment" />
     </fragment>
 
-    <fragment android:id="@+id/listFragment" android:name="com.gunwoo.karaoke.singsangsung.view.fragment.ListFragment"
+    <fragment android:id="@+id/listFragment" android:name="com.gunwoo.karaoke.singsangsung.ui.list.ListFragment"
         android:label="ListFragment" >
         <argument
             android:name="list"
@@ -52,5 +53,10 @@
         <argument
             android:name="type"
             app:argType="string" />
+
+        <argument
+            android:name="favoritesId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

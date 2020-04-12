@@ -8,9 +8,13 @@ import io.reactivex.Single
 interface FavoritesRepository {
     fun getFavoritesList(): Single<List<Favorites>>
 
+    fun getFavoritesList(videoId: String): Single<List<Favorites>>
+
     fun insertFavorites(favorites: Favorites): Completable
 
-    fun deleteFavorites(favorites: Favorites): Completable
+    fun updateFavorites(id: Int, title: String): Completable
+
+    fun deleteFavorites(id: Int): Completable
 
     fun insertFavoritesItem(youtubeData: YoutubeData, favoritesId: Int): Completable
 

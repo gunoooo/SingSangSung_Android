@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.MainViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.main.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

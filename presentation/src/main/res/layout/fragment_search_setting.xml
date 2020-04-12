@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.SearchSettingViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.search.SearchSettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

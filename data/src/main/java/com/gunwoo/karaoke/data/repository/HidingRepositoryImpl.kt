@@ -1,6 +1,7 @@
 package com.gunwoo.karaoke.data.repository
 
 import com.gunwoo.karaoke.data.datasource.HidingDataSource
+import com.gunwoo.karaoke.data.exception.ListEmptyException
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.HidingRepository
 import io.reactivex.Completable
@@ -12,7 +13,7 @@ class HidingRepositoryImpl @Inject constructor(
 ) : HidingRepository {
 
     override fun getHidingList(): Single<List<YoutubeData>> {
-        return hidingDataSource.getHidingList().map { if (it.isEmpty()) throw Exception("숨김 리스트가 없습니다") else it }
+        return hidingDataSource.getHidingList().map { if (it.isEmpty()) throw ListEmptyException("숨김 리스트가 없습니다") else it }
     }
 
     override fun insertHiding(youtubeData: YoutubeData): Completable {

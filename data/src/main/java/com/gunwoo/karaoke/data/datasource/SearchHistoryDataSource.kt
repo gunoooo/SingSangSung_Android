@@ -17,7 +17,7 @@ class SearchHistoryDataSource @Inject constructor(
 
     fun insertSearchHistory(search: String): Completable = cache.insertSearchHistory(SearchHistoryEntity(search))
 
-    fun deleteSearchHistory(search: String): Completable = cache.deleteSearchHistory(SearchHistoryEntity(search))
+    fun deleteSearchHistory(search: String): Completable = cache.deleteSearchHistory(search)
 
     fun deleteAll(): Completable = cache.deleteAll()
 }

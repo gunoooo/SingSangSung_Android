@@ -10,6 +10,16 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.ControlDark" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.ControlAccent" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
     <style name="AppTheme.CollapsedAppBar" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">@font/nanum_square_regular</item>
@@ -28,7 +38,9 @@
     </style>
 
     <style name="AppTheme.Spinner">
-        <item name="android:paddingStart">10dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:colorControlNormal">@color/colorWhite</item>
         <item name="android:spinnerItemStyle">@style/AppTheme.SpinnerItem</item>
     </style>
 

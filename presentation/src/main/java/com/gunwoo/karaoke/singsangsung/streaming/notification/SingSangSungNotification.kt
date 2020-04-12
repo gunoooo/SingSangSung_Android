@@ -12,7 +12,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.core.app.NotificationCompat
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.view.activity.SplashActivity
+import com.gunwoo.karaoke.singsangsung.ui.splash.SplashActivity
 
 object SingSangSungNotification {
 

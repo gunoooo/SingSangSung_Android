@@ -1,11 +1,11 @@
 package com.gunwoo.karaoke.singsangsung.di.module
 
-import com.gunwoo.karaoke.singsangsung.view.activity.MainActivity
+import com.gunwoo.karaoke.singsangsung.ui.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.gunwoo.karaoke.singsangsung.di.scope.PerActivity
-import com.gunwoo.karaoke.singsangsung.view.activity.PlayerActivity
-import com.gunwoo.karaoke.singsangsung.view.activity.SplashActivity
+import com.gunwoo.karaoke.singsangsung.ui.player.PlayerActivity
+import com.gunwoo.karaoke.singsangsung.ui.splash.SplashActivity
 
 @Module
 abstract class ActivityBindingModule {

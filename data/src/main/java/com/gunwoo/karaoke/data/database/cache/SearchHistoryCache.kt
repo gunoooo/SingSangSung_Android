@@ -15,7 +15,7 @@ class SearchHistoryCache @Inject constructor(application: Application) : BaseCac
 
     fun insertSearchHistory(searchHistoryEntity: SearchHistoryEntity): Completable = searchHistoryDao.insert(searchHistoryEntity)
 
-    fun deleteSearchHistory(searchHistoryEntity: SearchHistoryEntity): Completable = searchHistoryDao.delete(searchHistoryEntity)
+    fun deleteSearchHistory(search: String): Completable = searchHistoryDao.delete(search)
 
     fun deleteAll(): Completable = searchHistoryDao.deleteAll()
 }

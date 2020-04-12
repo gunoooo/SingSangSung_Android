@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.gunwoo.karaoke.singsangsung.viewmodel.PlayerControllerViewModel" />
+            type="com.gunwoo.karaoke.singsangsung.ui.player.PlayerControllerViewModel" />
     </data>
 
     <LinearLayout
