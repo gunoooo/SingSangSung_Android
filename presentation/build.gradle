@@ -100,6 +100,7 @@ dependencies {
     implementation "kr.co.prnd:youtube-player-view:$rootProject.youtubeViewVersion"
     implementation "com.google.android.gms:play-services-ads:$rootProject.googleAdsVersion"
     implementation "com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT"
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
     implementation "com.google.firebase:firebase-analytics:$rootProject.firebaseVersion"
     implementation "com.google.firebase:firebase-messaging:$rootProject.fcmVersion"

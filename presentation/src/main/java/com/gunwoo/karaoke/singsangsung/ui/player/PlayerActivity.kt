@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.WindowManager
@@ -24,8 +23,14 @@ import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityPlayerBinding
 import com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
-import com.gunwoo.karaoke.singsangsung.widget.extension.*
+import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
+import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
+import com.gunwoo.karaoke.singsangsung.widget.extension.setImageTint
+import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import kotlinx.android.synthetic.main.activity_player.*
 import kotlinx.android.synthetic.main.fragment_player_controller.*
 import javax.inject.Inject
@@ -142,80 +147,108 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
     }
 
     private fun initVideo() {
-        val youtubeExtractor =
-            @SuppressLint("StaticFieldLeak")
-            object : YouTubeExtractor(this) {
-                override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
-                    if (ytFiles == null) {
-                        Toast.makeText(this@PlayerActivity, "동영상 로딩중 오류 발생\n다시 한번 시도해 주세요", Toast.LENGTH_SHORT).show()
-                        finish()
-                        return
-                    }
+        lifecycle.addObserver(youtube_player_view)
 
-                    val tag = ytFiles.keyAt(0)
-                    val url = ytFiles[tag].url
+        youtube_player_view.enableAutomaticInitialization = false
 
-                    video_view.setBackListener(object : SingSangSungVideoView.BackListener {
-                        override fun finish() {
-                            this@PlayerActivity.finish()
-                        }
-                    })
+        youtube_player_view.initialize(object : YouTubePlayerListener {
+            override fun onApiChange(youTubePlayer: YouTubePlayer) { }
 
-                    video_view.setFullscreenListener(object : SingSangSungVideoView.FullscreenListener {
-                        override fun fullscreenOn() {
-                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) { }
 
-                            window.setFlags(
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN
-                            )
-                            window.navigationBarColor = Color.BLACK
+            override fun onError(youTubePlayer: YouTubePlayer, error: PlayerConstants.PlayerError) { }
 
-                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
-                        }
+            override fun onPlaybackQualityChange(youTubePlayer: YouTubePlayer, playbackQuality: PlayerConstants.PlaybackQuality) { }
 
-                        override fun fullscreenOff() {
-                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            override fun onPlaybackRateChange(youTubePlayer: YouTubePlayer, playbackRate: PlayerConstants.PlaybackRate) { }
 
-                            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                            window.navigationBarColor = getColor(R.color.colorPrimary)
-
-                            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250f, resources.displayMetrics).toInt()
-                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, height)
-                        }
-                    })
-
-                    video_view.setMoreListener(object : SingSangSungVideoView.MoreListener {
-                        override fun onClickMore() {
-                            PlayerBottomSheetDialog(mViewModel.video).show(supportFragmentManager)
-                        }
-                    })
-
-                    video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
-                        override fun play() {
-                            setMusicGif(music_sound)
-                        }
-
-                        override fun pause() {
-                            music_sound.setImageDrawable(null)
-                        }
-                    })
-
-                    video_view.setPitchSpeedListener(object : SingSangSungVideoView.PitchSpeedListener {
-                        override fun onChangedPitch(pitchCount: Int) {
-                            text_pitch.text = "음정 $pitchCount"
-                        }
-
-                        override fun onChangedTempo(speedCount: Int) {
-                            text_tempo.text = "템포 $speedCount"
-                        }
-                    })
-
-                    video_view.startVideo(url)
-                }
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(mViewModel.video.videoId!!, 0f)
             }
 
-        youtubeExtractor.extract("http://youtube.com/watch?v=${mViewModel.video.videoId}", true, false)
+            override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) { }
+
+            override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) { }
+
+            override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {  }
+
+            override fun onVideoLoadedFraction(youTubePlayer: YouTubePlayer, loadedFraction: Float) { }
+        }, true)
+
+//        val youtubeExtractor =
+//            @SuppressLint("StaticFieldLeak")
+//            object : YouTubeExtractor(this) {
+//                override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
+//                    if (ytFiles == null) {
+//                        Toast.makeText(this@PlayerActivity, "동영상 로딩중 오류 발생\n다시 한번 시도해 주세요", Toast.LENGTH_SHORT).show()
+//                        finish()
+//                        return
+//                    }
+//
+//                    val tag = ytFiles.keyAt(0)
+//                    val url = ytFiles[tag].url
+//
+//                    video_view.setBackListener(object : SingSangSungVideoView.BackListener {
+//                        override fun finish() {
+//                            this@PlayerActivity.finish()
+//                        }
+//                    })
+//
+//                    video_view.setFullscreenListener(object : SingSangSungVideoView.FullscreenListener {
+//                        override fun fullscreenOn() {
+//                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+//
+//                            window.setFlags(
+//                                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                                WindowManager.LayoutParams.FLAG_FULLSCREEN
+//                            )
+//                            window.navigationBarColor = Color.BLACK
+//
+//                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
+//                        }
+//
+//                        override fun fullscreenOff() {
+//                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//
+//                            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//                            window.navigationBarColor = getColor(R.color.colorPrimary)
+//
+//                            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250f, resources.displayMetrics).toInt()
+//                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, height)
+//                        }
+//                    })
+//
+//                    video_view.setMoreListener(object : SingSangSungVideoView.MoreListener {
+//                        override fun onClickMore() {
+//                            PlayerBottomSheetDialog(mViewModel.video).show(supportFragmentManager)
+//                        }
+//                    })
+//
+//                    video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
+//                        override fun play() {
+//                            setMusicGif(music_sound)
+//                        }
+//
+//                        override fun pause() {
+//                            music_sound.setImageDrawable(null)
+//                        }
+//                    })
+//
+//                    video_view.setPitchSpeedListener(object : SingSangSungVideoView.PitchSpeedListener {
+//                        override fun onChangedPitch(pitchCount: Int) {
+//                            text_pitch.text = "음정 $pitchCount"
+//                        }
+//
+//                        override fun onChangedTempo(speedCount: Int) {
+//                            text_tempo.text = "템포 $speedCount"
+//                        }
+//                    })
+//
+//                    video_view.startVideo(url)
+//                }
+//            }
+//
+//        youtubeExtractor.extract("http://youtube.com/watch?v=${mViewModel.video.videoId}", true, false)
     }
 
     private fun stopRecord() {

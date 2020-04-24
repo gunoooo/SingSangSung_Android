@@ -30,12 +30,9 @@ class HomeViewModel(
     val popularityList = MutableLiveData<List<YoutubeData>>()
     val recentlyList = MutableLiveData<List<YoutubeData>>()
 
-    val characterListAdapter =
-        CharacterListAdapter()
-    val recommendListAdapter =
-        MusicHorizontalListAdapter()
-    val recommendPlaylistListAdapter =
-        PlaylistListAdapter()
+    val characterListAdapter = CharacterListAdapter()
+    val recommendListAdapter = MusicHorizontalListAdapter()
+    val recommendPlaylistListAdapter = PlaylistListAdapter()
 
     val onClickPopularityChartEvent = SingleLiveEvent<Unit>()
     val onClickRecentlyChartEvent = SingleLiveEvent<Unit>()
