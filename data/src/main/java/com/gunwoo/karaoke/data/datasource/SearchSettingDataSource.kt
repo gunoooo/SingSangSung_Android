@@ -20,12 +20,12 @@ class SearchSettingDataSource @Inject constructor(
         cache.getSearchSettingList()
             .onErrorResumeNext {
                 val baseSearchSettingList = SearchSettingFactory.getBaseSearchSetting()
-                insertSearchSettingList(baseSearchSettingList).toSingleDefault(baseSearchSettingList.map { searchSettingMapper.mapToEntity(it) })
-            }
+                insertSearchSettingList(baseSearchSettingList).toSingleDefault(baseSearchSettingList.map { searchSettingMapper.mapToEntity(it) }) }
             .map { searchSettingEntityList -> searchSettingEntityList.map { searchSettingMapper.mapToModel(it) } }
 
     fun getNotSelectedSearchSettingList(): Single<List<SearchSetting>> =
-        getSearchSettingList().map { searchSettingList -> SearchSettingFactory.getAllSearchSetting().filter { it !in searchSettingList } }
+        getSearchSettingList().map { searchSettingList -> SearchSettingFactory.getAllSearchSetting()
+            .filter { it.channelId !in searchSettingList.map { searchSetting -> searchSetting.channelId } } }
 
     fun insertSearchSetting(searchSetting: SearchSetting): Completable = cache.insertSearchSetting(searchSettingMapper.mapToEntity(searchSetting))
 

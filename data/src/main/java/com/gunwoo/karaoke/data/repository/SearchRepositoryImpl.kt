@@ -6,23 +6,20 @@ import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.repository.SearchRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class SearchRepositoryImpl @Inject constructor(
     private val searchDataSource: SearchDataSource,
     private val searchSettingDataSource: SearchSettingDataSource,
     private val searchHistoryDataSource: SearchHistoryDataSource,
-    private val favoritesItemDataSource: FavoritesItemDataSource,
     private val hidingDataSource: HidingDataSource
 ) : SearchRepository {
 
-    private lateinit var searchList: List<YoutubeData>
-    private lateinit var favoritesItemList: List<YoutubeData>
-    private lateinit var hidingList: List<YoutubeData>
-
     override fun getSearchList(search: String): Single<List<YoutubeData>> {
         return searchSettingDataSource.getSearchSettingList().flatMap {
-            val list = ArrayList<YoutubeData>()
+            val list = LinkedList<YoutubeData>()
             val settingSize = it.size
             return@flatMap searchDataSource.getSearchList(search, it[0].channelId, it[0].maxResults).flatMap { response_1 -> list.addAll(response_1)
                 if (settingSize < 2) Single.just(list)
@@ -51,11 +48,9 @@ class SearchRepositoryImpl @Inject constructor(
             searchDataSource.getSearchList(search, it[8].channelId, it[8].maxResults).flatMap { response_9 -> list.addAll(response_9)
                 Single.just(list)
             }}}}}}}}}}}}}}}}}
-        }.flatMap { searchList -> this.searchList = searchList
-            favoritesItemDataSource.getFavoritesItemList().flatMap { favoritesItemList -> this.favoritesItemList = favoritesItemList
-                hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
-                    searchHistoryDataSource.insertSearchHistory(search).toSingleDefault(getResultSearchList())
-                }
+        }.flatMap { searchList ->
+            hidingDataSource.getHidingList().flatMap { hidingList ->
+                searchHistoryDataSource.insertSearchHistory(search).toSingleDefault(getResultSearchList(searchList, hidingList))
             }
         }.map { if (it.isEmpty()) throw ListEmptyException("검색 결과가 없습니다") else it }
     }
@@ -65,7 +60,7 @@ class SearchRepositoryImpl @Inject constructor(
         return searchDataSource.deleteAllPlaylist()
     }
 
-    private fun getResultSearchList(): List<YoutubeData> {
+    private fun getResultSearchList(searchList: List<YoutubeData>, hidingList: List<YoutubeData>): List<YoutubeData> {
         val list = ArrayList<YoutubeData>()
 
         searchList.map { searchItem ->

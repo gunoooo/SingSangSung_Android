@@ -1,6 +1,5 @@
 package com.gunwoo.karaoke.data.repository
 
-import com.gunwoo.karaoke.data.datasource.FavoritesItemDataSource
 import com.gunwoo.karaoke.data.datasource.HidingDataSource
 import com.gunwoo.karaoke.data.datasource.PlaylistDataSource
 import com.gunwoo.karaoke.data.exception.ListEmptyException
@@ -12,20 +11,13 @@ import javax.inject.Inject
 
 class PlaylistRepositoryImpl @Inject constructor(
     private val playlistDataSource: PlaylistDataSource,
-    private val favoritesItemDataSource: FavoritesItemDataSource,
     private val hidingDataSource: HidingDataSource
 ) : PlaylistRepository {
 
-    private lateinit var playlistList: List<YoutubeData>
-    private lateinit var favoritesItemList: List<YoutubeData>
-    private lateinit var hidingList: List<YoutubeData>
-
     override fun getPlaylistsList(id: String): Single<List<YoutubeData>> {
-        return playlistDataSource.getPlaylistsList(id).flatMap { playlistList -> this.playlistList = playlistList
-            favoritesItemDataSource.getFavoritesItemList().flatMap { favoritesItemList -> this.favoritesItemList = favoritesItemList
-                hidingDataSource.getHidingList().flatMap { hidingList -> this.hidingList = hidingList
-                    Single.just(getResultPlaylistsList())
-                }
+        return playlistDataSource.getPlaylistsList(id).flatMap { playlistList ->
+            hidingDataSource.getHidingList().flatMap { hidingList ->
+                Single.just(getResultPlaylistsList(playlistList, hidingList))
             }
         }.map { if (it.isEmpty()) throw ListEmptyException("검색 결과가 없습니다") else it }
     }
@@ -34,7 +26,7 @@ class PlaylistRepositoryImpl @Inject constructor(
         return playlistDataSource.deleteAllPlaylist()
     }
 
-    private fun getResultPlaylistsList(): List<YoutubeData> {
+    private fun getResultPlaylistsList(playlistList: List<YoutubeData>, hidingList: List<YoutubeData>): List<YoutubeData> {
         val list = ArrayList<YoutubeData>()
 
         playlistList.map { playlistItem ->

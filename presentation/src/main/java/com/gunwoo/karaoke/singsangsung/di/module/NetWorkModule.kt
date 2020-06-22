@@ -32,7 +32,7 @@ class NetWorkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(Constants.DEFAULT_HOST)
+            .baseUrl(Constants.TEST_HOST)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .callbackExecutor(Executors.newSingleThreadExecutor())

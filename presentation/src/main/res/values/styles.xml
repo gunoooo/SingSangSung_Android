@@ -38,8 +38,6 @@
     </style>
 
     <style name="AppTheme.Spinner">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:colorControlNormal">@color/colorWhite</item>
         <item name="android:spinnerItemStyle">@style/AppTheme.SpinnerItem</item>
     </style>
