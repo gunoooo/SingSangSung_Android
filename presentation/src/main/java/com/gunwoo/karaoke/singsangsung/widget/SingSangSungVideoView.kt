@@ -85,6 +85,12 @@ class SingSangSungVideoView : FrameLayout,
         REPLAY
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val width = measuredWidth
+        setMeasuredDimension(width, width / 16 * 9)
+    }
+
     fun setFullscreenListener(listener: FullscreenListener) {
         fullscreenListener = listener
     }

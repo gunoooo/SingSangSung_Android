@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="?actionBarSize" >
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:overScrollMode="never"
@@ -22,33 +23,36 @@
             app:layout_constraintBottom_toTopOf="@+id/player_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:gravity="end"
-                    android:background="@color/colorPrimary" >
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:entries="@array/sort_type"
-                        android:theme="@style/AppTheme.Spinner"
-                        android:onItemSelected="@{(parent,view,pos,id) -> viewModel.onSelectSortItem(pos)}" />
+                    android:background="@color/colorPrimary"
+                    android:gravity="end">
 
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="15dp"
+                        android:entries="@array/sort_type"
+                        android:onItemSelected="@{(parent,view,pos,id) -> viewModel.onSelectSortItem(pos)}"
+                        android:theme="@style/AppTheme.Spinner" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="15dp"
                         android:entries="@array/overlap_type"
-                        android:theme="@style/AppTheme.Spinner"
-                        android:onItemSelected="@{(parent,view,pos,id) -> viewModel.onSelectOverlapItem(view)}" />
+                        android:onItemSelected="@{(parent,view,pos,id) -> viewModel.onSelectOverlapItem(view)}"
+                        android:theme="@style/AppTheme.Spinner" />
                 </LinearLayout>
 
                 <View
@@ -156,5 +160,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:visibility="@{viewModel.isEmpty ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/player_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nestedScrollView">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_library_music" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/text_no_record" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

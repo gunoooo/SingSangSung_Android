@@ -29,7 +29,7 @@ class PlaylistRepositoryImpl @Inject constructor(
     private fun getResultPlaylistsList(playlistList: List<YoutubeData>, hidingList: List<YoutubeData>): List<YoutubeData> {
         val list = ArrayList<YoutubeData>()
 
-        playlistList.map { playlistItem ->
+        playlistList.forEach { playlistItem ->
             var isHidden = false
 
             hidingList.forEach { hiding ->

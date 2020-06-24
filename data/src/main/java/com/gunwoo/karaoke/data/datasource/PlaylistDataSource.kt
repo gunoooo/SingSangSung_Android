@@ -18,12 +18,14 @@ class PlaylistDataSource @Inject constructor(
     private val playlistMapper = PlaylistMapper()
 
     fun getPlaylistsList(id: String): Single<List<YoutubeData>> =
-        cache.getPlaylistsList(id).onErrorResumeNext { getPlaylistsListRemote(id) }
+        cache.getPlaylistsList(id)
+            .onErrorResumeNext { getPlaylistsListRemote(id) }
             .map { playlistEntityList -> playlistEntityList.map { playlistMapper.mapToYoutubeData(it) } }
 
     fun deleteAllPlaylist(): Completable = cache.deleteAll()
 
     private fun getPlaylistsListRemote(id: String): Single<List<PlaylistEntity>> =
-        remote.getPlaylistsList(id).map { playlistList -> playlistList.map { playlistMapper.mapToEntity(it) } }
+        remote.getPlaylistsList(id)
+            .map { playlistList -> playlistList.map { playlistMapper.mapToEntity(it) } }
             .flatMap { playlistsList -> cache.insertPlaylistsList(playlistsList).toSingleDefault(playlistsList) }
 }
