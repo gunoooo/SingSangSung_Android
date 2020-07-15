@@ -17,6 +17,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel
         get() = getViewModel()
 
+    fun getMViewModel(): MainViewModel = mViewModel
+
     override fun observerViewModel() { }
 
     private lateinit var navController: NavController

@@ -5,6 +5,8 @@
         <variable
             name="viewModel"
             type="com.gunwoo.karaoke.singsangsung.ui.main.MainViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -19,6 +21,11 @@
             app:defaultNavHost="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/singsangsung_nav" />
+
+        <com.gunwoo.karaoke.singsangsung.widget.SingSangSungLoadingView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.INVISIBLE}"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"

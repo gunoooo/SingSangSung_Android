@@ -11,6 +11,7 @@ import androidx.databinding.ViewDataBinding
 import com.gunwoo.karaoke.singsangsung.R
 import dagger.android.support.DaggerFragment
 import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
+import com.gunwoo.karaoke.singsangsung.ui.main.MainActivity
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.*
@@ -33,6 +34,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUp()
+        mViewModel.getIsLoading().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (activity is MainActivity) {
+                (activity as MainActivity).getMViewModel().setIsLoading(it)
+            }
+        })
         observerViewModel()
     }
 

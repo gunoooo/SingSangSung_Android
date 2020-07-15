@@ -104,16 +104,19 @@ class HomeViewModel(
     }
 
     fun setVideoList(playlistId: String) {
+        setIsLoading(true)
         addDisposable(getPlaylistListUseCase.buildUseCaseObservable(GetPlaylistListUseCase.Params(playlistId)),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     videoList.clear()
                     videoList.addAll(t)
                     onOpenListFragmentEvent.call()
+                    setIsLoading(false)
                 }
 
                 override fun onError(e: Throwable) {
                     onErrorEvent.value = e
+                    setIsLoading(false)
                 }
             })
     }

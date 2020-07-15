@@ -52,14 +52,17 @@ class ThemeViewModel(
     }
 
     fun setPlaylistItemList(playlist: Playlist) {
+        setIsLoading(true)
         addDisposable(getPlaylistListUseCase.buildUseCaseObservable(GetPlaylistListUseCase.Params(playlist.playlistId)),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     playlistItemList.value = PlaylistWithItem(t, playlist)
+                    setIsLoading(false)
                 }
 
                 override fun onError(e: Throwable) {
                     onErrorEvent.value = e
+                    setIsLoading(false)
                 }
             })
     }

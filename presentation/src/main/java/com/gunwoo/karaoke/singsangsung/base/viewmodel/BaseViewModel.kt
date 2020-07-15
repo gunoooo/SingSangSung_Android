@@ -26,6 +26,9 @@ open class BaseViewModel : ViewModel() {
     fun getIsLoading(): LiveData<Boolean> {
         return isLoading
     }
+    fun setIsLoading(boolean: Boolean) {
+        isLoading.value = boolean
+    }
 
     val onErrorEvent = SingleLiveEvent<Throwable>()
 

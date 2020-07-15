@@ -53,7 +53,6 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:adapter="@{viewModel.searchHistoryListAdapter}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,17 +119,5 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:onClick="@{() -> viewModel.onClickOpenSetting()}" />
         </LinearLayout>
-
-        <androidx.core.widget.ContentLoadingProgressBar
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-            android:theme="@style/AppTheme.Loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

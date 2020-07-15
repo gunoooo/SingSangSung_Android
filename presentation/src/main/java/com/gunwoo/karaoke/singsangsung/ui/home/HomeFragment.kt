@@ -42,6 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             recentlyList.observe(this@HomeFragment, Observer { setChartList(recently_chart, it) })
 
             onClickPopularityChartEvent.observe(this@HomeFragment, Observer {
+                if (popularityList.value == null) return@Observer
                 val list = YoutubeDataList()
                 list.addAll(popularityList.value!!)
                 val title = "인기차트"
@@ -51,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             })
 
             onClickRecentlyChartEvent.observe(this@HomeFragment, Observer {
+                if (recentlyList.value == null) return@Observer
                 val list = YoutubeDataList()
                 list.addAll(recentlyList.value!!)
                 val title = "최신차트"

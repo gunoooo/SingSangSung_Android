@@ -49,20 +49,19 @@ class SearchViewModel(
     }
 
     private fun setSearchList() {
-        isLoading.value = true
-
+        setIsLoading(true)
         addDisposable(getSearchListUseCase.buildUseCaseObservable(GetSearchListUseCase.Params(search.value!!)),
             object : DisposableSingleObserver<List<YoutubeData>>() {
                 override fun onSuccess(t: List<YoutubeData>) {
                     searchList.clear()
                     searchList.addAll(t)
                     onOpenListEvent.call()
-                    isLoading.value = false
+                    setIsLoading(false)
                 }
 
                 override fun onError(e: Throwable) {
                     onErrorEvent.value = e
-                    isLoading.value = false
+                    setIsLoading(false)
                 }
             })
     }
