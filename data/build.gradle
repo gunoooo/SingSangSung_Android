@@ -75,6 +75,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'com.google.guava'
     }
+    implementation "com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT"
 
     implementation project(':domain')
 }

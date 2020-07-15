@@ -4,6 +4,7 @@ import android.media.MediaRecorder
 import androidx.lifecycle.MutableLiveData
 import com.gunwoo.karaoke.data.util.Constants
 import com.gunwoo.karaoke.domain.model.YoutubeData
+import com.gunwoo.karaoke.domain.usecase.extract.ExtractUseCase
 import com.gunwoo.karaoke.domain.usecase.favorites.DeleteFavoritesItemUseCase
 import com.gunwoo.karaoke.domain.usecase.favorites.InsertFavoritesItemUseCase
 import com.gunwoo.karaoke.domain.usecase.hiding.InsertHidingUseCase
@@ -13,17 +14,20 @@ import com.gunwoo.karaoke.singsangsung.base.viewmodel.BaseViewModel
 import com.gunwoo.karaoke.singsangsung.widget.SingleLiveEvent
 import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
 import io.reactivex.observers.DisposableCompletableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import java.io.File
 import java.util.*
 
 
 class PlayerViewModel(
     private val insertRecordUseCase: InsertRecordUseCase,
-    private val insertRecentUseCase: InsertRecentUseCase
+    private val insertRecentUseCase: InsertRecentUseCase,
+    private val extractUseCase: ExtractUseCase
 ) : BaseViewModel() {
 
-    lateinit var video: YoutubeData
+    private lateinit var video: YoutubeData
     lateinit var videoList: List<YoutubeData>
+    lateinit var streamingUrl: String
 
     private var recorder: MediaRecorder? = null
     private var path: String = Constants.DIRECTORY_RECORD
@@ -31,6 +35,7 @@ class PlayerViewModel(
 
     val viewType = MutableLiveData<ViewType>(ViewType.STOP)
 
+    val onStartVideoEvent = SingleLiveEvent<Unit>()
     val onSuccessAddFavoritesEvent = SingleLiveEvent<Unit>()
     val onSuccessDeleteFavoritesEvent = SingleLiveEvent<Unit>()
     val onSuccessHideEvent = SingleLiveEvent<Unit>()
@@ -45,6 +50,23 @@ class PlayerViewModel(
             file.delete()
             file.mkdirs()
         }
+    }
+
+    fun getVideo(): YoutubeData = video
+
+    fun setVideo(video: YoutubeData) {
+        this.video = video
+        addDisposable(extractUseCase.buildUseCaseObservable(ExtractUseCase.Params(video.videoId!!)),
+            object : DisposableSingleObserver<String>() {
+                override fun onSuccess(t: String) {
+                    streamingUrl = t.replace("\\","")
+                    onStartVideoEvent.call()
+                }
+
+                override fun onError(e: Throwable) {
+                    onErrorEvent.value = e
+                }
+            })
     }
 
     fun insertRecent() {

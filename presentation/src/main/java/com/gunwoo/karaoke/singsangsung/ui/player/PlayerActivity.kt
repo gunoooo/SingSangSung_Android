@@ -75,6 +75,10 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                 }
             })
 
+            onStartVideoEvent.observe(this@PlayerActivity, Observer {
+                video_view.startVideo(streamingUrl)
+            })
+
             onStoppedRecording.observe(this@PlayerActivity, Observer { shortToast(R.string.message_stopped_recoding) })
 
             onSuccessAddFavoritesEvent.observe(this@PlayerActivity, Observer {
@@ -103,6 +107,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
         super.onCreate(savedInstanceState)
 
         if (!checkPermission()) mViewModel.viewType.value = PlayerViewModel.ViewType.PERMISSION
+        initVideo()
         initIntent()
         initViewPager()
     }
@@ -118,8 +123,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
             finish()
             return
         }
-        mViewModel.video = video as YoutubeData
-        initVideo()
+        mViewModel.setVideo(video as YoutubeData)
         mViewModel.insertRecent()
 
         val videoList = intent.getSerializableExtra(EXTRA_VIDEO_LIST)
@@ -144,88 +148,74 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
     }
 
     private fun initVideo() {
-        val youtubeExtractor =
-            @SuppressLint("StaticFieldLeak")
-            object : YouTubeExtractor(this) {
-                override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
-                    video_view.setBackListener(object : SingSangSungVideoView.BackListener {
-                        override fun finish() {
-                            this@PlayerActivity.finish()
-                        }
-                    })
+        video_view.setBackListener(object : SingSangSungVideoView.BackListener {
+            override fun finish() {
+                this@PlayerActivity.finish()
+            }
+        })
 
-                    video_view.setFullscreenListener(object : SingSangSungVideoView.FullscreenListener {
-                        override fun fullscreenOn() {
-                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        video_view.setFullscreenListener(object : SingSangSungVideoView.FullscreenListener {
+            @SuppressLint("SourceLockedOrientationActivity")
+            override fun fullscreenOn() {
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-                            window.setFlags(
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN
-                            )
-                            window.navigationBarColor = Color.BLACK
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+                )
+                window.navigationBarColor = Color.BLACK
 
-                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
-                        }
-
-                        override fun fullscreenOff() {
-                            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
-                            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                            window.navigationBarColor = getColor(R.color.colorPrimary)
-
-                            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250f, resources.displayMetrics).toInt()
-                            video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, height)
-                        }
-                    })
-
-                    video_view.setMoreListener(object : SingSangSungVideoView.MoreListener {
-                        override fun onClickMore() {
-                            PlayerBottomSheetDialog(mViewModel.video).show(supportFragmentManager)
-                        }
-                    })
-
-                    video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
-                        override fun onPlay() {
-                            setMusicGif(music_sound)
-                        }
-
-                        override fun onPause() {
-                            music_sound.setImageDrawable(null)
-                        }
-
-                        override fun onError() {
-                            longToast(R.string.error_video_loading)
-                            video_view.openYouTubePlayerView(mViewModel.video.videoId!!)
-                        }
-
-                        override fun onYouTubeError() {
-                            finish()
-                        }
-                    })
-
-                    video_view.setPitchSpeedListener(object : SingSangSungVideoView.PitchSpeedListener {
-                        override fun onChangedPitch(pitchCount: Int) {
-                            text_pitch.text = "음정 $pitchCount"
-                        }
-
-                        override fun onChangedTempo(speedCount: Int) {
-                            text_tempo.text = "템포 $speedCount"
-                        }
-                    })
-
-                    if (ytFiles == null) {
-                        video_view.openYouTubePlayerView(mViewModel.video.videoId!!)
-                        return
-                    }
-
-                    val tag = ytFiles.keyAt(0)
-                    val url = ytFiles[tag].url
-
-                    video_view.startVideo(url)
-                }
+                video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             }
 
-        youtubeExtractor.extract("http://youtube.com/watch?v=${mViewModel.video.videoId}", true, false)
+            @SuppressLint("SourceLockedOrientationActivity")
+            override fun fullscreenOff() {
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                window.navigationBarColor = getColor(R.color.colorPrimary)
+
+                val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250f, resources.displayMetrics).toInt()
+                video_view.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, height)
+            }
+        })
+
+        video_view.setMoreListener(object : SingSangSungVideoView.MoreListener {
+            override fun onClickMore() {
+                PlayerBottomSheetDialog(mViewModel.getVideo()).show(supportFragmentManager)
+            }
+        })
+
+        video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
+            override fun onPlay() {
+                setMusicGif(music_sound)
+            }
+
+            override fun onPause() {
+                music_sound.setImageDrawable(null)
+            }
+
+            override fun onError() {
+                longToast(R.string.error_video_loading)
+                video_view.openYouTubePlayerView(mViewModel.getVideo().videoId!!)
+            }
+
+            override fun onYouTubeError() {
+                finish()
+            }
+        })
+
+        video_view.setPitchSpeedListener(object : SingSangSungVideoView.PitchSpeedListener {
+            @SuppressLint("SetTextI18n")
+            override fun onChangedPitch(pitchCount: Int) {
+                text_pitch.text = "음정 $pitchCount"
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onChangedTempo(speedCount: Int) {
+                text_tempo.text = "템포 $speedCount"
+            }
+        })
     }
 
     private fun stopRecord() {

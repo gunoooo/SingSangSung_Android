@@ -391,7 +391,7 @@ class SingSangSungVideoView : FrameLayout,
                         playPauseListener?.onPause()
                     }
                 })
-                youTubePlayer?.play()
+                youTubePlayer?.loadVideo(videoId)
             }
         })
     }
