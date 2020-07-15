@@ -16,8 +16,7 @@ class SearchChannelAddViewModel(
 
     val searchSettingList = ArrayList<SearchSetting>()
 
-    val channelListAdapter =
-        ChannelListAdapter()
+    val channelListAdapter = ChannelListAdapter()
 
     val onSuccessInsertSearchSettingEvent = SingleLiveEvent<SearchSetting>()
     val onBackEvent = SingleLiveEvent<Unit>()

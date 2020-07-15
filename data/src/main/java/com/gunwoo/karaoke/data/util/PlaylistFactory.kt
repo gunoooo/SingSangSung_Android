@@ -12,14 +12,14 @@ object PlaylistFactory {
                 Playlist(
                     "발라드",
                     R.drawable.thumbnail_ballade,
-                    ""
+                    "PLt1UQ3o9-dDDs2HGBM0HmKNbmOEt2TLe6"
                 )
             )
             add(
                 Playlist(
                     "랩/힙합",
                     R.drawable.thumbnail_hiphop,
-                    ""
+                    "PLt1UQ3o9-dDDrvLSKlbZx7t2KABXiwnKF"
                 )
             )
             add(
@@ -33,7 +33,7 @@ object PlaylistFactory {
                 Playlist(
                     "팝송",
                     R.drawable.thumbnail_pop,
-                    ""
+                    "PLXHRN3PjVAFz40f57CuHk8aVKWVNt3g2g"
                 )
             )
             add(
@@ -47,7 +47,7 @@ object PlaylistFactory {
                 Playlist(
                     "동요",
                     R.drawable.thumbnail_child,
-                    ""
+                    "PLt1UQ3o9-dDAZOchooCfAgnhVVJXSgyix"
                 )
             )
         }
@@ -59,30 +59,30 @@ object PlaylistFactory {
         playlistList.apply {
             add(
                 Playlist(
-                    "고등래퍼 1",
+                    "복면가왕",
                     R.drawable.thumbnail_default_1,
-                    ""
+                    "PLXHRN3PjVAFyfbluvu_Ks-mqep8ZoYp9d"
                 )
             )
             add(
                 Playlist(
-                    "고등래퍼 2",
+                    "쇼미더머니",
                     R.drawable.thumbnail_default_2,
-                    ""
+                    "PLXHRN3PjVAFzO87TX9bQI52I9HgU5Dkxx"
                 )
             )
             add(
                 Playlist(
-                    "고등래퍼 3",
+                    "불후의 명곡",
                     R.drawable.thumbnail_default_3,
-                    ""
+                    "PLXHRN3PjVAFyroDAVeWjVWqnXBYGuQJD8"
                 )
             )
             add(
                 Playlist(
                     "미스터트롯",
                     R.drawable.thumbnail_default_4,
-                    ""
+                    "PLXHRN3PjVAFxfhbBjwrRHsdu5bK1Q56Ea"
                 )
             )
         }
@@ -145,7 +145,7 @@ object PlaylistFactory {
                 Playlist(
                     "발라드",
                     R.drawable.thumbnail_ballade,
-                    ""
+                    "PLt1UQ3o9-dDDs2HGBM0HmKNbmOEt2TLe6"
                 )
             )
             add(

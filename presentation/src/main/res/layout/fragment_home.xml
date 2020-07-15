@@ -56,41 +56,34 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/colorGrey"
-                    android:src="@drawable/ic_question" />
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/colorGrey"
-                    android:src="@drawable/ic_settings" />
             </LinearLayout>
-
-            <com.smarteist.autoimageslider.SliderView
-                android:id="@+id/image_slider"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="15dp"
-                app:sliderAnimationDuration="600"
-                app:sliderAutoCycleDirection="back_and_forth"
-                app:sliderAutoCycleEnabled="true"
-                app:sliderIndicatorAnimationDuration="600"
-                app:sliderIndicatorGravity="end|bottom"
-                app:sliderIndicatorMargin="15dp"
-                app:sliderIndicatorOrientation="horizontal"
-                app:sliderIndicatorPadding="3dp"
-                app:sliderIndicatorRadius="2dp"
-                app:sliderIndicatorSelectedColor="@color/colorWhite"
-                app:sliderIndicatorUnselectedColor="@color/colorGrey"
-                app:sliderScrollTimeInSec="7"
-                app:sliderStartAutoCycle="true" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" >
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/image_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="2.5:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="end|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="@color/colorWhite"
+                    app:sliderIndicatorUnselectedColor="@color/colorGrey"
+                    app:sliderScrollTimeInSec="7"
+                    app:sliderStartAutoCycle="true" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -309,6 +302,7 @@
                 android:id="@+id/adView"
                 android:gravity="bottom"
                 android:layout_marginTop="60dp"
+                android:layout_marginBottom="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -317,27 +311,27 @@
                 ads:adSize="LARGE_BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id_for_test" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nanum_square_round"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp"
-                    android:text="@string/text_inquire" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:layout_marginBottom="30dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/nanum_square_round"-->
+<!--                    android:textColor="@color/colorPrimaryDark"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:text="@string/text_inquire" />-->
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_chevron" />
-            </LinearLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:src="@drawable/ic_chevron" />-->
+<!--            </LinearLayout>-->
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

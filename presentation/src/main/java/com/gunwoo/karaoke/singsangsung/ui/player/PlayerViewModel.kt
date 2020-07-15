@@ -121,8 +121,7 @@ class PlayerViewModel(
         if (viewType.value!! == ViewType.PERMISSION) return
 
         if (viewType.value!! == ViewType.PAUSE) {
-            viewType.value =
-                ViewType.RECORD
+            viewType.value = ViewType.RECORD
             reStartRecord()
         }
         else if (viewType.value!! == ViewType.RECORD) {
@@ -136,8 +135,7 @@ class PlayerViewModel(
         if (viewType.value!! == ViewType.PERMISSION) return
 
         if (viewType.value!! != ViewType.STOP) {
-            viewType.value =
-                ViewType.STOP
+            viewType.value = ViewType.STOP
             stopRecord()
         }
     }

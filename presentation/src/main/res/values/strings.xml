@@ -4,6 +4,7 @@
     <string name="admob_app_id">ca-app-pub-7642045761065211~9079130438</string>
     <string name="banner_ad_unit_id">ca-app-pub-7642045761065211/7332247570</string>
     <string name="banner_ad_unit_id_for_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="app_version">1.0.0</string>
 
     <string name="menu_home">HOME</string>
     <string name="menu_theme">테마별</string>
@@ -11,12 +12,25 @@
     <string name="menu_record">기록</string>
     <string name="menu_favorites">보관함</string>
 
+    <string name="menu_open_youtube">유튜브에서 열기</string>
+    <string name="menu_share">공유</string>
+    <string name="menu_hide">차단</string>
+    <string name="menu_add_favorites">즐겨찾기에 추가</string>
+    <string name="menu_delete_favorites">즐겨찾기에서 삭제</string>
+    <string name="menu_delete_hide">차단 목록에서 삭제</string>
+    <string name="menu_play">재생</string>
+    <string name="menu_delete">삭제</string>
+    <string name="menu_fix_title">제목 수정</string>
+
     <string name="hint_search">검색어를 입력해주세요</string>
+    <string name="hint_title">제목</string>
 
     <string name="error_empty">공백없이 입력해주세요</string>
     <string name="error_search_setting_list_remove">더이상 삭제할 수 없습니다</string>
     <string name="error_search_setting_list_over">검색 채널은 최대 5개 설정할 수 있습니다</string>
     <string name="error_favorites_empty">즐겨찾기 목록이 비어있습니다</string>
+    <string name="error_video_loading">영상 로딩중 오류가 발생하여 유튜브 플레이어를 통해 영상을 재생합니다\n템포, 음정 조절이 제한됩니다</string>
+    <string name="error_playlist_empty">재생목록이 비어있습니다</string>
 
     <string name="text_popularity_chart">인기차트</string>
     <string name="text_recently_chart">최신차트</string>
@@ -28,26 +42,9 @@
     <string name="text_mood">분위기</string>
     <string name="text_program">프로그램</string>
     <string name="text_genre">장르</string>
-
-    <string name="text_update_popularity_chart">※ 2020.03.20 업데이트</string>
-    <string name="text_update_recently_chart">※ 2020.03.20 업데이트</string>
-
-    <string name="message_permission">애플리케이션 설정에서 권한을 수정할 수 있습니다</string>
-    <string name="message_stopped_recoding">녹음이 완료되었습니다</string>
-    <string name="message_add_favorites_complete">해당 노래를 즐겨찾기 목록에 추가하였습니다</string>
-    <string name="message_delete_favorites_complete">해당 노래를 즐겨찾기 목록에 삭제하였습니다</string>
-    <string name="message_hide_complete">해당 노래를 차단 목록에 추가하였습니다</string>
-    <string name="message_show_complete">해당 노래를 차단 목록에서 삭제하였습니다</string>
-
     <string name="text_favorites_list">즐겨찾기 목록</string>
     <string name="text_hide_list">차단 목록</string>
-    <string name="menu_hide">차단</string>
-    <string name="menu_add_favorites">즐겨찾기에 추가</string>
-    <string name="menu_delete_favorites">즐겨찾기에서 삭제</string>
-    <string name="menu_delete_hide">차단 목록에서 삭제</string>
     <string name="text_recent">최근 기록</string>
-    <string name="content_chronological">시간순</string>
-    <string name="content_reverse">역시간순</string>
     <string name="text_app_name">SSS</string>
     <string name="text_app_name_sub">ng</string>
     <string name="text_add_channel">채널 추가</string>
@@ -58,15 +55,20 @@
     <string name="text_complain_search">검색결과가 불만족스러우신가요?</string>
     <string name="text_search_setting">검색 설정</string>
     <string name="text_remove_all">모두 삭제하기</string>
-    <string name="menu_open_youtube">유튜브에서 열기</string>
-    <string name="menu_share">공유</string>
     <string name="text_check">확인</string>
     <string name="text_add_favorites_item">즐겨찾기 추가</string>
     <string name="text_add_favorites">즐겨찾기 목록 추가</string>
-    <string name="hint_title">제목</string>
-    <string name="menu_play">재생</string>
-    <string name="menu_delete">삭제</string>
-    <string name="menu_fix_title">제목 수정</string>
     <string name="text_fix_favorites">즐겨찾기 목록 수정</string>
     <string name="text_no_record">녹음한 음악이 없습니다</string>
+
+    <string name="message_permission">애플리케이션 설정에서 권한을 수정할 수 있습니다</string>
+    <string name="message_stopped_recoding">녹음이 완료되었습니다</string>
+    <string name="message_add_favorites_complete">해당 노래를 즐겨찾기 목록에 추가하였습니다</string>
+    <string name="message_delete_favorites_complete">해당 노래를 즐겨찾기 목록에 삭제하였습니다</string>
+    <string name="message_hide_complete">해당 노래를 차단 목록에 추가하였습니다</string>
+    <string name="message_show_complete">해당 노래를 차단 목록에서 삭제하였습니다</string>
+
+    <string name="content_chronological">시간순</string>
+    <string name="content_reverse">역시간순</string>
+    <string name="text_push">푸시알림</string>
 </resources>

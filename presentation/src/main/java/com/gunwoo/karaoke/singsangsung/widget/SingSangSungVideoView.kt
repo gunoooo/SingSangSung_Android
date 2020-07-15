@@ -1,10 +1,13 @@
 package com.gunwoo.karaoke.singsangsung.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Build
+import android.os.CountDownTimer
 import android.os.Handler
+import android.os.Message
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
@@ -13,16 +16,20 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Toast
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
 import com.gunwoo.karaoke.singsangsung.R
+import com.gunwoo.karaoke.singsangsung.widget.extension.millisecondsToMinutes
 import kotlinx.android.synthetic.main.item_singsangsung_video.view.*
+import kr.co.prnd.YouTubePlayerView
 import java.io.IOException
 import java.util.*
 
 
+@SuppressLint("HandlerLeak")
 class SingSangSungVideoView : FrameLayout,
     SurfaceHolder.Callback,
     MediaPlayer.OnPreparedListener,
@@ -41,6 +48,7 @@ class SingSangSungVideoView : FrameLayout,
     private var pitchSpeedListener: PitchSpeedListener? = null
     private var jumpListener: JumpListener? = null
 
+    private var youTubePlayer: YouTubePlayer? = null
     private var player: MediaPlayer? = null
     private var videoPath: String? = null
     private var holder: SurfaceHolder? = null
@@ -51,6 +59,13 @@ class SingSangSungVideoView : FrameLayout,
 
     private var frameVisibilityHandler: Handler = Handler()
     private var frameInvisibleRunnable: Runnable = Runnable { setFrameVisibility(View.INVISIBLE) }
+    private val timeTextHandler: Handler = object : Handler() {
+        @SuppressLint("SetTextI18n")
+        override fun handleMessage(msg: Message?) {
+            if (player != null)
+                time_text.text = "${player!!.currentPosition.millisecondsToMinutes()} / ${player!!.duration.millisecondsToMinutes()}"
+        }
+    }
 
     interface FullscreenListener {
         fun fullscreenOn()
@@ -66,8 +81,10 @@ class SingSangSungVideoView : FrameLayout,
     }
 
     interface PlayPauseListener {
-        fun play()
-        fun pause()
+        fun onPlay()
+        fun onPause()
+        fun onError()
+        fun onYouTubeError()
     }
 
     interface PitchSpeedListener {
@@ -85,12 +102,6 @@ class SingSangSungVideoView : FrameLayout,
         REPLAY
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val width = measuredWidth
-        setMeasuredDimension(width, width / 16 * 9)
-    }
-
     fun setFullscreenListener(listener: FullscreenListener) {
         fullscreenListener = listener
     }
@@ -100,6 +111,7 @@ class SingSangSungVideoView : FrameLayout,
             fullscreenListener?.fullscreenOff()
             fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
             back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
+            more_btn.visibility = View.VISIBLE
             isFullscreen = !isFullscreen
         }
     }
@@ -141,6 +153,11 @@ class SingSangSungVideoView : FrameLayout,
         stopVideo()
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        setMeasuredDimension(width, width * 9 / 16)
+    }
+
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int?) {
         this.mContext = context
         this.attrs = attrs
@@ -148,8 +165,10 @@ class SingSangSungVideoView : FrameLayout,
 
         addView(view)
 
+        youtube_player_view.visibility = View.GONE
         surface_view.holder.addCallback(this)
         surface_view.holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+        progress_bar.visibility = View.VISIBLE
     }
 
     private fun setFrameVisibility(visibility: Int) {
@@ -170,6 +189,7 @@ class SingSangSungVideoView : FrameLayout,
         fullscreen_btn.visibility = visibility
         video_seekbar.visibility = visibility
         cover.visibility = visibility
+        time_text.visibility = visibility
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -183,24 +203,25 @@ class SingSangSungVideoView : FrameLayout,
     override fun onCompletion(mp: MediaPlayer?) {
         video_play_btn.setImageDrawable(context.getDrawable(R.drawable.ic_replay))
         viewType = ViewType.REPLAY
-        playPauseListener?.pause()
+        playPauseListener?.onPause()
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        Toast.makeText(context, what, Toast.LENGTH_LONG).show()
         Log.e("MediaPlayer", what.toString())
+        playPauseListener?.onError()
         return true
     }
 
     override fun onPrepared(mp: MediaPlayer) {
         mp.start()
+        progress_bar.visibility = View.GONE
+        playPauseListener?.onPlay()
 
         surface_view.setOnClickListener {
             if (isScreenFocused) {
                 setFrameVisibility(View.INVISIBLE)
             } else {
                 setFrameVisibility(View.VISIBLE)
-
                 frameVisibilityHandler.removeCallbacks(frameInvisibleRunnable)
                 frameVisibilityHandler.postDelayed(frameInvisibleRunnable,5000)
             }
@@ -211,6 +232,7 @@ class SingSangSungVideoView : FrameLayout,
             if (isFullscreen) {
                 fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
                 back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
+                more_btn.visibility = View.VISIBLE
                 fullscreenListener?.fullscreenOff()
             } else {
                 backListener?.finish()
@@ -226,10 +248,12 @@ class SingSangSungVideoView : FrameLayout,
             if (isFullscreen) {
                 fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
                 back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
+                more_btn.visibility = View.VISIBLE
                 fullscreenListener?.fullscreenOff()
             } else {
                 fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen_exit))
                 back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_arrow_down))
+                more_btn.visibility = View.INVISIBLE
                 fullscreenListener?.fullscreenOn()
             }
             isFullscreen = !isFullscreen
@@ -259,9 +283,11 @@ class SingSangSungVideoView : FrameLayout,
         video_seekbar.max = player!!.duration
 
         Timer().scheduleAtFixedRate(object : TimerTask() {
+            @SuppressLint("SetTextI18n")
             override fun run() {
                 try {
                     video_seekbar.progress = player?.currentPosition ?: return
+                    timeTextHandler.obtainMessage(1).sendToTarget()
                 } catch (e: IllegalStateException) {
                     e.printStackTrace()
                 }
@@ -269,8 +295,12 @@ class SingSangSungVideoView : FrameLayout,
         }, 0, 1000)
 
         video_seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
+                    setFrameVisibility(View.VISIBLE)
+                    frameVisibilityHandler.removeCallbacks(frameInvisibleRunnable)
+                    frameVisibilityHandler.postDelayed(frameInvisibleRunnable,5000)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         player?.seekTo(progress.toLong(), MediaPlayer.SEEK_CLOSEST)
                     }
@@ -278,6 +308,7 @@ class SingSangSungVideoView : FrameLayout,
                         player?.seekTo(progress)
                     }
                     video_seekbar.progress = progress
+                    time_text.text = "${player!!.currentPosition.millisecondsToMinutes()} / ${player!!.duration.millisecondsToMinutes()}"
                 }
             }
 
@@ -299,18 +330,7 @@ class SingSangSungVideoView : FrameLayout,
                     .build()
             )
             player?.prepare()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
 
-        if (holder == null) {
-            Handler().postDelayed({ startVideo(videoPath) }, 1000)
-        }
-        else {
             player?.setDisplay(holder)
 
             player?.setOnPreparedListener(this)
@@ -319,24 +339,90 @@ class SingSangSungVideoView : FrameLayout,
             player?.playbackParams = player?.playbackParams?.setPitch(pitch)!!
             player?.playbackParams = player?.playbackParams?.setSpeed(speed)!!
 
-            playPauseListener?.play()
+            countDown()
+        } catch (e: IllegalArgumentException) {
+            playPauseListener?.onError()
+        } catch (e: IllegalStateException) {
+            playPauseListener?.onError()
+        } catch (e: IOException) {
+            playPauseListener?.onError()
         }
+    }
+
+    fun openYouTubePlayerView(videoId: String) {
+        stopVideo()
+        surface_view.visibility = View.GONE
+        back_btn.visibility = View.GONE
+        more_btn.visibility = View.GONE
+        video_play_btn.visibility = View.GONE
+        fullscreen_btn.visibility = View.GONE
+        video_seekbar.visibility = View.GONE
+        cover.visibility = View.GONE
+        youtube_player_view.visibility = View.VISIBLE
+
+        youtube_player_view.play(videoId, object : YouTubePlayerView.OnInitializedListener {
+            override fun onInitializationFailure(
+                provider: YouTubePlayer.Provider,
+                result: YouTubeInitializationResult
+            ) {
+                playPauseListener?.onYouTubeError()
+            }
+
+            override fun onInitializationSuccess(
+                provider: YouTubePlayer.Provider,
+                player: YouTubePlayer,
+                wasRestored: Boolean
+            ) {
+                youTubePlayer = player
+                youTubePlayer?.setPlaybackEventListener(object : YouTubePlayer.PlaybackEventListener {
+                    override fun onSeekTo(p0: Int) { }
+
+                    override fun onBuffering(p0: Boolean) { }
+
+                    override fun onPlaying() {
+                        playPauseListener?.onPlay()
+                    }
+
+                    override fun onStopped() {
+                        playPauseListener?.onPause()
+                    }
+
+                    override fun onPaused() {
+                        playPauseListener?.onPause()
+                    }
+                })
+                youTubePlayer?.play()
+            }
+        })
+    }
+
+    private fun countDown() { // timeout 체크
+        object : CountDownTimer(10000, 1000) { // 10초동안 로딩이 지속될 경우
+            override fun onFinish() {
+                if (progress_bar.visibility == View.VISIBLE) {
+                    playPauseListener?.onError()
+                }
+            }
+
+            override fun onTick(millisUntilFinished: Long) { }
+        }.start()
     }
 
     private fun reStartVideo() {
         player?.start()
-        playPauseListener?.play()
+        playPauseListener?.onPlay()
     }
 
     private fun pauseVideo() {
         player?.pause()
-        playPauseListener?.pause()
+        playPauseListener?.onPause()
     }
 
     private fun stopVideo() {
         player?.stop()
         player?.release()
         player = null
+        progress_bar.visibility = View.GONE
     }
 
     private var pitch = 1.0f
@@ -397,7 +483,7 @@ class SingSangSungVideoView : FrameLayout,
     }
 
     fun setJumpSpot() {
-        jumpSpot = player?.currentPosition ?: return
+        jumpSpot = player?.currentPosition ?: youTubePlayer?.currentTimeMillis ?: return
         jumpListener?.onSetJumpSpot(jumpSpot)
     }
 
@@ -409,5 +495,6 @@ class SingSangSungVideoView : FrameLayout,
         else {
             player?.seekTo(jumpSpot)
         }
+        youTubePlayer?.seekToMillis(jumpSpot)
     }
 }

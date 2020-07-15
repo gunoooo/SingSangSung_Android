@@ -174,13 +174,16 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_library_music" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:textSize="17sp"
                 android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/nanum_square_round"
                 android:text="@string/text_no_record" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

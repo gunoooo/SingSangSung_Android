@@ -23,10 +23,7 @@ import com.gunwoo.karaoke.singsangsung.R
 import com.gunwoo.karaoke.singsangsung.base.BaseActivity
 import com.gunwoo.karaoke.singsangsung.databinding.ActivityPlayerBinding
 import com.gunwoo.karaoke.singsangsung.widget.SingSangSungVideoView
-import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
-import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
-import com.gunwoo.karaoke.singsangsung.widget.extension.setImageTint
-import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
+import com.gunwoo.karaoke.singsangsung.widget.extension.*
 import com.gunwoo.karaoke.singsangsung.widget.viewpager.PlayerViewPagerAdapter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -151,15 +148,6 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
             @SuppressLint("StaticFieldLeak")
             object : YouTubeExtractor(this) {
                 override fun onExtractionComplete(ytFiles: SparseArray<YtFile>?, vMeta: VideoMeta) {
-                    if (ytFiles == null) {
-                        Toast.makeText(this@PlayerActivity, "동영상 로딩중 오류 발생\n다시 한번 시도해 주세요", Toast.LENGTH_SHORT).show()
-                        finish()
-                        return
-                    }
-
-                    val tag = ytFiles.keyAt(0)
-                    val url = ytFiles[tag].url
-
                     video_view.setBackListener(object : SingSangSungVideoView.BackListener {
                         override fun finish() {
                             this@PlayerActivity.finish()
@@ -197,12 +185,21 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                     })
 
                     video_view.setPlayPauseListener(object : SingSangSungVideoView.PlayPauseListener {
-                        override fun play() {
+                        override fun onPlay() {
                             setMusicGif(music_sound)
                         }
 
-                        override fun pause() {
+                        override fun onPause() {
                             music_sound.setImageDrawable(null)
+                        }
+
+                        override fun onError() {
+                            longToast(R.string.error_video_loading)
+                            video_view.openYouTubePlayerView(mViewModel.video.videoId!!)
+                        }
+
+                        override fun onYouTubeError() {
+                            finish()
                         }
                     })
 
@@ -215,6 +212,14 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding, PlayerViewModel>() {
                             text_tempo.text = "템포 $speedCount"
                         }
                     })
+
+                    if (ytFiles == null) {
+                        video_view.openYouTubePlayerView(mViewModel.video.videoId!!)
+                        return
+                    }
+
+                    val tag = ytFiles.keyAt(0)
+                    val url = ytFiles[tag].url
 
                     video_view.startVideo(url)
                 }
