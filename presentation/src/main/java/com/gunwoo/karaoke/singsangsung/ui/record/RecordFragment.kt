@@ -6,14 +6,14 @@ import android.view.View
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.lifecycle.Observer
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentRecordBinding
+import com.gunwoo.karaoke.singsangsung.ui.main.MainChildFragment
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import kotlinx.android.synthetic.main.fragment_record.*
 import javax.inject.Inject
 
 
-class RecordFragment : BaseFragment<FragmentRecordBinding, RecordViewModel>() {
+class RecordFragment : MainChildFragment<FragmentRecordBinding, RecordViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: RecordViewModelFactory

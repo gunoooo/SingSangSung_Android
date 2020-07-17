@@ -2,6 +2,8 @@ package com.gunwoo.karaoke.singsangsung.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Build
@@ -13,15 +15,19 @@ import android.util.Log
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getColor
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.gunwoo.karaoke.singsangsung.R
+import com.gunwoo.karaoke.singsangsung.widget.extension.getParentActivity
 import com.gunwoo.karaoke.singsangsung.widget.extension.millisecondsToMinutes
 import kotlinx.android.synthetic.main.item_singsangsung_video.view.*
 import kr.co.prnd.YouTubePlayerView
@@ -41,7 +47,6 @@ class SingSangSungVideoView : FrameLayout,
     private var styleAttr: Int? = null
     private var view = View.inflate(context, R.layout.item_singsangsung_video, null)
 
-    private var fullscreenListener: FullscreenListener? = null
     private var moreListener: MoreListener? = null
     private var backListener: BackListener? = null
     private var playPauseListener: PlayPauseListener? = null
@@ -65,11 +70,6 @@ class SingSangSungVideoView : FrameLayout,
             if (player != null)
                 time_text.text = "${player!!.currentPosition.millisecondsToMinutes()} / ${player!!.duration.millisecondsToMinutes()}"
         }
-    }
-
-    interface FullscreenListener {
-        fun fullscreenOn()
-        fun fullscreenOff()
     }
 
     interface MoreListener {
@@ -100,20 +100,6 @@ class SingSangSungVideoView : FrameLayout,
         PLAY,
         PAUSE,
         REPLAY
-    }
-
-    fun setFullscreenListener(listener: FullscreenListener) {
-        fullscreenListener = listener
-    }
-
-    fun fullscreenOff() {
-        if (isFullscreen) {
-            fullscreenListener?.fullscreenOff()
-            fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
-            back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
-            more_btn.visibility = View.VISIBLE
-            isFullscreen = !isFullscreen
-        }
     }
 
     fun setMoreListener(listener: MoreListener) {
@@ -184,12 +170,47 @@ class SingSangSungVideoView : FrameLayout,
         TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
 
         back_btn.visibility = visibility
-        more_btn.visibility = visibility
+        more_btn.visibility = if (isFullscreen) View.INVISIBLE else visibility
         video_play_btn.visibility = visibility
         fullscreen_btn.visibility = visibility
         video_seekbar.visibility = visibility
         cover.visibility = visibility
         time_text.visibility = visibility
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    fun changeScreenState() {
+        if (isFullscreen) {
+            fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
+            back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
+            more_btn.visibility = View.VISIBLE
+            getParentActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            getParentActivity()?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            getParentActivity()?.window?.navigationBarColor = getColor(context, R.color.colorPrimary)
+            layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                0
+            )
+        } else {
+            fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen_exit))
+            back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_arrow_down))
+            more_btn.visibility = View.INVISIBLE
+            getParentActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            getParentActivity()?.window?.decorView?.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE
+                    )
+            getParentActivity()?.window?.navigationBarColor = getColor(context, R.color.colorFilter)
+            layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+        isFullscreen = !isFullscreen
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -230,14 +251,10 @@ class SingSangSungVideoView : FrameLayout,
 
         back_btn.setOnClickListener {
             if (isFullscreen) {
-                fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
-                back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
-                more_btn.visibility = View.VISIBLE
-                fullscreenListener?.fullscreenOff()
+                changeScreenState()
             } else {
                 backListener?.finish()
             }
-            isFullscreen = !isFullscreen
         }
 
         more_btn.setOnClickListener {
@@ -245,18 +262,7 @@ class SingSangSungVideoView : FrameLayout,
         }
 
         fullscreen_btn.setOnClickListener {
-            if (isFullscreen) {
-                fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen))
-                back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_left))
-                more_btn.visibility = View.VISIBLE
-                fullscreenListener?.fullscreenOff()
-            } else {
-                fullscreen_btn.setImageDrawable(context.getDrawable(R.drawable.ic_fullscreen_exit))
-                back_btn.setImageDrawable(context.getDrawable(R.drawable.ic_arrow_down))
-                more_btn.visibility = View.INVISIBLE
-                fullscreenListener?.fullscreenOn()
-            }
-            isFullscreen = !isFullscreen
+            changeScreenState()
         }
 
         video_play_btn.setOnClickListener {

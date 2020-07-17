@@ -7,15 +7,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentThemeBinding
 import com.gunwoo.karaoke.singsangsung.ui.list.ListFragment
+import com.gunwoo.karaoke.singsangsung.ui.main.MainChildFragment
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import kotlinx.android.synthetic.main.fragment_theme.*
 import javax.inject.Inject
 
-class ThemeFragment : BaseFragment<FragmentThemeBinding, ThemeViewModel>() {
+class ThemeFragment : MainChildFragment<FragmentThemeBinding, ThemeViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: ThemeViewModelFactory

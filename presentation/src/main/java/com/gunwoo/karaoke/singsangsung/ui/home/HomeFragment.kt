@@ -12,10 +12,10 @@ import com.google.android.gms.ads.MobileAds
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentHomeBinding
-import com.gunwoo.karaoke.singsangsung.ui.player.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.ui.list.ListFragment
+import com.gunwoo.karaoke.singsangsung.ui.main.MainChildFragment
+import com.gunwoo.karaoke.singsangsung.ui.player.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.putImage
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.item_chart.view.*
 import javax.inject.Inject
 
 
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+class HomeFragment : MainChildFragment<FragmentHomeBinding, HomeViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: HomeViewModelFactory

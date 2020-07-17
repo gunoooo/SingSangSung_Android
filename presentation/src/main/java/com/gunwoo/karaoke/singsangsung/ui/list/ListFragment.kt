@@ -8,17 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.gunwoo.karaoke.domain.model.YoutubeData
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentListBinding
 import com.gunwoo.karaoke.singsangsung.ui.favorites.FavoritesBottomSheetDialog
+import com.gunwoo.karaoke.singsangsung.ui.main.MainChildFragment
 import com.gunwoo.karaoke.singsangsung.ui.player.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import kotlinx.android.synthetic.main.fragment_list.*
-import java.lang.IndexOutOfBoundsException
 import javax.inject.Inject
 
-class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
+class ListFragment : MainChildFragment<FragmentListBinding, ListViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: ListViewModelFactory

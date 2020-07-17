@@ -5,15 +5,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.gunwoo.karaoke.domain.model.YoutubeDataList
 import com.gunwoo.karaoke.singsangsung.R
-import com.gunwoo.karaoke.singsangsung.base.BaseFragment
 import com.gunwoo.karaoke.singsangsung.databinding.FragmentFavoritesBinding
 import com.gunwoo.karaoke.singsangsung.ui.list.ListFragment
+import com.gunwoo.karaoke.singsangsung.ui.main.MainChildFragment
 import com.gunwoo.karaoke.singsangsung.ui.player.PlayerActivity
 import com.gunwoo.karaoke.singsangsung.widget.extension.getViewModel
 import com.gunwoo.karaoke.singsangsung.widget.extension.shortToast
 import javax.inject.Inject
 
-class FavoritesFragment : BaseFragment<FragmentFavoritesBinding, FavoritesViewModel>() {
+class FavoritesFragment : MainChildFragment<FragmentFavoritesBinding, FavoritesViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: FavoritesViewModelFactory
